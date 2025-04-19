@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TANGO’S | Sabor Brutal</title>
+  <title>TANGO’S | El Poder del Sabor</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -196,7 +196,7 @@
     }
   </style>
 </head>
-<body>
+<body oncontextmenu="return false">
 
   <header>
     <img src="assets/images/logo1.png" class="logo" alt="Logo Tango's" />
@@ -225,9 +225,9 @@
     <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
   </footer>
 
-  <!-- SUPABASE + PRODUCTOS -->
+  <!-- ✅ Cargar productos desde Supabase -->
   <script type="module">
-    import { createClient } from 'https://esm.sh/@supabase/supabase-js';
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
     const supabaseUrl = 'https://ljlaudvreolkdppgfqul.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk';
@@ -236,14 +236,20 @@
     const contenedor = document.getElementById("productos-container");
     contenedor.innerHTML = "";
 
-    const { data: productos, error } = await supabase.from("productos").select("*");
+    const { data: productos, error } = await supabase
+      .from("productos")
+      .select("*")
+      .order("created_at", { ascending: false });
 
-    if (error || productos.length === 0) {
-      contenedor.innerHTML = `<p class="loader">Sin productos disponibles.</p>`;
+    if (error) {
+      contenedor.innerHTML = `<p class="loader">Error al cargar productos.</p>`;
+      console.error(error);
+    } else if (productos.length === 0) {
+      contenedor.innerHTML = `<p class="loader">No hay productos disponibles.</p>`;
     } else {
-      productos.forEach(p => {
-        const mensaje = encodeURIComponent(`Hola, quiero pedir: ${p.nombre}`);
-        const link = `https://wa.me/5211234567890?text=${mensaje}`;
+      productos.forEach((p) => {
+        const nombre = encodeURIComponent(`Hola, quiero pedir: ${p.nombre}`);
+        const link = `https://wa.me/5211234567890?text=${nombre}`;
 
         const card = document.createElement("div");
         card.classList.add("producto-card");
@@ -261,7 +267,7 @@
     }
   </script>
 
-  <!-- PROTECCIÓN PARA ENTRAR A ADMIN -->
+  <!-- 🔒 Protege Admin con contraseña -->
   <script>
     function accederAdmin() {
       const clave = prompt("Introduce la contraseña de administrador:");
@@ -271,11 +277,15 @@
         alert("Contraseña incorrecta");
       }
     }
+
+    // 🔐 Desactiva clic derecho
+    document.addEventListener("contextmenu", (e) => e.preventDefault());
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+        e.preventDefault();
+      }
+    });
   </script>
 
-</body>
-</html>
-
-  </script>
 </body>
 </html>

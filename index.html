@@ -203,7 +203,7 @@
     <nav>
       <a href="#menu">Menú</a>
       <a href="encuesta.html">Encuesta</a>
-      <a href="#" onclick="accederAdmin()">Admin</a>
+      <a href="admin.html">Admin</a>
     </nav>
   </header>
 
@@ -265,26 +265,6 @@
         contenedor.appendChild(card);
       });
     }
-  </script>
-
-  <!-- 🔒 Protege Admin con contraseña -->
-  <script>
-    function accederAdmin() {
-      const clave = prompt("Introduce la contraseña de administrador:");
-      if (clave === "240624") {
-        window.location.href = "admin.html";
-      } else {
-        alert("Contraseña incorrecta");
-      }
-    }
-
-    // 🔐 Desactiva clic derecho
-    document.addEventListener("contextmenu", (e) => e.preventDefault());
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
-        e.preventDefault();
-      }
-    });
   </script>
 
 </body>

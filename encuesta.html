@@ -1,1 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Encuesta - Tango's</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="header">
+    <div class="header-container">
+      <img src="assets/images/logo1.png" alt="Logo Tango's" class="logo" />
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="admin.html">Admin</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
+  <main class="encuesta-wrapper">
+    <section class="encuesta-formulario">
+      <h2>Tu opinión nos importa</h2>
+      <form id="formEncuesta">
+        <label for="sabor">¿Qué te pareció el sabor?</label>
+        <select id="sabor" required>
+          <option value="">Selecciona</option>
+          <option value="5">Excelente</option>
+          <option value="4">Muy bueno</option>
+          <option value="3">Bueno</option>
+          <option value="2">Regular</option>
+          <option value="1">Malo</option>
+        </select>
+
+        <label for="local">¿Qué opinas del local?</label>
+        <select id="local" required>
+          <option value="">Selecciona</option>
+          <option value="5">Excelente</option>
+          <option value="4">Muy bueno</option>
+          <option value="3">Bueno</option>
+          <option value="2">Regular</option>
+          <option value="1">Malo</option>
+        </select>
+
+        <label for="atencion">¿Cómo fue la atención?</label>
+        <select id="atencion" required>
+          <option value="">Selecciona</option>
+          <option value="5">Excelente</option>
+          <option value="4">Muy buena</option>
+          <option value="3">Buena</option>
+          <option value="2">Regular</option>
+          <option value="1">Mala</option>
+        </select>
+
+        <label for="observacion">Observaciones (opcional)</label>
+        <textarea id="observacion" rows="4" placeholder="¿Algo que quieras comentarnos?"></textarea>
+
+        <button type="submit" class="btn-guardar">Enviar encuesta</button>
+      </form>
+      <p id="mensajeEncuesta" class="mensaje-confirmacion"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="assets/images/logo2.png" alt="Logo Footer" class="logo-footer" />
+    <p>&copy; 2025 Tango's | Encuestas anónimas</p>
+  </footer>
+
+  <script type="module" src="assets/js/encuesta.js"></script>
+</body>
+</html>

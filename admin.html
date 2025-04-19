@@ -135,6 +135,9 @@
 
     <div id="actualizar" class="section"><div id="listaActualizar"></div></div>
     <div id="eliminar" class="section"><div id="listaEliminar"></div></div>
+
+    <!-- 🔁 BOTÓN SALIR -->
+    <button onclick="salirAdmin()" style="margin-top: 3rem;">🚪 Salir del modo admin</button>
   </div>
 
   <script type="module">
@@ -164,6 +167,13 @@
       statusGlobal.textContent = "";
     }
     window.mostrar = mostrar;
+
+    window.salirAdmin = () => {
+      document.getElementById("panel").style.display = "none";
+      document.getElementById("auth").style.display = "block";
+      document.getElementById("clave").value = "";
+      statusGlobal.textContent = "";
+    }
 
     document.getElementById("formNuevo").addEventListener("submit", async (e) => {
       e.preventDefault();

@@ -3,50 +3,156 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Administrador - Tango's</title>
-  <link rel="stylesheet" href="assets/css/styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>Admin | Tango's</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #000;
+      --white: #fff;
+      --yellow: #ffd700;
+      --gray: #111;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      padding: 2rem 1.5rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--yellow);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    form {
+      background: var(--gray);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.1);
+    }
+
+    input, textarea, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 1.2rem;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+    }
+
+    input, textarea {
+      background: #222;
+      color: var(--white);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #999;
+    }
+
+    input[type="file"] {
+      background: #000;
+      border: 2px dashed #555;
+      padding: 1rem;
+      color: #aaa;
+    }
+
+    button {
+      background: var(--yellow);
+      color: var(--black);
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: #ffe066;
+    }
+
+    .status {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-container">
-      <img src="assets/images/logo3.png" alt="Logo Tango's Admin" class="logo" />
-      <nav class="nav">
-        <ul class="nav-list">
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="encuesta.html">Encuesta</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
 
-  <main class="admin-panel">
-    <section class="formulario-admin">
-      <h2>Agregar / Editar Producto</h2>
-      <form id="formProducto">
-        <input type="hidden" id="productoId" />
-        <input type="text" id="nombre" placeholder="Nombre del producto" required />
-        <input type="text" id="descripcion" placeholder="Descripción" required />
-        <input type="number" id="precio" placeholder="Precio" step="0.01" required />
-        <input type="url" id="imagenURL" placeholder="URL de la imagen" required />
-        <label>
-          <input type="checkbox" id="destacado" /> Producto destacado
-        </label>
-        <button type="submit" class="btn-guardar">Guardar</button>
-        <button type="button" class="btn-reset" id="btnReset">Cancelar</button>
-      </form>
-    </section>
+  <h1>Panel de Administrador</h1>
 
-    <section class="lista-productos-admin">
-      <h2>Productos existentes</h2>
-      <div id="listaProductosAdmin" class="productos-container"></div>
-    </section>
-  </main>
+  <form id="formProducto">
+    <input type="text" id="nombre" placeholder="Nombre del producto" required />
+    <textarea id="descripcion" placeholder="Descripción del producto" required></textarea>
+    <input type="number" id="precio" placeholder="Precio ($)" step="0.01" required />
+    <input type="file" id="imagen" accept="image/*" required />
+    <button type="submit">Guardar producto</button>
+    <p id="status" class="status"></p>
+  </form>
 
-  <footer class="footer">
-    <img src="assets/images/logo2.png" alt="Logo Footer Admin" class="logo-footer" />
-    <p>&copy; 2025 Tango's | Panel Administrador</p>
-  </footer>
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+
+    const supabaseUrl = 'https://ljlaudvreolkdppgfqul.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk';
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const form = document.getElementById('formProducto');
+    const status = document.getElementById('status');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = 'Subiendo producto...';
+
+      const nombre = form.nombre.value;
+      const descripcion = form.descripcion.value;
+      const precio = parseFloat(form.precio.value);
+      const archivo = form.imagen.files[0];
+
+      if (!archivo) {
+        status.textContent = 'Debes seleccionar una imagen.';
+        return;
+      }
+
+      const nombreArchivo = `${Date.now()}-${archivo.name}`;
+      const { error: errorUpload } = await supabase.storage
+        .from('productos')
+        .upload(nombreArchivo, archivo);
+
+      if (errorUpload) {
+        status.textContent = '❌ Error al subir imagen.';
+        console.error(errorUpload);
+        return;
+      }
+
+      const { data: urlData } = supabase
+        .storage
+        .from('productos')
+        .getPublicUrl(nombreArchivo);
+
+      const imagen_url = urlData.publicUrl;
+
+      const { error: errorInsert } = await supabase
+        .from('productos')
+        .insert([{ nombre, descripcion, precio, imagen_url }]);
+
+      if (errorInsert) {
+        status.textContent = '❌ Error al guardar producto.';
+        console.error(errorInsert);
+      } else {
+        status.textContent = '✅ Producto guardado correctamente.';
+        form.reset();
+      }
+    });
+  </script>
+
+</body>
+</html>
+
 
   <script type="module" src="assets/js/admin.js"></script>
 </body>

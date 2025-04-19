@@ -82,7 +82,7 @@
       text-decoration: none;
       box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
       cursor: pointer;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
 
     .btn-hero:hover {
@@ -109,6 +109,82 @@
       margin-top: 1rem;
     }
 
+    .menu-section {
+      background: var(--white);
+      color: var(--black);
+      padding: 3rem 1.5rem;
+      display: none;
+    }
+
+    .menu-section h2 {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 2rem;
+    }
+
+    .productos-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .producto-card {
+      background: #fffef0;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .producto-card:hover {
+      transform: scale(1.02);
+    }
+
+    .producto-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 3px solid var(--yellow);
+    }
+
+    .producto-content {
+      padding: 1rem;
+    }
+
+    .producto-content h3 {
+      font-size: 1.2rem;
+      font-weight: 900;
+      margin-bottom: 0.4rem;
+    }
+
+    .producto-content p {
+      font-size: 0.95rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .precio {
+      color: var(--black);
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .btn-ws {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--black);
+      font-weight: 700;
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      margin-top: 0.8rem;
+      text-decoration: none;
+    }
+
+    .btn-ws:hover {
+      background: #ffe000;
+    }
+
     footer {
       background: var(--gray);
       color: #aaa;
@@ -116,9 +192,33 @@
       padding: 2rem 1rem;
       font-size: 0.9rem;
     }
+
+    .loader {
+      text-align: center;
+      padding: 2rem;
+      font-style: italic;
+      color: #666;
+    }
+
+    @media (min-width: 768px) {
+      .productos-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .productos-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .portada h1 {
+        font-size: 3.2rem;
+      }
+    }
   </style>
 </head>
 <body oncontextmenu="return false">
+
   <header>
     <img src="assets/images/logo1.png" class="logo" alt="Logo Tango's" />
     <nav>
@@ -127,13 +227,19 @@
     </nav>
   </header>
 
-  <section class="portada">
+  <section class="portada" id="portada">
     <h1>Tango's Poza Rica</h1>
     <p>El sabor callejero con clase. Sazón que se impone en cada bocado.</p>
     <button class="btn-hero" onclick="mostrarMenu()">Explora el menú</button>
-
     <a href="https://maps.app.goo.gl/swSsLLZGUGFtyFSP8" target="_blank" class="ubicanos-link">📍 Ubícanos</a>
     <div id="map"></div>
+  </section>
+
+  <section class="menu-section" id="menu">
+    <h2>Menú</h2>
+    <div class="productos-grid" id="productos-container">
+      <p class="loader">Cargando menú caliente…</p>
+    </div>
   </section>
 
   <footer>
@@ -141,6 +247,53 @@
     <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
   </footer>
 
+  <!-- ✅ Cargar productos desde Supabase -->
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js';
+    const supabase = createClient(
+      'https://ljlaudvreolkdppgfqul.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
+    );
+
+    async function cargarMenu() {
+      const contenedor = document.getElementById("productos-container");
+      contenedor.innerHTML = "";
+      const { data: productos, error } = await supabase
+        .from("productos")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error || !productos.length) {
+        contenedor.innerHTML = `<p class="loader">No hay productos disponibles.</p>`;
+        return;
+      }
+
+      productos.forEach((p) => {
+        const nombre = encodeURIComponent(`Hola, quiero pedir: ${p.nombre}`);
+        const link = `https://wa.me/5211234567890?text=${nombre}`;
+        const card = document.createElement("div");
+        card.classList.add("producto-card");
+        card.innerHTML = `
+          <img src="${p.imagen_url}" alt="${p.nombre}" />
+          <div class="producto-content">
+            <h3>${p.nombre}</h3>
+            <p>${p.descripcion}</p>
+            <span class="precio">$${p.precio}</span>
+            <a href="${link}" target="_blank" class="btn-ws">Pedir</a>
+          </div>
+        `;
+        contenedor.appendChild(card);
+      });
+    }
+
+    window.mostrarMenu = () => {
+      document.getElementById("portada").style.display = "none";
+      document.getElementById("menu").style.display = "block";
+      cargarMenu();
+    };
+  </script>
+
+  <!-- Google Maps -->
   <script>
     function initMap() {
       const tangos = { lat: 20.541667, lng: -97.445639 };

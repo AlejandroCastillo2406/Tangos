@@ -1,1 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Administrador - Tango's</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="header">
+    <div class="header-container">
+      <img src="assets/images/logo3.png" alt="Logo Tango's Admin" class="logo" />
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="encuesta.html">Encuesta</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
+  <main class="admin-panel">
+    <section class="formulario-admin">
+      <h2>Agregar / Editar Producto</h2>
+      <form id="formProducto">
+        <input type="hidden" id="productoId" />
+        <input type="text" id="nombre" placeholder="Nombre del producto" required />
+        <input type="text" id="descripcion" placeholder="Descripción" required />
+        <input type="number" id="precio" placeholder="Precio" step="0.01" required />
+        <input type="url" id="imagenURL" placeholder="URL de la imagen" required />
+        <label>
+          <input type="checkbox" id="destacado" /> Producto destacado
+        </label>
+        <button type="submit" class="btn-guardar">Guardar</button>
+        <button type="button" class="btn-reset" id="btnReset">Cancelar</button>
+      </form>
+    </section>
+
+    <section class="lista-productos-admin">
+      <h2>Productos existentes</h2>
+      <div id="listaProductosAdmin" class="productos-container"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="assets/images/logo2.png" alt="Logo Footer Admin" class="logo-footer" />
+    <p>&copy; 2025 Tango's | Panel Administrador</p>
+  </footer>
+
+  <script type="module" src="assets/js/admin.js"></script>
+</body>
+</html>

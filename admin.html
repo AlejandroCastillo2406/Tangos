@@ -17,13 +17,14 @@
       background: var(--black);
       color: var(--white);
       font-family: 'Inter', sans-serif;
-      text-align: center;
       padding: 2rem 1rem;
+      text-align: center;
     }
 
     .logo {
-      max-width: 100px;
+      width: 100px;
       margin: 0 auto 1rem;
+      display: block;
     }
 
     h1 {
@@ -33,29 +34,45 @@
       margin-bottom: 2rem;
     }
 
-    .btn-group button {
-      background: var(--yellow);
-      color: var(--black);
-      font-weight: 800;
-      padding: 1rem;
-      margin: 0.5rem;
+    input, textarea, button {
       width: 90%;
-      max-width: 300px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
+      max-width: 350px;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
       font-size: 1rem;
+      border: none;
+      border-radius: 8px;
     }
 
-    .btn-group button:hover {
-      background: #ffe66a;
+    input, textarea {
+      background: #222;
+      color: var(--white);
+    }
+
+    button {
+      background: var(--yellow);
+      color: var(--black);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .btn-group button {
+      max-width: 300px;
+      margin: 0 auto;
     }
 
     .section {
       display: none;
-      margin-top: 2rem;
       background: var(--gray);
-      padding: 1.5rem;
+      padding: 2rem 1rem;
+      margin-top: 2rem;
       border-radius: 12px;
     }
 
@@ -63,26 +80,14 @@
       display: block;
     }
 
-    input, textarea, select {
-      display: block;
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      background: #222;
-      color: #fff;
-    }
-
     .producto-item {
       background: #222;
+      margin: 0.5rem auto;
       padding: 1rem;
       border-radius: 8px;
-      margin-bottom: 1rem;
-      font-weight: bold;
+      max-width: 90%;
       cursor: pointer;
-      transition: 0.3s;
+      transition: background 0.3s;
     }
 
     .producto-item:hover {
@@ -90,31 +95,29 @@
     }
 
     .status {
-      margin-top: 1rem;
-      font-size: 0.9rem;
       font-weight: bold;
+      color: var(--yellow);
     }
   </style>
 </head>
 <body>
 
+  <img src="assets/images/logo1.png" alt="Logo Tango's" class="logo" />
+
   <div id="auth">
     <h1>Administrador</h1>
-    <input type="password" id="clave" placeholder="Contraseña de acceso" />
-    <button onclick="validarClave()">Entrar</button>
+    <input type="password" id="clave" placeholder="Contraseña de acceso" autocomplete="off" inputmode="numeric" />
+    <button id="btnAcceder">Entrar</button>
   </div>
 
-  <div id="admin" style="display:none;">
-    <img src="assets/images/logo1.png" class="logo" alt="Logo">
+  <div id="panel" style="display:none;">
     <h1>Gestión de productos</h1>
 
     <div class="btn-group">
-      <button onclick="mostrar('añadir')">➕ Añadir nuevo producto</button>
+      <button onclick="mostrar('añadir')">➕ Añadir producto</button>
       <button onclick="mostrar('actualizar')">✏️ Actualizar producto</button>
       <button onclick="mostrar('eliminar')">🗑️ Eliminar producto</button>
     </div>
-
-    <h2 style="margin-top:3rem; font-weight:900;">Reportes</h2>
 
     <div id="añadir" class="section">
       <form id="formNuevo">
@@ -127,138 +130,109 @@
       </form>
     </div>
 
-    <div id="actualizar" class="section">
-      <div id="listaActualizar"></div>
-    </div>
-
-    <div id="eliminar" class="section">
-      <div id="listaEliminar"></div>
-    </div>
+    <div id="actualizar" class="section"><div id="listaActualizar"></div></div>
+    <div id="eliminar" class="section"><div id="listaEliminar"></div></div>
   </div>
-    <script type="module">
+
+  <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
-    const supabaseUrl = 'https://ljlaudvreolkdppgfqul.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk';
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = createClient(
+      'https://ljlaudvreolkdppgfqul.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
+    );
 
-    const status = document.getElementById("status");
-
-    function validarClave() {
+    document.getElementById('btnAcceder').addEventListener('click', () => {
       const clave = document.getElementById("clave").value;
       if (clave === "240624") {
         document.getElementById("auth").style.display = "none";
-        document.getElementById("admin").style.display = "block";
+        document.getElementById("panel").style.display = "block";
         cargarProductos();
       } else {
         alert("Contraseña incorrecta");
       }
-    }
+    });
 
     function mostrar(id) {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
+      document.querySelectorAll(".section").forEach(div => div.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
     }
 
     document.getElementById("formNuevo").addEventListener("submit", async (e) => {
       e.preventDefault();
-
       const nombre = document.getElementById("nombre").value;
       const descripcion = document.getElementById("descripcion").value;
       const precio = parseFloat(document.getElementById("precio").value);
       const archivo = document.getElementById("imagen").files[0];
 
       const nombreArchivo = `${Date.now()}-${archivo.name}`;
-      const { error: errorUpload } = await supabase.storage
-        .from('productos')
-        .upload(nombreArchivo, archivo);
+      const { error: errorUpload } = await supabase.storage.from('productos').upload(nombreArchivo, archivo);
+      if (errorUpload) return alert("❌ Error al subir imagen");
 
-      if (errorUpload) {
-        status.textContent = "❌ Error al subir imagen";
-        return;
-      }
+      const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
+      const imagen_url = data.publicUrl;
 
-      const { data: urlData } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
-      const imagen_url = urlData.publicUrl;
+      const { error: errorInsert } = await supabase.from("productos").insert([{ nombre, descripcion, precio, imagen_url }]);
+      if (errorInsert) return alert("❌ Error al guardar producto");
 
-      const { error: errorInsert } = await supabase
-        .from("productos")
-        .insert([{ nombre, descripcion, precio, imagen_url }]);
-
-      if (errorInsert) {
-        status.textContent = "❌ Error al guardar";
-      } else {
-        status.textContent = "✅ Producto guardado";
-        e.target.reset();
-        cargarProductos();
-      }
+      document.getElementById("status").textContent = "✅ Producto guardado";
+      e.target.reset();
+      cargarProductos();
     });
 
     async function cargarProductos() {
-      const { data: productos, error } = await supabase
-        .from("productos")
-        .select("*")
-        .order("created_at", { ascending: false });
-
+      const { data: productos } = await supabase.from("productos").select("*").order("created_at", { ascending: false });
       const listaActualizar = document.getElementById("listaActualizar");
       const listaEliminar = document.getElementById("listaEliminar");
       listaActualizar.innerHTML = "";
       listaEliminar.innerHTML = "";
 
       productos.forEach(p => {
-        // Para eliminar
-        const divE = document.createElement("div");
-        divE.classList.add("producto-item");
-        divE.textContent = p.nombre;
-        divE.onclick = () => {
+        // Eliminar
+        const del = document.createElement("div");
+        del.className = "producto-item";
+        del.textContent = p.nombre;
+        del.onclick = async () => {
           if (confirm(`¿Eliminar "${p.nombre}"?`)) {
-            supabase.from("productos").delete().eq("id", p.id).then(() => {
-              alert("✅ Eliminado");
-              cargarProductos();
-            });
+            await supabase.from("productos").delete().eq("id", p.id);
+            alert("✅ Eliminado");
+            cargarProductos();
           }
         };
-        listaEliminar.appendChild(divE);
+        listaEliminar.appendChild(del);
 
-        // Para actualizar
-        const divA = document.createElement("div");
-        divA.classList.add("producto-item");
-        divA.textContent = p.nombre;
-        divA.onclick = () => {
-          const nuevo = prompt(`Editar producto "${p.nombre}" (nombre|precio|descripcion):`, `${p.nombre}|${p.precio}|${p.descripcion}`);
+        // Actualizar
+        const upd = document.createElement("div");
+        upd.className = "producto-item";
+        upd.textContent = p.nombre;
+        upd.onclick = async () => {
+          const nuevo = prompt("Editar nombre|precio|descripcion", `${p.nombre}|${p.precio}|${p.descripcion}`);
           if (nuevo) {
             const [nombre, precio, descripcion] = nuevo.split("|");
-            const imagenInput = document.createElement("input");
-            imagenInput.type = "file";
-            imagenInput.accept = "image/*";
-            imagenInput.onchange = async () => {
-              let imagen_url = p.imagen_url;
-              if (imagenInput.files.length > 0) {
-                const archivo = imagenInput.files[0];
-                const nombreArchivo = `${Date.now()}-${archivo.name}`;
-                await supabase.storage.from('productos').upload(nombreArchivo, archivo);
-                const { data: urlData } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
-                imagen_url = urlData.publicUrl;
+            const archivoInput = document.createElement("input");
+            archivoInput.type = "file";
+            archivoInput.accept = "image/*";
+            archivoInput.onchange = async () => {
+              let nuevaUrl = p.imagen_url;
+              if (archivoInput.files.length > 0) {
+                const archivo = archivoInput.files[0];
+                const nuevoNombre = `${Date.now()}-${archivo.name}`;
+                await supabase.storage.from('productos').upload(nuevoNombre, archivo);
+                const { data } = supabase.storage.from('productos').getPublicUrl(nuevoNombre);
+                nuevaUrl = data.publicUrl;
               }
 
-              const { error } = await supabase.from("productos")
-                .update({ nombre, precio, descripcion, imagen_url })
-                .eq("id", p.id);
-              if (!error) {
-                alert("✅ Actualizado");
-                cargarProductos();
-              } else {
-                alert("❌ Error al actualizar");
-              }
+              await supabase.from("productos").update({ nombre, precio, descripcion, imagen_url: nuevaUrl }).eq("id", p.id);
+              alert("✅ Producto actualizado");
+              cargarProductos();
             };
-            imagenInput.click(); // Simula click para cambiar imagen (opcional)
+            archivoInput.click();
           }
         };
-        listaActualizar.appendChild(divA);
+        listaActualizar.appendChild(upd);
       });
     }
   </script>
 
 </body>
 </html>
-

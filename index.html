@@ -93,30 +93,48 @@
       color: var(--black);
     }
 
-    .category-buttons {
+    .category-scroll {
       display: flex;
-      flex-wrap: wrap;
+      overflow-x: auto;
       gap: 1rem;
-      justify-content: center;
-      margin-bottom: 2rem;
+      padding: 1rem 0;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .category-btn {
-      background: #222;
+    .category-card {
+      flex: 0 0 auto;
+      width: 100px;
+      height: 120px;
+      background: #111;
+      border-radius: 16px;
+      text-align: center;
+      padding: 1rem 0.5rem;
+      font-weight: bold;
       color: #fff;
-      padding: 0.75rem 1.5rem;
-      border: 2px solid transparent;
-      border-radius: 30px;
-      font-weight: 700;
-      cursor: pointer;
+      scroll-snap-align: center;
       transition: all 0.3s ease;
+      border: 2px solid transparent;
+      box-shadow: 0 0 0 transparent;
+      cursor: pointer;
     }
 
-    .category-btn:hover,
-    .category-btn.active {
+    .category-card.active {
       background: var(--yellow);
       color: var(--black);
-      border-color: var(--black);
+      border-color: #000;
+      box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5);
+      transform: scale(1.05);
+    }
+
+    .category-card:hover {
+      transform: scale(1.03);
+    }
+
+    .category-card span {
+      display: block;
+      font-size: 2rem;
+      margin-bottom: 0.3rem;
     }
 
     .productos-grid {
@@ -217,11 +235,11 @@
 </section>
 
 <section class="menu-section" id="menu">
-  <div class="category-buttons">
-    <button class="category-btn" data-cat="bebidas">🥤 Bebidas</button>
-    <button class="category-btn" data-cat="snacks">🍟 Snacks</button>
-    <button class="category-btn" data-cat="elotes">🌽 Elotes</button>
-    <button class="category-btn" data-cat="delicias">🍓 Delicias</button>
+  <div class="category-scroll" id="categorias">
+    <div class="category-card" data-cat="bebidas"><span>🥤</span>Bebidas</div>
+    <div class="category-card" data-cat="snacks"><span>🍟</span>Snacks</div>
+    <div class="category-card" data-cat="elotes"><span>🌽</span>Elotes</div>
+    <div class="category-card" data-cat="delicias"><span>🍓</span>Delicias</div>
   </div>
   <div class="productos-grid" id="productos-container"></div>
 </section>
@@ -244,7 +262,7 @@
 </script>
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUv0bmRnGTLwNA8dgDY80Ol9J7_ZRUSWg&callback=initMap"></script>
 
-<!-- Cargar productos -->
+<!-- Supabase -->
 <script type="module">
   import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
@@ -284,19 +302,23 @@
   window.mostrarMenu = () => {
     document.getElementById("portada").style.display = "none";
     document.getElementById("menu").style.display = "block";
-    cargarMenu("bebidas");
-    document.querySelector(`[data-cat="bebidas"]`).classList.add("active");
+    seleccionarCategoria('bebidas');
   };
 
-  document.querySelectorAll(".category-btn").forEach(btn => {
+  function seleccionarCategoria(categoria) {
+    document.querySelectorAll(".category-card").forEach(c => c.classList.remove("active"));
+    const btn = document.querySelector(`[data-cat="${categoria}"]`);
+    if (btn) btn.classList.add("active");
+    cargarMenu(categoria);
+  }
+
+  document.querySelectorAll(".category-card").forEach(btn => {
     btn.addEventListener("click", () => {
-      document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      cargarMenu(btn.dataset.cat);
+      const categoria = btn.getAttribute("data-cat");
+      seleccionarCategoria(categoria);
     });
   });
 </script>
 
 </body>
 </html>
-

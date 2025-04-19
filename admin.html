@@ -34,7 +34,7 @@
       margin-bottom: 2rem;
     }
 
-    input, textarea, button {
+    input, textarea, select, button {
       width: 90%;
       max-width: 350px;
       padding: 0.75rem;
@@ -44,9 +44,14 @@
       border-radius: 8px;
     }
 
-    input, textarea {
+    input, textarea, select {
       background: #222;
       color: var(--white);
+    }
+
+    select option {
+      background: #111;
+      color: #fff;
     }
 
     button {
@@ -127,6 +132,13 @@
         <input type="text" id="nombre" placeholder="Nombre" required />
         <textarea id="descripcion" placeholder="Descripción" required></textarea>
         <input type="number" id="precio" placeholder="Precio" required />
+        <select id="categoria" required>
+          <option value="" disabled selected>Selecciona una categoría</option>
+          <option value="bebidas">🥤 Bebidas</option>
+          <option value="snacks">🍟 Snacks</option>
+          <option value="elotes">🌽 Elotes</option>
+          <option value="delicias">🍓 Delicias</option>
+        </select>
         <input type="file" id="imagen" accept="image/*" required />
         <button type="submit">Guardar producto</button>
         <p id="status" class="status"></p>
@@ -136,11 +148,9 @@
     <div id="actualizar" class="section"><div id="listaActualizar"></div></div>
     <div id="eliminar" class="section"><div id="listaEliminar"></div></div>
 
-    <!-- 🔁 BOTÓN SALIR -->
     <button onclick="salirAdmin()" style="margin-top: 3rem;">🚪 Salir del modo admin</button>
   </div>
-
-  <script type="module">
+    <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
     const supabase = createClient(
@@ -177,13 +187,21 @@
 
     document.getElementById("formNuevo").addEventListener("submit", async (e) => {
       e.preventDefault();
+
       const nombre = document.getElementById("nombre").value;
       const descripcion = document.getElementById("descripcion").value;
       const precio = parseFloat(document.getElementById("precio").value);
+      const categoria = document.getElementById("categoria").value;
       const archivo = document.getElementById("imagen").files[0];
+
+      if (!categoria) {
+        document.getElementById("status").textContent = "❌ Selecciona una categoría.";
+        return;
+      }
 
       const nombreArchivo = `${Date.now()}-${archivo.name}`;
       const { error: errorUpload } = await supabase.storage.from('productos').upload(nombreArchivo, archivo);
+
       if (errorUpload) {
         document.getElementById("status").textContent = "❌ Error al subir imagen";
         return;
@@ -192,7 +210,10 @@
       const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
       const imagen_url = data.publicUrl;
 
-      const { error: errorInsert } = await supabase.from("productos").insert([{ nombre, descripcion, precio, imagen_url }]);
+      const { error: errorInsert } = await supabase.from("productos").insert([
+        { nombre, descripcion, precio, imagen_url, categoria }
+      ]);
+
       if (errorInsert) {
         document.getElementById("status").textContent = "❌ Error al guardar producto";
         return;
@@ -243,7 +264,13 @@
                 nuevaUrl = data.publicUrl;
               }
 
-              await supabase.from("productos").update({ nombre, precio, descripcion, imagen_url: nuevaUrl }).eq("id", p.id);
+              await supabase.from("productos").update({
+                nombre,
+                precio,
+                descripcion,
+                imagen_url: nuevaUrl
+              }).eq("id", p.id);
+
               statusGlobal.textContent = "✅ Producto actualizado";
               cargarProductos();
             };
@@ -256,3 +283,4 @@
   </script>
 </body>
 </html>
+

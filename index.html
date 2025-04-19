@@ -3,122 +3,311 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TANGO’S | El Poder del Sabor</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
+  <title>TANGO'S | El Poder del Sabor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
       --black: #000;
       --white: #fff;
       --yellow: #ffd700;
+      --dark-yellow: #e6c200;
       --gray: #111;
+      --light-gray: #f9f9f9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
       background: var(--black);
       color: var(--white);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Montserrat', sans-serif;
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
+      line-height: 1.6;
     }
 
+    /* Header elegante con efecto de cristal */
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem;
-      background: var(--black);
+      padding: 1.2rem 5%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
       border-bottom: 3px solid var(--yellow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(255, 215, 0, 0.2);
     }
 
     header img {
-      height: 48px;
+      height: 52px;
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+      transition: transform 0.3s ease;
+    }
+
+    header img:hover {
+      transform: scale(1.05);
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
     }
 
     nav a {
-      margin-left: 1rem;
-      color: var(--yellow);
+      color: var(--white);
       font-weight: 700;
       text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      position: relative;
+      transition: color 0.3s ease;
     }
 
+    nav a:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 3px;
+      bottom: -6px;
+      left: 0;
+      background-color: var(--yellow);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--yellow);
+    }
+
+    nav a:hover:after {
+      width: 100%;
+    }
+
+    /* Hero section con elementos dinámicos */
     .portada {
+      position: relative;
       text-align: center;
-      padding: 4rem 1.5rem 2rem;
+      padding: 8rem 1.5rem 5rem;
+      background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 100%), 
+                  url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+
+    .portada::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+
+    .portada > * {
+      position: relative;
+      z-index: 1;
     }
 
     .portada h1 {
-      font-size: 3rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 4.5rem;
       font-weight: 900;
+      color: var(--white);
+      margin-bottom: 1rem;
+      text-shadow: 0 0 20px rgba(0,0,0,0.8);
+      animation: fadeIn 1s ease-out;
+    }
+
+    .portada h1 span {
       color: var(--yellow);
+      display: block;
+      font-size: 5rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .portada p {
-      color: #ccc;
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
+      color: #eee;
+      font-size: 1.25rem;
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 500;
+      animation: fadeIn 1.2s ease-out;
     }
 
     .btn-hero {
       background: var(--yellow);
       color: var(--black);
       font-weight: 900;
-      font-size: 1rem;
-      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      padding: 1.2rem 3rem;
       border-radius: 50px;
       cursor: pointer;
       border: none;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      z-index: 2;
+      animation: pulseButton 2s infinite;
+    }
+
+    @keyframes pulseButton {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .btn-hero:hover {
+      background: var(--dark-yellow);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 25px rgba(255, 215, 0, 0.6);
+    }
+
+    .btn-hero::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: 50%;
+      left: 50%;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+    }
+
+    .btn-hero:active::after {
+      width: 300px;
+      height: 300px;
     }
 
     .ubicanos-link {
-      display: block;
-      font-size: 1.4rem;
-      font-weight: 900;
-      margin-bottom: 1rem;
-      color: var(--yellow);
+      display: inline-block;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: var(--white);
       text-decoration: none;
+      position: relative;
+      transition: all 0.3s ease;
+      z-index: 2;
     }
 
+    .ubicanos-link::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--yellow);
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.3s ease;
+    }
+
+    .ubicanos-link:hover {
+      color: var(--yellow);
+      transform: translateY(-3px);
+    }
+
+    .ubicanos-link:hover::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    .ubicanos-link span {
+      color: var(--yellow);
+      font-size: 1.6rem;
+      margin-right: 8px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Mapa mejorado */
     #map {
       width: 100%;
-      height: 300px;
-      border-radius: 10px;
+      height: 400px;
+      border-radius: 20px;
       margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border: 3px solid rgba(255, 215, 0, 0.3);
+      animation: fadeIn 1.5s ease-out;
     }
 
+    /* Sección de menú moderna */
     .menu-section {
       display: none;
-      padding: 2rem 1rem;
+      padding: 4rem 5% 6rem;
       background: var(--white);
       color: var(--black);
+      position: relative;
+    }
+
+    .menu-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 15px;
+      background: var(--yellow);
     }
 
     .seccion-titulo {
-      font-size: 2rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
       font-weight: 900;
       text-align: center;
-      margin: 2rem 0 1rem;
-      color: var(--yellow);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
+      margin: 3rem 0 2rem;
+      color: var(--black);
       position: relative;
-      margin-top:-5px;
+    }
+
+    .seccion-titulo span {
+      color: var(--yellow);
+      text-shadow: 1px 1px 0 var(--black);
     }
 
     .seccion-titulo::after {
       content: "";
       display: block;
-      width: 60px;
-      height: 4px;
-      background: var(--black);
-      margin: 0.5rem auto 0;
-      border-radius: 2px;
+      width: 100px;
+      height: 5px;
+      background: var(--yellow);
+      margin: 1rem auto 0;
+      border-radius: 3px;
     }
 
     .animado {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transform: translateY(50px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
     .animado.visible {
@@ -126,65 +315,129 @@
       transform: translateY(0);
     }
 
+    /* Categorías en carrusel elegante */
     .categoria-scroll {
       display: flex;
       overflow-x: auto;
-      padding: 1rem 1.5rem;
-      gap: 1rem;
+      padding: 1.5rem 0;
+      gap: 1.5rem;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      scroll-padding-left: 1.5rem;
+      scroll-padding-left: 5%;
+      margin: 0 0 2rem;
+      position: relative;
+    }
+
+    .categoria-scroll::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .categoria-scroll::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .categoria-scroll::-webkit-scrollbar-thumb {
+      background: var(--yellow);
+      border-radius: 10px;
     }
 
     .categoria-box {
       flex: 0 0 auto;
-      width: 130px;
+      width: 180px;
+      height: 240px;
       scroll-snap-align: start;
       background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.25);
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
       cursor: pointer;
       text-align: center;
-      transition: transform 0.3s ease;
-      margin-bottom:20px;
-      margin-top:-5px;
+      transition: all 0.4s ease;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .categoria-box::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      background: var(--yellow);
+      z-index: 0;
+      transition: height 0.3s ease;
     }
 
     .categoria-box img {
       width: 100%;
-      height: 100px;
+      height: 70%;
       object-fit: cover;
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
+      transition: transform 0.5s ease;
     }
 
     .categoria-box span {
       display: block;
-      padding: 0.7rem;
+      padding: 1rem;
       font-weight: 900;
-      font-size: 1rem;
-      color: #000;
+      font-size: 1.1rem;
+      color: var(--black);
+      position: relative;
+      z-index: 1;
+      transition: color 0.3s ease;
+    }
+
+    .categoria-box:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+    }
+
+    .categoria-box:hover img {
+      transform: scale(1.1);
+    }
+
+    .categoria-box:hover::before {
+      height: 30%;
+    }
+
+    .categoria-box:hover span {
+      color: var(--black);
     }
 
     .categoria-box.active {
       border: 3px solid var(--yellow);
-      transform: scale(1.05);
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
     }
 
+    .categoria-box.active::before {
+      height: 30%;
+    }
+
+    /* Grid de productos elegante */
     .productos-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2.5rem;
+      padding: 1rem 0;
     }
 
     .producto-card {
-      background: #fffef0;
-      border-radius: 12px;
+      background: var(--white);
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
       opacity: 0;
       transform: translateY(20px);
       animation: fadeInUp 0.5s ease forwards;
+      transition: all 0.3s ease;
+      position: relative;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .producto-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
     }
 
     @keyframes fadeInUp {
@@ -196,189 +449,471 @@
 
     .producto-card img {
       width: 100%;
-      height: 200px;
+      height: 250px;
       object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .producto-card:hover img {
+      transform: scale(1.05);
     }
 
     .producto-content {
-      padding: 1rem;
+      padding: 1.5rem;
+      position: relative;
     }
 
     .producto-content h3 {
-      font-size: 1.1rem;
+      font-size: 1.3rem;
       font-weight: 900;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.7rem;
+      color: var(--black);
+      position: relative;
+      padding-bottom: 0.7rem;
+    }
+
+    .producto-content h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--yellow);
     }
 
     .producto-content p {
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      color: #555;
+      line-height: 1.6;
     }
 
     .precio {
-      font-weight: bold;
-      margin-bottom: 0.5rem;
+      display: inline-block;
+      font-weight: 900;
+      color: var(--black);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .precio::before {
+      content: '$';
+      color: var(--yellow);
+      margin-right: 2px;
     }
 
     .btn-ws {
       display: inline-block;
-      padding: 0.5rem 1rem;
+      padding: 0.8rem 1.5rem;
       background: var(--yellow);
-      color: #000;
+      color: var(--black);
       border-radius: 30px;
       text-decoration: none;
       font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
+    .btn-ws:hover {
+      background: var(--dark-yellow);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    /* Loader estilizado */
+    .loader {
+      text-align: center;
+      padding: 2rem;
+      font-size: 1.1rem;
+      color: #555;
+      grid-column: 1 / -1;
+      font-weight: 500;
+    }
+
+    .loader::after {
+      content: '...';
+      animation: dots 1.5s infinite;
+    }
+
+    @keyframes dots {
+      0%, 20% { content: '.'; }
+      40% { content: '..'; }
+      60%, 100% { content: '...'; }
+    }
+
+    /* Footer elegante */
     footer {
-      background: var(--gray);
+      background: var(--black);
       color: #aaa;
       text-align: center;
-      padding: 2rem 1rem;
+      padding: 4rem 5% 3rem;
       font-size: 0.9rem;
+      position: relative;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--yellow);
+    }
+
+    footer p {
+      margin-bottom: 1rem;
+      color: #bbb;
+    }
+
+    footer a {
+      color: var(--yellow);
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--white);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .social-links a {
+      color: var(--white);
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+      color: var(--yellow);
+      transform: translateY(-5px);
+    }
+
+    /* Responsividad mejorada */
+    @media (min-width: 576px) {
+      .portada h1 {
+        font-size: 5rem;
+      }
+      
+      .portada h1 span {
+        font-size: 5.5rem;
+      }
     }
 
     @media (min-width: 768px) {
+      .portada {
+        padding: 10rem 1.5rem 6rem;
+      }
+      
+      .portada h1 {
+        font-size: 6rem;
+      }
+      
+      .portada h1 span {
+        font-size: 6.5rem;
+      }
+      
       .productos-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (min-width: 1024px) {
+      .portada {
+        padding: 12rem 1.5rem 8rem;
+      }
+      
       .productos-grid {
         grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .productos-grid {
+        grid-template-columns: repeat(4, 1fr);
       }
     }
   </style>
 </head>
 <body>
   <header>
-  <img src="assets/images/logo1.png" alt="Logo" />
-  <nav>
-    <a href="encuesta.html">Encuesta</a>
-    <a href="admin.html">Admin</a>
-  </nav>
-</header>
+    <img src="assets/images/logo1.png" alt="Logo" />
+    <nav>
+      <a href="encuesta.html">Encuesta</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+  </header>
 
-<section class="portada" id="portada">
-  <h1>Tango's Poza Rica</h1>
-  <p>El sabor callejero con clase. Sazón que se impone en cada bocado.</p>
-  <button class="btn-hero" onclick="mostrarMenu()">Explora el menú</button>
-  <a href="https://maps.app.goo.gl/swSsLLZGUGFtyFSP8" class="ubicanos-link" target="_blank">📍 Ubícanos</a>
-  <div id="map"></div>
-</section>
+  <section class="portada" id="portada">
+    <h1>Tango's <span>Poza Rica</span></h1>
+    <p>El sabor callejero con clase. Sazón que se impone en cada bocado, haciendo de cada comida una experiencia inolvidable.</p>
+    <button class="btn-hero" onclick="mostrarMenu()">Explora el menú</button>
+    <a href="https://maps.app.goo.gl/swSsLLZGUGFtyFSP8" class="ubicanos-link" target="_blank"><span>📍</span> Ubícanos</a>
+    <div id="map"></div>
+  </section>
 
-<section class="menu-section" id="menu">
-  <h2 class="seccion-titulo animado">Categorías</h2>
-  <div class="categoria-scroll" id="categorias">
-    <div class="categoria-box" data-cat="bebidas">
-      <img src="assets/images/bebidas.png" alt="Bebidas" />
-      <span>Bebidas</span>
+  <section class="menu-section" id="menu">
+    <h2 class="seccion-titulo animado">Nuestras <span>Categorías</span></h2>
+    <div class="categoria-scroll" id="categorias">
+      <div class="categoria-box" data-cat="bebidas">
+        <img src="assets/images/bebidas.png" alt="Bebidas" />
+        <span>Bebidas</span>
+      </div>
+      <div class="categoria-box" data-cat="snacks">
+        <img src="assets/images/snaks.png" alt="Snacks" />
+        <span>Snacks</span>
+      </div>
+      <div class="categoria-box" data-cat="elotes">
+        <img src="assets/images/elotes.png" alt="Elotes" />
+        <span>Elotes</span>
+      </div>
+      <div class="categoria-box" data-cat="delicias">
+        <img src="assets/images/delicias.png" alt="Delicias" />
+        <span>Delicias</span>
+      </div>
     </div>
-    <div class="categoria-box" data-cat="snacks">
-      <img src="assets/images/snaks.png" alt="Snacks" />
-      <span>Snacks</span>
+
+    <h2 class="seccion-titulo animado">Nuestro <span>Menú</span></h2>
+    <div class="productos-grid" id="productos-container"></div>
+  </section>
+
+  <footer>
+    <div class="social-links">
+      <a href="#">📱</a>
+      <a href="#">📸</a>
+      <a href="#">📘</a>
     </div>
-    <div class="categoria-box" data-cat="elotes">
-      <img src="assets/images/elotes.png" alt="Elotes" />
-      <span>Elotes</span>
-    </div>
-    <div class="categoria-box" data-cat="delicias">
-      <img src="assets/images/delicias.png" alt="Delicias" />
-      <span>Delicias</span>
-    </div>
-  </div>
+    <p>&copy; 2025 Tango's | Hecho con sabor y fuego en Poza Rica</p>
+    <p><a href="https://wa.me/5211234567890">Contáctanos por WhatsApp</a></p>
+  </footer>
 
-  <h2 class="seccion-titulo animado">Menú</h2>
-  <div class="productos-grid" id="productos-container"></div>
-</section>
+  <!-- Google Maps -->
+  <script>
+    function initMap() {
+      const tangos = { lat: 20.541667, lng: -97.445639 };
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 18,
+        center: tangos,
+        styles: [
+          {
+            "elementType": "geometry",
+            "stylers": [{"color": "#212121"}]
+          },
+          {
+            "elementType": "labels.icon",
+            "stylers": [{"visibility": "off"}]
+          },
+          {
+            "elementType": "labels.text.fill",
+            "stylers": [{"color": "#757575"}]
+          },
+          {
+            "elementType": "labels.text.stroke",
+            "stylers": [{"color": "#212121"}]
+          },
+          {
+            "featureType": "administrative",
+            "elementType": "geometry",
+            "stylers": [{"color": "#757575"}]
+          },
+          {
+            "featureType": "administrative.country",
+            "elementType": "labels.text.fill",
+            "stylers": [{"color": "#9e9e9e"}]
+          },
+          {
+            "featureType": "administrative.land_parcel",
+            "stylers": [{"visibility": "off"}]
+          },
+          {
+            "featureType": "administrative.locality",
+            "elementType": "labels.text.fill",
+            "stylers": [{"color": "#bdbdbd"}]
+          },
+          {
+            "featureType": "poi",
+            "elementType": "labels.text.fill",
+            "stylers": [{"color": "#757575"}]
+          },
+          {
+            "featureType": "poi.park",
+            "elementType": "geometry",
+            "stylers": [{"color": "#181818"}]
+          },
+          {
+            "featureType": "poi.park",
+            "elementType": "labels.text.fill",
+            "stylers": [{"color": "#616161"}]
+          },
+          {
+            "featureType": "poi.park",
+            "elementType": "labels.text.stroke",
+            "stylers": [{"color": "#1b1b1b"}]
+          },
+          {
+            "featureType": "road",
+            "elementType": "geometry.fill",
+            "stylers": [{"color": "#2c2c2c"}]
+          },
+          {
+            "featureType": "road",
+            "elementType": "labels.text.fill",
+            "stylers": [{"color": "#8a8a8a"}]
+          },
+          {
+            "featureType": "road.arterial",
+            "elementType": "geometry",
+            "stylers": [{"color": "#373737"}]
+          },
+          {
+            "featureType": "road.highway",
+            "elementType": "geometry",
+            "stylers": [{"color": "#3c3c3c"}]
+          },
+          {
+            "featureType": "road.highway.controlled_access",
+            "elementType": "geometry",
+            "stylers": [{"color": "#4e4e4e"}]
+          },
+          {
+            "featureType": "road.local",
+            "elementType": "labels.text.fill",
+            "stylers": [{"color": "#616161"}]
+          },
+          {
+            "featureType": "transit",
+            "elementType": "labels.text.fill",
+            "stylers": [{"color": "#757575"}]
+          },
+          {
+            "featureType": "water",
+            "elementType": "geometry",
+            "stylers": [{"color": "#000000"}]
+          },
+          {
+            "featureType": "water",
+            "elementType": "labels.text.fill",
+            "stylers": [{"color": "#3d3d3d"}]
+          }
+        ]
+      });
+      
+      const marker = new google.maps.Marker({ 
+        position: tangos, 
+        map,
+        title: "Tango's",
+        animation: google.maps.Animation.DROP,
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 10,
+          fillColor: "#ffd700",
+          fillOpacity: 1,
+          strokeWeight: 2,
+          strokeColor: "#ffffff"
+        }
+      });
+    }
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUv0bmRnGTLwNA8dgDY80Ol9J7_ZRUSWg&callback=initMap"></script>
 
-<footer>
-  <p>&copy; 2025 Tango's | Hecho con sabor y fuego en Poza Rica</p>
-  <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
-</footer>
+  <!-- Supabase -->
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
-<!-- Google Maps -->
-<script>
-  function initMap() {
-    const tangos = { lat: 20.541667, lng: -97.445639 };
-    const map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 18,
-      center: tangos
-    });
-    new google.maps.Marker({ position: tangos, map, title: "Tango’s" });
-  }
-</script>
-<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUv0bmRnGTLwNA8dgDY80Ol9J7_ZRUSWg&callback=initMap"></script>
+    const supabase = createClient(
+      'https://ljlaudvreolkdppgfqul.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
+    );
 
-<!-- Supabase -->
-<script type="module">
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+    const contenedor = document.getElementById("productos-container");
 
-  const supabase = createClient(
-    'https://ljlaudvreolkdppgfqul.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
-  );
+    async function cargarMenu(categoria) {
+      contenedor.innerHTML = `<p class="loader">Cargando ${categoria}</p>`;
+      const { data, error } = await supabase.from("productos").select("*").eq("categoria", categoria);
 
-  const contenedor = document.getElementById("productos-container");
+      if (error || !data.length) {
+        contenedor.innerHTML = `<p class="loader">No hay productos en esta categoría.</p>`;
+        return;
+      }
 
-  async function cargarMenu(categoria) {
-    contenedor.innerHTML = `<p class="loader">Cargando ${categoria}...</p>`;
-    const { data, error } = await supabase.from("productos").select("*").eq("categoria", categoria);
-
-    if (error || !data.length) {
-      contenedor.innerHTML = `<p class="loader">No hay productos en esta categoría.</p>`;
-      return;
+      contenedor.innerHTML = "";
+      
+      // Agregar delay para animación escalonada
+      data.forEach((p, index) => {
+        setTimeout(() => {
+          const card = document.createElement("div");
+          card.classList.add("producto-card");
+          card.style.animationDelay = `${index * 0.1}s`;
+          card.innerHTML = `
+            <img src="${p.imagen_url}" alt="${p.nombre}" />
+            <div class="producto-content">
+              <h3>${p.nombre}</h3>
+              <p>${p.descripcion}</p>
+              <span class="precio">${p.precio}</span>
+              <a href="https://wa.me/5211234567890?text=Hola quiero pedir: ${encodeURIComponent(p.nombre)}" class="btn-ws" target="_blank">Pedir ahora</a>
+            </div>
+          `;
+          contenedor.appendChild(card);
+        }, index * 100);
+      });
     }
 
-    contenedor.innerHTML = "";
-    data.forEach(p => {
-      const card = document.createElement("div");
-      card.classList.add("producto-card");
-      card.innerHTML = `
-        <img src="${p.imagen_url}" alt="${p.nombre}" />
-        <div class="producto-content">
-          <h3>${p.nombre}</h3>
-          <p>${p.descripcion}</p>
-          <span class="precio">$${p.precio}</span>
-          <a href="https://wa.me/5211234567890?text=Hola quiero pedir: ${encodeURIComponent(p.nombre)}" class="btn-ws" target="_blank">Pedir</a>
-        </div>
-      `;
-      contenedor.appendChild(card);
-    });
-  }
+    window.mostrarMenu = () => {
+      document.getElementById("portada").style.display = "none";
+      document.getElementById("menu").style.display = "block";
+      
+      // Desplazamiento suave al inicio
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Seleccionar primera categoría
+      seleccionarCategoria("bebidas");
+      
+      // Activar animaciones
+      setTimeout(() => {
+        document.querySelectorAll('.animado').forEach(el => {
+          el.classList.add('visible');
+        });
+      }, 300);
+    };
 
-  window.mostrarMenu = () => {
-    document.getElementById("portada").style.display = "none";
-    document.getElementById("menu").style.display = "block";
-    seleccionarCategoria("bebidas");
-  };
-
-  function seleccionarCategoria(categoria) {
-    document.querySelectorAll(".categoria-box").forEach(c => c.classList.remove("active"));
-    const btn = document.querySelector(`[data-cat="${categoria}"]`);
-    if (btn) btn.classList.add("active");
-    cargarMenu(categoria);
-  }
-
-  document.querySelectorAll(".categoria-box").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const categoria = btn.getAttribute("data-cat");
-      seleccionarCategoria(categoria);
-    });
-  });
-
-  // Animación al hacer scroll
-  const observador = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+    function seleccionarCategoria(categoria) {
+      document.querySelectorAll(".categoria-box").forEach(c => c.classList.remove("active"));
+      const btn = document.querySelector(`[data-cat="${categoria}"]`);
+      if (btn) {
+        btn.classList.add("active");
+        // Asegurar que la categoría seleccionada sea visible en el scroll
+        btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
       }
+      cargarMenu(categoria);
+    }
+
+    document.querySelectorAll(".categoria-box").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const categoria = btn.getAttribute("data-cat");
+        seleccionarCategoria(categoria);
+      });
     });
-  }, { threshold: 0.5 });
 
-  document.querySelectorAll('.animado').forEach(el => observador.observe(el));
-</script>
+    // Animación mejorada al hacer scroll
+    const observador = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
 
+    document.querySelectorAll('.animado').forEach(el => observador.observe(el));
+  </script>
 </body>
 </html>

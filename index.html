@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tango's | Sabor Callejero de Alta Gama</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet" />
+  <title>Tango's | Street Food de Primera</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #000000;
-      --text: #ffffff;
-      --accent: #ffce00;
+      --negro: #000;
+      --blanco: #fff;
+      --amarillo: #ffce00;
+      --gris: #1a1a1a;
     }
 
     * {
@@ -18,172 +19,202 @@
       padding: 0;
     }
 
-    body {
+    html, body {
       font-family: 'Inter', sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
+      background-color: var(--negro);
+      color: var(--blanco);
+      scroll-behavior: smooth;
     }
 
+    /* HEADER */
     header {
       padding: 1rem 1.5rem;
-      background-color: var(--bg);
+      background-color: var(--negro);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid var(--accent);
+      border-bottom: 2px solid var(--amarillo);
       position: sticky;
       top: 0;
-      z-index: 999;
+      z-index: 1000;
     }
 
     .logo {
-      height: 42px;
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--amarillo);
+      text-transform: uppercase;
     }
 
     nav a {
-      color: var(--accent);
+      color: var(--amarillo);
+      text-decoration: none;
       margin-left: 1.2rem;
       font-weight: 600;
-      text-decoration: none;
       font-size: 0.95rem;
     }
 
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* HERO FULLSCREEN */
     .hero {
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      padding: 4rem 1.5rem 3rem;
-      background: radial-gradient(circle at top, #222 0%, #000 100%);
+      padding: 2rem;
+      background: radial-gradient(circle at top, var(--gris), var(--negro));
     }
 
     .hero h1 {
-      font-size: 2.3rem;
+      font-size: 2.5rem;
       font-weight: 900;
-      color: var(--accent);
+      color: var(--amarillo);
+      text-transform: uppercase;
       margin-bottom: 1rem;
+      animation: shine 5s infinite linear;
     }
 
     .hero p {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: #ccc;
       max-width: 320px;
-      margin: 0 auto 2rem;
+      margin-bottom: 2rem;
     }
 
-    .btn-cta {
-      background-color: var(--accent);
-      color: var(--bg);
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
+    @keyframes shine {
+      0% { text-shadow: 0 0 10px var(--amarillo); }
+      50% { text-shadow: 0 0 25px var(--amarillo); }
+      100% { text-shadow: 0 0 10px var(--amarillo); }
+    }
+
+    .btn-principal {
+      background-color: var(--amarillo);
+      color: var(--negro);
+      padding: 0.8rem 1.8rem;
+      border-radius: 40px;
       font-weight: 700;
-      font-size: 1rem;
       text-decoration: none;
-      box-shadow: 0 0 15px rgba(255, 206, 0, 0.5);
+      font-size: 1rem;
+      box-shadow: 0 0 15px rgba(255, 206, 0, 0.4);
       transition: transform 0.3s ease;
     }
 
-    .btn-cta:hover {
+    .btn-principal:hover {
       transform: scale(1.05);
     }
 
+    /* SECCIÓN SOBRE */
     .section {
-      padding: 2rem 1.5rem;
+      padding: 3rem 1.5rem;
+      text-align: center;
     }
 
     .section h2 {
-      color: var(--accent);
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    .productos {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    .producto-card {
-      background-color: #111;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 8px 20px rgba(255, 206, 0, 0.05);
-      transition: transform 0.3s ease;
-    }
-
-    .producto-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .producto-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .producto-content {
-      padding: 1rem;
-    }
-
-    .producto-content h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .producto-content p {
-      font-size: 0.9rem;
-      color: #aaa;
-      margin-bottom: 0.5rem;
-    }
-
-    .producto-content .precio {
-      color: var(--accent);
-      font-weight: bold;
-    }
-
-    .sobre {
-      text-align: center;
-    }
-
-    .sobre p {
-      max-width: 360px;
-      margin: 0 auto;
-      color: #ccc;
-      font-size: 1rem;
-    }
-
-    footer {
-      padding: 2rem 1rem;
-      background-color: #111;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #aaa;
-      border-top: 2px solid var(--accent);
-    }
-
-    footer img {
-      height: 30px;
+      font-size: 1.6rem;
+      color: var(--amarillo);
       margin-bottom: 1rem;
     }
 
-    @media (min-width: 768px) {
-      .productos {
+    .section p {
+      max-width: 350px;
+      margin: 0 auto;
+      color: #ddd;
+      font-size: 1rem;
+    }
+
+    /* PRODUCTOS */
+    .productos-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 2rem 1.5rem 5rem;
+    }
+
+    .producto {
+      background-color: #111;
+      border: 2px solid var(--amarillo);
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: 0 4px 20px rgba(255, 206, 0, 0.15);
+      transition: transform 0.3s ease, border-color 0.3s;
+    }
+
+    .producto:hover {
+      transform: translateY(-5px);
+      border-color: #fff000;
+    }
+
+    .producto h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .producto p {
+      font-size: 0.95rem;
+      color: #aaa;
+      margin-bottom: 0.5rem;
+    }
+
+    .precio {
+      color: var(--amarillo);
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background-color: #111;
+      padding: 2rem 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #bbb;
+      border-top: 2px solid var(--amarillo);
+    }
+
+    footer a {
+      color: var(--amarillo);
+      text-decoration: none;
+    }
+
+    /* WHATSAPP STICKY */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--amarillo);
+      color: var(--negro);
+      padding: 0.9rem 1.2rem;
+      font-weight: 800;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      text-decoration: none;
+      box-shadow: 0 0 20px rgba(255, 206, 0, 0.5);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+    }
+
+    @media(min-width: 768px) {
+      .productos-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (min-width: 1024px) {
-      .productos {
+    @media(min-width: 1024px) {
+      .productos-grid {
         grid-template-columns: repeat(3, 1fr);
       }
 
       .hero h1 {
-        font-size: 3rem;
-      }
-
-      .hero p {
-        font-size: 1.3rem;
+        font-size: 3.5rem;
       }
     }
   </style>
@@ -191,37 +222,38 @@
 <body>
 
   <header>
-    <img src="assets/images/logo1.png" class="logo" alt="Logo Tango's" />
+    <div class="logo">Tango's</div>
     <nav>
-      <a href="#productos">Menú</a>
+      <a href="#sobre">Nosotros</a>
+      <a href="#menu">Menú</a>
       <a href="encuesta.html">Encuesta</a>
-      <a href="admin.html">Admin</a>
     </nav>
   </header>
 
   <section class="hero">
-    <h1>Tango's Poza Rica</h1>
-    <p>Antojitos con alma, hechos con sazón, fuego y corazón.</p>
-    <a href="https://wa.me/5211234567890" class="btn-cta" target="_blank">Pedir por WhatsApp</a>
+    <h1>Comida con carácter</h1>
+    <p>Antojitos de calle con la fuerza de la tradición y el sabor de la calle fina.</p>
+    <a href="#menu" class="btn-principal">Ver menú</a>
   </section>
 
-  <section class="section sobre">
-    <h2>¿Quiénes Somos?</h2>
-    <p>Un rincón urbano donde el sazón es la estrella. Fusionamos lo callejero con lo gourmet. Nuestra misión: darte una torta que jamás olvides.</p>
+  <section class="section" id="sobre">
+    <h2>¿Quiénes somos?</h2>
+    <p>En Tango’s llevamos la calle a otro nivel. Somos tradición, somos barrio, somos sabor.</p>
   </section>
 
-  <section class="section" id="productos">
-    <h2>Explora Nuestro Menú</h2>
-    <div class="productos">
-      <!-- Cards dinámicas desde Firebase -->
+  <section class="section" id="menu">
+    <h2>Menú</h2>
+    <div class="productos-grid">
+      <!-- Productos insertados dinámicamente desde Firebase -->
     </div>
   </section>
 
   <footer>
-    <img src="assets/images/logo2.png" alt="Logo Footer" />
-    <p>&copy; 2025 Tango's - Sabor con fuerza. Sitio creado con orgullo en Poza Rica.</p>
-    <p><a href="https://wa.me/5211234567890" style="color: var(--accent); text-decoration: none;">Contáctanos por WhatsApp</a></p>
+    <p>&copy; 2025 Tango’s. Hecho en Poza Rica con fuego, sabor y respeto al antojo.</p>
+    <p><a href="admin.html">Panel de administrador</a></p>
   </footer>
+
+  <a href="https://wa.me/5211234567890" class="whatsapp-float" target="_blank">WhatsApp</a>
 
   <script type="module" src="assets/js/main.js"></script>
 </body>

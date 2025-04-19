@@ -1,1 +1,135 @@
+/* Reset básico y fuentes */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #fafafa;
+  color: #1f1f1f;
+  line-height: 1.6;
+}
+
+/* Header */
+.header {
+  background: white;
+  padding: 1rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  height: 48px;
+}
+
+.menu ul {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #1f1f1f;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.menu a:hover {
+  color: #e63946;
+}
+
+/* Hero principal */
+.hero {
+  background: linear-gradient(145deg, #ffecd2 0%, #fcb69f 100%);
+  padding: 4rem 2rem;
+  text-align: center;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  box-shadow: 0 30px 40px rgba(0,0,0,0.05);
+}
+
+.hero h1 {
+  font-size: 2rem;
+  color: #1f1f1f;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  color: #555;
+  font-size: 1.1rem;
+}
+
+/* Productos */
+.productos {
+  padding: 2rem 1rem;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.producto-card {
+  background-color: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+}
+
+.producto-card:hover {
+  transform: translateY(-5px);
+}
+
+.producto-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.producto-card h3 {
+  margin: 1rem;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.producto-card p {
+  margin: 0 1rem 1rem;
+  color: #777;
+  font-size: 0.95rem;
+}
+
+.producto-card strong {
+  display: block;
+  padding: 0 1rem 1rem;
+  font-size: 1.2rem;
+  color: #e63946;
+}
+
+/* Footer */
+.footer {
+  background: #fff;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #888;
+  font-size: 0.9rem;
+  border-top: 1px solid #eee;
+}
+
+.logo-footer {
+  height: 40px;
+  margin-bottom: 1rem;
+}
+
+/* WhatsApp link */
+.whatsapp {
+  background-color: #25d366;
+  color: white !important;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-weight: bold;
+}

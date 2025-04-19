@@ -2,42 +2,354 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tango's | Sabor que Enamora</title>
-  <link rel="stylesheet" href="assets/css/styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tango's | Sabor que deja huella</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --principal: #f26d35;
+      --secundario: #252525;
+      --claro: #fff6f0;
+      --oscuro: #1c1c1c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--claro);
+      color: var(--secundario);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.9);
+      z-index: 999;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .logo {
+      height: 50px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--secundario);
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--principal);
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #fff1e7, #ffe3d4);
+      padding: 6rem 2rem 4rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #444;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .btn-principal {
+      background-color: var(--principal);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(242, 109, 53, 0.4);
+      transition: background 0.3s ease, transform 0.2s;
+    }
+
+    .btn-principal:hover {
+      background-color: #d95824;
+      transform: scale(1.03);
+    }
+
+    /* SOBRE NOSOTROS */
+    .seccion {
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .seccion h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .seccion p {
+      font-size: 1.05rem;
+      color: #555;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .iconos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .icono-box {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .icono-box:hover {
+      transform: translateY(-8px);
+    }
+
+    .icono-box img {
+      height: 64px;
+      margin-bottom: 1rem;
+    }
+
+    .icono-box h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* PRODUCTOS DESTACADOS - Carrusel Horizontal */
+    .carrusel {
+      overflow-x: auto;
+      display: flex;
+      gap: 1.5rem;
+      padding: 2rem;
+      scroll-snap-type: x mandatory;
+    }
+
+    .carrusel::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .carrusel::-webkit-scrollbar-thumb {
+      background-color: var(--principal);
+      border-radius: 100px;
+    }
+
+    .carrusel-item {
+      min-width: 250px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      scroll-snap-align: start;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .carrusel-item img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .carrusel-item .contenido {
+      padding: 1rem;
+      text-align: left;
+    }
+
+    .carrusel-item .contenido h4 {
+      margin: 0.5rem 0 0.3rem;
+      font-size: 1.1rem;
+    }
+
+    .carrusel-item .contenido p {
+      font-size: 0.95rem;
+      color: #666;
+    }
+
+    /* GALERÍA DE PRODUCTOS DESDE FIREBASE */
+    .productos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .producto-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      transition: transform 0.3s ease;
+    }
+
+    .producto-card:hover {
+      transform: scale(1.02);
+    }
+
+    .producto-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .producto-detalles {
+      padding: 1rem;
+    }
+
+    .producto-detalles h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .producto-detalles p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .precio {
+      font-weight: bold;
+      color: var(--principal);
+      font-size: 1.1rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background-color: #1b1b1b;
+      color: #eee;
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    footer img {
+      height: 40px;
+      margin-bottom: 1rem;
+    }
+
+    footer a {
+      color: #ccc;
+      text-decoration: none;
+      margin: 0 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+  </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-container">
-      <img src="assets/images/logo1.png" alt="Logo Tango's" class="logo" />
-      <nav class="nav">
-        <ul class="nav-list">
-          <li><a href="#productos">Productos</a></li>
-          <li><a href="encuesta.html">Encuesta</a></li>
-          <li><a href="admin.html">Admin</a></li>
-          <li><a href="https://wa.me/5211234567890" class="btn-ws" target="_blank">WhatsApp</a></li>
-        </ul>
-      </nav>
-    </div>
+
+  <!-- HEADER -->
+  <header>
+    <img src="assets/images/logo1.png" alt="Logo Tango's" class="logo">
+    <nav>
+      <ul>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#destacados">Destacados</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="encuesta.html">Encuesta</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
   </header>
 
+  <!-- HERO -->
   <section class="hero">
-    <div class="hero-content">
-      <h1>El sabor de Poza Rica, directo a tu mesa</h1>
-      <p>Descubre nuestras creaciones, elaboradas con ingredientes locales y mucho corazón.</p>
+    <h1>El sabor más famoso de Poza Rica</h1>
+    <p>De nuestras manos a tu mesa. Tortas, tacos y antojitos con identidad y sazón real.</p>
+    <a href="https://wa.me/5211234567890" target="_blank" class="btn-principal">Haz tu pedido por WhatsApp</a>
+  </section>
+
+  <!-- SOBRE NOSOTROS -->
+  <section class="seccion" id="sobre">
+    <h2>¿Quiénes somos?</h2>
+    <p>Somos Tango's, un proyecto gastronómico artesanal con raíces en Poza Rica. Nuestra misión es rescatar sabores reales con recetas tradicionales, atención de primera y productos honestos.</p>
+
+    <div class="iconos-grid">
+      <div class="icono-box">
+        <img src="assets/images/logo2.png" alt="Calidad" />
+        <h3>Calidad</h3>
+        <p>Usamos ingredientes frescos, seleccionados localmente.</p>
+      </div>
+      <div class="icono-box">
+        <img src="assets/images/logo3.png" alt="Pasión" />
+        <h3>Pasión</h3>
+        <p>Cada receta lleva tiempo, manos expertas y dedicación.</p>
+      </div>
+      <div class="icono-box">
+        <img src="assets/images/logo1.png" alt="Sabor" />
+        <h3>Sabor</h3>
+        <p>Fusión de tradición y creatividad. Comer aquí es recordar.</p>
+      </div>
     </div>
   </section>
 
-  <main>
-    <section id="productos" class="productos-container">
-      <!-- Aquí se insertan dinámicamente los productos desde main.js -->
-    </section>
-  </main>
+  <!-- CARRUSEL DESTACADOS -->
+  <section class="seccion" id="destacados">
+    <h2>Destacados</h2>
+    <div class="carrusel">
+      <!-- Cards fijas (pueden venir de Firestore también) -->
+      <div class="carrusel-item">
+        <img src="https://source.unsplash.com/400x300/?torta" alt="Producto destacado">
+        <div class="contenido">
+          <h4>Torta especial de la casa</h4>
+          <p>Con chorizo, pierna, frijol y un toque secreto</p>
+        </div>
+      </div>
+      <div class="carrusel-item">
+        <img src="https://source.unsplash.com/400x300/?food,mexican" alt="Producto destacado">
+        <div class="contenido">
+          <h4>Antojito clásico</h4>
+          <p>Sabor que te transporta a las fondas de tu infancia</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <footer class="footer">
-    <img src="assets/images/logo2.png" alt="Logo Tango's Footer" class="logo-footer" />
-    <p>&copy; 2025 Tango's - Todos los derechos reservados.</p>
+  <!-- PRODUCTOS DINÁMICOS -->
+  <section class="seccion" id="productos">
+    <h2>Menú completo</h2>
+    <div class="productos-grid">
+      <!-- Aquí se cargan dinámicamente desde Firebase -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <img src="assets/images/logo2.png" alt="Logo Footer">
+    <p>&copy; 2025 Tango's - Tradición y Sabor | Poza Rica, México</p>
+    <div>
+      <a href="#">Instagram</a> | <a href="#">Facebook</a> | <a href="https://wa.me/5211234567890">WhatsApp</a>
+    </div>
   </footer>
 
   <script type="module" src="assets/js/main.js"></script>

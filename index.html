@@ -2,15 +2,15 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tango's | El Sabor Que Se Siente</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TANGO’S | Street Food con Fuerza</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --negro: #000;
-      --blanco: #fff;
-      --amarillo: #ffd700;
-      --gris: #222;
+      --black: #000;
+      --white: #fff;
+      --yellow: #ffcc00;
+      --gray: #111;
     }
 
     * {
@@ -19,192 +19,175 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    body {
       font-family: 'Inter', sans-serif;
-      background-color: var(--negro);
-      color: var(--blanco);
-      scroll-behavior: smooth;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
     }
 
-    /* ===== HEADER ===== */
     header {
+      background: var(--black);
+      color: var(--yellow);
+      padding: 1.2rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 1.2rem 1.5rem;
-      background: var(--negro);
-      border-bottom: 3px solid var(--amarillo);
-      position: sticky;
-      top: 0;
-      z-index: 999;
+      justify-content: space-between;
+      border-bottom: 4px solid var(--yellow);
     }
 
     .logo {
       height: 48px;
     }
 
-    nav {
-      display: flex;
-      gap: 1rem;
-    }
-
-    nav a {
-      color: var(--amarillo);
+    .nav-toggle {
+      background: var(--yellow);
+      color: var(--black);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-weight: 900;
+      font-size: 1rem;
       text-decoration: none;
-      font-weight: 700;
-      font-size: 0.95rem;
-      border-bottom: 2px solid transparent;
-      transition: 0.2s ease;
     }
 
-    nav a:hover {
-      border-color: var(--amarillo);
-    }
-
-    /* ===== HERO ===== */
     .hero {
-      background: radial-gradient(circle at top, #1a1a1a, #000);
+      background: linear-gradient(135deg, var(--black), var(--gray));
+      padding: 4rem 1.5rem;
       text-align: center;
-      padding: 4rem 1.5rem 3rem;
     }
 
     .hero h1 {
       font-size: 2.8rem;
+      color: var(--yellow);
       font-weight: 900;
-      color: var(--amarillo);
-      letter-spacing: -1px;
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+      line-height: 1.1;
+      text-transform: uppercase;
     }
 
     .hero p {
       color: #ccc;
-      font-size: 1.1rem;
       margin: 1rem auto 2rem;
       max-width: 320px;
+      font-size: 1.1rem;
     }
 
     .btn-hero {
-      background-color: var(--amarillo);
-      color: var(--negro);
-      padding: 0.9rem 1.6rem;
-      font-weight: 700;
+      background: var(--yellow);
+      color: var(--black);
+      padding: 1rem 2rem;
       font-size: 1rem;
-      border-radius: 50px;
+      font-weight: 900;
+      border-radius: 12px;
+      box-shadow: 0 0 20px var(--yellow);
       text-decoration: none;
-      box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
-      transition: 0.3s ease;
+      display: inline-block;
     }
 
     .btn-hero:hover {
-      transform: scale(1.05);
+      background: #ffe066;
     }
 
-    /* ===== MENÚ ===== */
     .menu-section {
-      background-color: var(--blanco);
-      color: var(--negro);
+      background: var(--yellow);
+      color: var(--black);
       padding: 3rem 1.5rem;
+      clip-path: polygon(0 4%, 100% 0, 100% 100%, 0% 100%);
     }
 
     .menu-section h2 {
-      text-align: center;
-      font-size: 1.8rem;
+      font-size: 2rem;
       font-weight: 900;
       margin-bottom: 2rem;
-      color: var(--negro);
+      text-align: center;
+      text-transform: uppercase;
     }
 
-    .productos-grid {
+    .products {
       display: grid;
       grid-template-columns: 1fr;
       gap: 2rem;
     }
 
-    .producto-card {
-      background: #fffef0;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    .product-card {
+      background: var(--white);
+      border-radius: 1rem;
       overflow: hidden;
-      transition: transform 0.3s ease;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      transform: rotate(-1deg);
     }
 
-    .producto-card:hover {
-      transform: scale(1.02);
-    }
-
-    .producto-card img {
+    .product-card img {
       width: 100%;
       height: 200px;
       object-fit: cover;
+      border-bottom: 4px solid var(--yellow);
     }
 
-    .producto-content {
+    .product-content {
       padding: 1rem;
     }
 
-    .producto-content h3 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.3rem;
+    .product-content h3 {
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
     }
 
-    .producto-content p {
-      font-size: 0.9rem;
-      color: #333;
-      margin-bottom: 0.6rem;
+    .product-content p {
+      font-size: 0.95rem;
+      color: #222;
+      margin-bottom: 0.8rem;
     }
 
-    .precio {
-      font-weight: 700;
-      color: var(--negro);
-      margin-bottom: 0.6rem;
-      display: block;
+    .product-content .precio {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--black);
+      margin-bottom: 0.8rem;
     }
 
     .btn-ws {
-      background-color: var(--amarillo);
-      color: var(--negro);
+      background: var(--black);
+      color: var(--yellow);
       font-weight: 700;
       padding: 0.6rem 1.2rem;
       border-radius: 50px;
       text-decoration: none;
+      font-size: 0.95rem;
       display: inline-block;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
     }
 
     .btn-ws:hover {
-      background-color: #ffe600;
+      background: var(--gray);
     }
 
-    /* ===== FOOTER ===== */
     footer {
-      background: #111;
+      background: var(--black);
       color: #aaa;
       text-align: center;
       padding: 2rem 1rem;
-      font-size: 0.9rem;
+      border-top: 4px solid var(--yellow);
     }
 
-    footer a {
-      color: var(--amarillo);
-      font-weight: 600;
-      text-decoration: none;
+    footer p {
+      font-size: 0.9rem;
     }
 
     .loader {
       text-align: center;
       font-style: italic;
-      color: #666;
+      color: #333;
     }
 
     @media (min-width: 768px) {
-      .productos-grid {
+      .products {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (min-width: 1024px) {
-      .productos-grid {
+      .products {
         grid-template-columns: repeat(3, 1fr);
       }
 
@@ -217,30 +200,26 @@
 <body>
 
   <header>
-    <img src="assets/images/logo1.png" alt="Logo Tango's" class="logo" />
-    <nav>
-      <a href="#menu">Menú</a>
-      <a href="encuesta.html">Encuesta</a>
-      <a href="admin.html">Admin</a>
-    </nav>
+    <img src="assets/images/logo1.png" class="logo" alt="Logo Tango's" />
+    <a href="#menu" class="nav-toggle">MENÚ</a>
   </header>
 
   <section class="hero">
-    <h1>Tango's Poza Rica</h1>
-    <p>Antojitos con alma, hechos con fuego, sabor y corazón.</p>
-    <a href="https://wa.me/5211234567890" target="_blank" class="btn-hero">Haz tu pedido</a>
+    <h1>El sabor que golpea<br>como debe ser</h1>
+    <p>Sin filtros. Solo sazón real. Solo Tango’s.</p>
+    <a href="https://wa.me/5211234567890" target="_blank" class="btn-hero">Pedir ahora</a>
   </section>
 
-  <section class="menu-section" id="menu">
+  <section id="menu" class="menu-section">
     <h2>Menú</h2>
-    <div class="productos-grid" id="productos-container">
-      <p class="loader">Cargando el sabor...</p>
+    <div class="products" id="productos-container">
+      <p class="loader">Cargando el fuego…</p>
     </div>
   </section>
 
   <footer>
     <p>&copy; 2025 Tango's | Hecho con 🔥 en Poza Rica</p>
-    <p><a href="https://wa.me/5211234567890" target="_blank">Contáctanos por WhatsApp</a></p>
+    <p><a href="https://wa.me/5211234567890" style="color:var(--yellow)">Contáctanos por WhatsApp</a></p>
   </footer>
 
   <script type="module">
@@ -254,22 +233,22 @@
     const snapshot = await getDocs(productosRef);
 
     if (snapshot.empty) {
-      contenedor.innerHTML = `<p class="loader">Sin productos disponibles por ahora.</p>`;
+      contenedor.innerHTML = `<p class="loader">Aún no hay productos... pero pronto vendrán.</p>`;
     } else {
       snapshot.forEach((doc) => {
         const p = doc.data();
-        const nombre = encodeURIComponent(`Hola, quiero más información sobre: ${p.nombre}`);
+        const nombre = encodeURIComponent(`Hola, quiero pedir el producto: ${p.nombre}`);
         const link = `https://wa.me/5211234567890?text=${nombre}`;
 
         const card = document.createElement("div");
-        card.classList.add("producto-card");
+        card.classList.add("product-card");
         card.innerHTML = `
           <img src="${p.imagenURL}" alt="${p.nombre}" />
-          <div class="producto-content">
+          <div class="product-content">
             <h3>${p.nombre}</h3>
             <p>${p.descripcion}</p>
             <span class="precio">$${p.precio}</span>
-            <a href="${link}" target="_blank" class="btn-ws">Pedir</a>
+            <a href="${link}" target="_blank" class="btn-ws">Pedir por WhatsApp</a>
           </div>
         `;
         contenedor.appendChild(card);

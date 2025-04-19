@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Panel Admin | Tango's</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
+  <title>Admin | Tango's</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --black: #000;
@@ -17,119 +17,156 @@
       background: var(--black);
       color: var(--white);
       font-family: 'Inter', sans-serif;
+      text-align: center;
       padding: 2rem 1rem;
     }
 
+    .logo {
+      max-width: 100px;
+      margin: 0 auto 1rem;
+    }
+
     h1 {
-      text-align: center;
       font-size: 2rem;
       font-weight: 900;
       color: var(--yellow);
       margin-bottom: 2rem;
     }
 
-    form, .card {
+    .btn-group button {
+      background: var(--yellow);
+      color: var(--black);
+      font-weight: 800;
+      padding: 1rem;
+      margin: 0.5rem;
+      width: 90%;
+      max-width: 300px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn-group button:hover {
+      background: #ffe66a;
+    }
+
+    .section {
+      display: none;
+      margin-top: 2rem;
       background: var(--gray);
       padding: 1.5rem;
       border-radius: 12px;
-      margin-bottom: 2rem;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
     }
 
-    input, textarea, button {
+    .section.active {
+      display: block;
+    }
+
+    input, textarea, select {
+      display: block;
       width: 100%;
       padding: 0.75rem;
       margin-bottom: 1rem;
-      font-size: 1rem;
       border: none;
       border-radius: 8px;
-    }
-
-    input, textarea {
+      font-size: 1rem;
       background: #222;
-      color: var(--white);
+      color: #fff;
     }
 
-    button {
-      background: var(--yellow);
-      color: var(--black);
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #ffe066;
-    }
-
-    input[type="file"] {
-      border: 2px dashed #444;
-      background: #111;
-    }
-
-    .img-preview {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 10px;
+    .producto-item {
+      background: #222;
+      padding: 1rem;
+      border-radius: 8px;
       margin-bottom: 1rem;
-      border: 2px solid var(--yellow);
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
-    .acciones {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .acciones button {
-      flex: 1;
+    .producto-item:hover {
+      background: #333;
     }
 
     .status {
-      text-align: center;
-      font-weight: bold;
       margin-top: 1rem;
-    }
-
-    .producto-editable {
-      background: #1a1a1a;
+      font-size: 0.9rem;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <h1>Panel de Administrador</h1>
+  <div id="auth">
+    <h1>Administrador</h1>
+    <input type="password" id="clave" placeholder="Contraseña de acceso" />
+    <button onclick="validarClave()">Entrar</button>
+  </div>
 
-  <form id="formNuevo">
-    <input type="text" id="nombre" placeholder="Nombre" required />
-    <textarea id="descripcion" placeholder="Descripción" required></textarea>
-    <input type="number" id="precio" placeholder="Precio" required />
-    <input type="file" id="imagen" accept="image/*" required />
-    <button type="submit">Añadir producto</button>
-    <p id="status" class="status"></p>
-  </form>
+  <div id="admin" style="display:none;">
+    <img src="assets/images/logo1.png" class="logo" alt="Logo">
+    <h1>Gestión de productos</h1>
 
-  <div id="productos"></div>
+    <div class="btn-group">
+      <button onclick="mostrar('añadir')">➕ Añadir nuevo producto</button>
+      <button onclick="mostrar('actualizar')">✏️ Actualizar producto</button>
+      <button onclick="mostrar('eliminar')">🗑️ Eliminar producto</button>
+    </div>
 
-  <script type="module">
+    <h2 style="margin-top:3rem; font-weight:900;">Reportes</h2>
+
+    <div id="añadir" class="section">
+      <form id="formNuevo">
+        <input type="text" id="nombre" placeholder="Nombre" required />
+        <textarea id="descripcion" placeholder="Descripción" required></textarea>
+        <input type="number" id="precio" placeholder="Precio" required />
+        <input type="file" id="imagen" accept="image/*" required />
+        <button type="submit">Guardar producto</button>
+        <p id="status" class="status"></p>
+      </form>
+    </div>
+
+    <div id="actualizar" class="section">
+      <div id="listaActualizar"></div>
+    </div>
+
+    <div id="eliminar" class="section">
+      <div id="listaEliminar"></div>
+    </div>
+  </div>
+    <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
     const supabaseUrl = 'https://ljlaudvreolkdppgfqul.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk';
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const form = document.getElementById('formNuevo');
-    const status = document.getElementById('status');
-    const contenedor = document.getElementById('productos');
+    const status = document.getElementById("status");
 
-    form.addEventListener('submit', async (e) => {
+    function validarClave() {
+      const clave = document.getElementById("clave").value;
+      if (clave === "240624") {
+        document.getElementById("auth").style.display = "none";
+        document.getElementById("admin").style.display = "block";
+        cargarProductos();
+      } else {
+        alert("Contraseña incorrecta");
+      }
+    }
+
+    function mostrar(id) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    document.getElementById("formNuevo").addEventListener("submit", async (e) => {
       e.preventDefault();
-      status.textContent = 'Subiendo producto...';
 
-      const nombre = form.nombre.value;
-      const descripcion = form.descripcion.value;
-      const precio = parseFloat(form.precio.value);
-      const archivo = form.imagen.files[0];
+      const nombre = document.getElementById("nombre").value;
+      const descripcion = document.getElementById("descripcion").value;
+      const precio = parseFloat(document.getElementById("precio").value);
+      const archivo = document.getElementById("imagen").files[0];
 
       const nombreArchivo = `${Date.now()}-${archivo.name}`;
       const { error: errorUpload } = await supabase.storage
@@ -137,110 +174,91 @@
         .upload(nombreArchivo, archivo);
 
       if (errorUpload) {
-        status.textContent = '❌ Error al subir imagen';
+        status.textContent = "❌ Error al subir imagen";
         return;
       }
 
-      const { data: urlData } = supabase.storage
-        .from('productos')
-        .getPublicUrl(nombreArchivo);
-
+      const { data: urlData } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
       const imagen_url = urlData.publicUrl;
 
       const { error: errorInsert } = await supabase
-        .from('productos')
+        .from("productos")
         .insert([{ nombre, descripcion, precio, imagen_url }]);
 
       if (errorInsert) {
-        status.textContent = '❌ Error al guardar producto';
+        status.textContent = "❌ Error al guardar";
       } else {
-        status.textContent = '✅ Producto guardado';
-        form.reset();
+        status.textContent = "✅ Producto guardado";
+        e.target.reset();
         cargarProductos();
       }
     });
 
     async function cargarProductos() {
-      contenedor.innerHTML = '<p>Cargando productos...</p>';
       const { data: productos, error } = await supabase
-        .from('productos')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from("productos")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-      if (error) {
-        contenedor.innerHTML = '<p>Error al cargar productos</p>';
-        return;
-      }
+      const listaActualizar = document.getElementById("listaActualizar");
+      const listaEliminar = document.getElementById("listaEliminar");
+      listaActualizar.innerHTML = "";
+      listaEliminar.innerHTML = "";
 
-      contenedor.innerHTML = '';
-      productos.forEach(p => renderProducto(p));
+      productos.forEach(p => {
+        // Para eliminar
+        const divE = document.createElement("div");
+        divE.classList.add("producto-item");
+        divE.textContent = p.nombre;
+        divE.onclick = () => {
+          if (confirm(`¿Eliminar "${p.nombre}"?`)) {
+            supabase.from("productos").delete().eq("id", p.id).then(() => {
+              alert("✅ Eliminado");
+              cargarProductos();
+            });
+          }
+        };
+        listaEliminar.appendChild(divE);
+
+        // Para actualizar
+        const divA = document.createElement("div");
+        divA.classList.add("producto-item");
+        divA.textContent = p.nombre;
+        divA.onclick = () => {
+          const nuevo = prompt(`Editar producto "${p.nombre}" (nombre|precio|descripcion):`, `${p.nombre}|${p.precio}|${p.descripcion}`);
+          if (nuevo) {
+            const [nombre, precio, descripcion] = nuevo.split("|");
+            const imagenInput = document.createElement("input");
+            imagenInput.type = "file";
+            imagenInput.accept = "image/*";
+            imagenInput.onchange = async () => {
+              let imagen_url = p.imagen_url;
+              if (imagenInput.files.length > 0) {
+                const archivo = imagenInput.files[0];
+                const nombreArchivo = `${Date.now()}-${archivo.name}`;
+                await supabase.storage.from('productos').upload(nombreArchivo, archivo);
+                const { data: urlData } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
+                imagen_url = urlData.publicUrl;
+              }
+
+              const { error } = await supabase.from("productos")
+                .update({ nombre, precio, descripcion, imagen_url })
+                .eq("id", p.id);
+              if (!error) {
+                alert("✅ Actualizado");
+                cargarProductos();
+              } else {
+                alert("❌ Error al actualizar");
+              }
+            };
+            imagenInput.click(); // Simula click para cambiar imagen (opcional)
+          }
+        };
+        listaActualizar.appendChild(divA);
+      });
     }
-        function renderProducto(p) {
-      const card = document.createElement('div');
-      card.classList.add('card');
-      card.innerHTML = `
-        <img src="${p.imagen_url}" class="img-preview" alt="${p.nombre}" />
-        <input value="${p.nombre}" placeholder="Nombre" id="nombre-${p.id}" class="producto-editable" />
-        <textarea placeholder="Descripción" id="descripcion-${p.id}" class="producto-editable">${p.descripcion}</textarea>
-        <input type="number" value="${p.precio}" placeholder="Precio" id="precio-${p.id}" class="producto-editable" />
-        <input type="file" id="imagen-${p.id}" accept="image/*" />
-        <div class="acciones">
-          <button onclick="actualizarProducto('${p.id}', '${p.imagen_url}')">Actualizar</button>
-          <button onclick="eliminarProducto('${p.id}')">Eliminar</button>
-        </div>
-      `;
-      contenedor.appendChild(card);
-    }
-
-    window.actualizarProducto = async (id, imagenAntigua) => {
-      const nombre = document.getElementById(`nombre-${id}`).value;
-      const descripcion = document.getElementById(`descripcion-${id}`).value;
-      const precio = parseFloat(document.getElementById(`precio-${id}`).value);
-      const imagenInput = document.getElementById(`imagen-${id}`);
-      let nuevaUrl = imagenAntigua;
-
-      if (imagenInput.files.length > 0) {
-        const archivo = imagenInput.files[0];
-        const nombreArchivo = `${Date.now()}-${archivo.name}`;
-        await supabase.storage.from('productos').upload(nombreArchivo, archivo);
-        const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
-        nuevaUrl = data.publicUrl;
-      }
-
-      const { error } = await supabase
-        .from('productos')
-        .update({ nombre, descripcion, precio, imagen_url: nuevaUrl })
-        .eq('id', id);
-
-      if (!error) {
-        alert('✅ Producto actualizado');
-        cargarProductos();
-      } else {
-        alert('❌ Error al actualizar');
-        console.error(error);
-      }
-    };
-
-    window.eliminarProducto = async (id) => {
-      const confirmar = confirm('¿Eliminar este producto?');
-      if (!confirmar) return;
-
-      const { error } = await supabase
-        .from('productos')
-        .delete()
-        .eq('id', id);
-
-      if (!error) {
-        alert('✅ Producto eliminado');
-        cargarProductos();
-      } else {
-        alert('❌ Error al eliminar');
-        console.error(error);
-      }
-    };
-
-    cargarProductos();
   </script>
+
 </body>
 </html>
 

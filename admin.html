@@ -157,6 +157,7 @@
       document.querySelectorAll(".section").forEach(div => div.classList.remove("active"));
       document.getElementById(id).classList.add("active");
     }
+    window.mostrar = mostrar;
 
     document.getElementById("formNuevo").addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -188,7 +189,6 @@
       listaEliminar.innerHTML = "";
 
       productos.forEach(p => {
-        // Eliminar
         const del = document.createElement("div");
         del.className = "producto-item";
         del.textContent = p.nombre;
@@ -201,7 +201,6 @@
         };
         listaEliminar.appendChild(del);
 
-        // Actualizar
         const upd = document.createElement("div");
         upd.className = "producto-item";
         upd.textContent = p.nombre;
@@ -233,6 +232,5 @@
       });
     }
   </script>
-
 </body>
 </html>

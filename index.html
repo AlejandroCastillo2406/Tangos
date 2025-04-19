@@ -96,23 +96,28 @@
     .categoria-scroll {
       display: flex;
       overflow-x: auto;
-      padding: 1rem 0;
+      padding: 1rem;
       gap: 1rem;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      justify-content: center;
-    }
+      margin: 0;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+       scroll-padding-left: 1.5rem;
+  }
+
 
     .categoria-box {
       flex: 0 0 auto;
-      width: 130px;
-      scroll-snap-align: center;
+      width: 150px;
+      scroll-snap-align: start;
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 5px 20px rgba(255, 215, 0, 0.25);
       cursor: pointer;
       text-align: center;
       transition: transform 0.3s ease;
+      padding-bottom: 0.5rem;
     }
 
     .categoria-box img {

@@ -13,135 +13,156 @@
       --gray: #111;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Inter', sans-serif;
       background: var(--black);
       color: var(--white);
-      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
     }
 
     header {
-      background: var(--black);
-      color: var(--yellow);
-      padding: 1rem 1.5rem;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: var(--black);
       border-bottom: 3px solid var(--yellow);
     }
 
-    .logo {
+    header img {
       height: 48px;
     }
 
     nav a {
-      color: var(--yellow);
-      text-decoration: none;
-      font-weight: 700;
       margin-left: 1rem;
-      font-size: 1rem;
+      color: var(--yellow);
+      font-weight: 700;
+      text-decoration: none;
     }
 
-    nav a:hover {
-      color: var(--white);
-    }
-
-    .hero {
-      background: linear-gradient(135deg, var(--black), var(--gray));
-      padding: 3rem 1.5rem 2rem;
+    .portada {
       text-align: center;
-      border-bottom: 3px solid var(--yellow);
+      padding: 4rem 1.5rem 2rem;
     }
 
-    .hero h1 {
-      font-size: 2.4rem;
+    .portada h1 {
+      font-size: 3rem;
       font-weight: 900;
       color: var(--yellow);
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-      margin-bottom: 1rem;
     }
 
-    .hero p {
+    .portada p {
       color: #ccc;
-      font-size: 1.1rem;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-hero {
+      background: var(--yellow);
+      color: var(--black);
+      font-weight: 900;
+      font-size: 1rem;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      border: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .ubicanos-link {
+      display: block;
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      color: var(--yellow);
+      text-decoration: none;
+    }
+
+    #map {
+      width: 100%;
+      height: 300px;
+      border-radius: 10px;
       margin-bottom: 2rem;
     }
 
-    .categorias-premium {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      margin: 1rem auto 2rem;
-      max-width: 100%;
-      padding: 0 1rem;
-    }
-
-    .categoria {
+    .menu-section {
+      display: none;
+      padding: 2rem 1rem;
       background: var(--white);
       color: var(--black);
-      width: 160px;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-      transition: transform 0.3s, box-shadow 0.3s;
-      text-align: center;
-      cursor: pointer;
     }
 
-    .categoria img {
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
-      border-bottom: 3px solid var(--yellow);
+    .categoria-scroll {
+      display: flex;
+      overflow-x: auto;
+      padding: 1rem 0;
+      gap: 1rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      justify-content: center;
+    }
+
+    .categoria-box {
+      flex: 0 0 auto;
+      width: 130px;
+      scroll-snap-align: center;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.25);
+      cursor: pointer;
+      text-align: center;
       transition: transform 0.3s ease;
     }
 
-    .categoria h3 {
-      font-size: 1rem;
-      padding: 0.8rem;
+    .categoria-box img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+
+    .categoria-box span {
+      display: block;
+      padding: 0.7rem;
       font-weight: 900;
+      font-size: 1rem;
+      color: #000;
     }
 
-    .categoria:hover {
-      transform: translateY(-5px) scale(1.03);
-      box-shadow: 0 12px 30px rgba(255, 215, 0, 0.4);
-    }
-
-    .categoria:hover img {
+    .categoria-box.active {
+      border: 3px solid var(--yellow);
       transform: scale(1.05);
     }
 
     .productos-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 2rem;
-      padding: 2rem 1rem;
+      gap: 1.5rem;
     }
 
     .producto-card {
       background: #fffef0;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-radius: 12px;
       overflow: hidden;
-      transition: transform 0.3s ease;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s ease forwards;
     }
 
-    .producto-card:hover {
-      transform: scale(1.02);
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .producto-card img {
       width: 100%;
       height: 200px;
       object-fit: cover;
-      border-bottom: 3px solid var(--yellow);
     }
 
     .producto-content {
@@ -149,36 +170,29 @@
     }
 
     .producto-content h3 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 900;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.3rem;
     }
 
     .producto-content p {
-      font-size: 0.95rem;
-      color: #333;
+      font-size: 0.9rem;
       margin-bottom: 0.5rem;
     }
 
     .precio {
-      color: var(--black);
-      font-weight: 800;
-      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
     }
 
     .btn-ws {
       display: inline-block;
+      padding: 0.5rem 1rem;
       background: var(--yellow);
-      color: var(--black);
-      font-weight: 700;
-      padding: 0.6rem 1.2rem;
-      border-radius: 50px;
-      margin-top: 0.8rem;
+      color: #000;
+      border-radius: 30px;
       text-decoration: none;
-    }
-
-    .btn-ws:hover {
-      background: #ffe000;
+      font-weight: 700;
     }
 
     footer {
@@ -187,13 +201,6 @@
       text-align: center;
       padding: 2rem 1rem;
       font-size: 0.9rem;
-    }
-
-    .loader {
-      text-align: center;
-      padding: 2rem;
-      font-style: italic;
-      color: #666;
     }
 
     @media (min-width: 768px) {
@@ -206,51 +213,46 @@
       .productos-grid {
         grid-template-columns: repeat(3, 1fr);
       }
-
-      .hero h1 {
-        font-size: 3.2rem;
-      }
     }
   </style>
 </head>
-<body oncontextmenu="return false">
-
+<body>
   <header>
-    <img src="assets/images/logo1.png" class="logo" alt="Logo Tango's" />
+    <img src="assets/images/logo1.png" alt="Logo" />
     <nav>
       <a href="encuesta.html">Encuesta</a>
       <a href="admin.html">Admin</a>
     </nav>
   </header>
 
-  <section class="hero">
+  <section class="portada" id="portada">
     <h1>Tango's Poza Rica</h1>
     <p>El sabor callejero con clase. Sazón que se impone en cada bocado.</p>
+    <button class="btn-hero" onclick="mostrarMenu()">Explora el menú</button>
+    <a href="https://maps.app.goo.gl/swSsLLZGUGFtyFSP8" class="ubicanos-link" target="_blank">📍 Ubícanos</a>
+    <div id="map"></div>
   </section>
 
-  <!-- CATEGORÍAS -->
-  <div class="categorias-premium">
-    <div class="categoria" data-cat="bebidas">
-      <img src="assets/images/bebidas.png" alt="Bebidas">
-      <h3>Bebidas</h3>
+  <section class="menu-section" id="menu">
+    <div class="categoria-scroll" id="categorias">
+      <div class="categoria-box" data-cat="bebidas">
+        <img src="assets/images/bebidas.png" alt="Bebidas" />
+        <span>Bebidas</span>
+      </div>
+      <div class="categoria-box" data-cat="snacks">
+        <img src="assets/images/snacks.png" alt="Snacks" />
+        <span>Snacks</span>
+      </div>
+      <div class="categoria-box" data-cat="elotes">
+        <img src="assets/images/elotes.png" alt="Elotes" />
+        <span>Elotes</span>
+      </div>
+      <div class="categoria-box" data-cat="delicias">
+        <img src="assets/images/delicias.png" alt="Delicias" />
+        <span>Delicias</span>
+      </div>
     </div>
-    <div class="categoria" data-cat="snacks">
-      <img src="assets/images/snacks.png" alt="Snacks">
-      <h3>Snacks</h3>
-    </div>
-    <div class="categoria" data-cat="elotes">
-      <img src="assets/images/elotes.png" alt="Elotes">
-      <h3>Elotes</h3>
-    </div>
-    <div class="categoria" data-cat="delicias">
-      <img src="assets/images/delicias.png" alt="Delicias">
-      <h3>Delicias</h3>
-    </div>
-  </div>
-
-  <!-- MENÚ -->
-  <section class="productos-grid" id="productos-container">
-    <p class="loader">Cargando productos...</p>
+    <div class="productos-grid" id="productos-container"></div>
   </section>
 
   <footer>
@@ -258,6 +260,20 @@
     <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
   </footer>
 
+  <!-- Google Maps -->
+  <script>
+    function initMap() {
+      const tangos = { lat: 20.541667, lng: -97.445639 };
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 18,
+        center: tangos
+      });
+      new google.maps.Marker({ position: tangos, map, title: "Tango’s" });
+    }
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUv0bmRnGTLwNA8dgDY80Ol9J7_ZRUSWg&callback=initMap"></script>
+
+  <!-- Supabase -->
   <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
@@ -268,30 +284,17 @@
 
     const contenedor = document.getElementById("productos-container");
 
-    async function cargarProductos(categoria = "bebidas") {
+    async function cargarMenu(categoria) {
       contenedor.innerHTML = `<p class="loader">Cargando ${categoria}...</p>`;
+      const { data, error } = await supabase.from("productos").select("*").eq("categoria", categoria);
 
-      const { data: productos, error } = await supabase
-        .from("productos")
-        .select("*")
-        .eq("categoria", categoria)
-        .order("created_at", { ascending: false });
-
-      if (error || !productos) {
-        contenedor.innerHTML = `<p class="loader">Error al cargar productos.</p>`;
-        return;
-      }
-
-      if (productos.length === 0) {
+      if (error || !data.length) {
         contenedor.innerHTML = `<p class="loader">No hay productos en esta categoría.</p>`;
         return;
       }
 
       contenedor.innerHTML = "";
-      productos.forEach((p) => {
-        const nombre = encodeURIComponent(`Hola, quiero pedir: ${p.nombre}`);
-        const link = `https://wa.me/5211234567890?text=${nombre}`;
-
+      data.forEach(p => {
         const card = document.createElement("div");
         card.classList.add("producto-card");
         card.innerHTML = `
@@ -300,21 +303,32 @@
             <h3>${p.nombre}</h3>
             <p>${p.descripcion}</p>
             <span class="precio">$${p.precio}</span>
-            <a href="${link}" target="_blank" class="btn-ws">Pedir</a>
+            <a href="https://wa.me/5211234567890?text=Hola quiero pedir: ${encodeURIComponent(p.nombre)}" class="btn-ws" target="_blank">Pedir</a>
           </div>
         `;
         contenedor.appendChild(card);
       });
     }
 
-    document.querySelectorAll(".categoria").forEach(btn => {
+    window.mostrarMenu = () => {
+      document.getElementById("portada").style.display = "none";
+      document.getElementById("menu").style.display = "block";
+      seleccionarCategoria("bebidas");
+    };
+
+    function seleccionarCategoria(categoria) {
+      document.querySelectorAll(".categoria-box").forEach(c => c.classList.remove("active"));
+      const btn = document.querySelector(`[data-cat="${categoria}"]`);
+      if (btn) btn.classList.add("active");
+      cargarMenu(categoria);
+    }
+
+    document.querySelectorAll(".categoria-box").forEach(btn => {
       btn.addEventListener("click", () => {
         const categoria = btn.getAttribute("data-cat");
-        cargarProductos(categoria);
+        seleccionarCategoria(categoria);
       });
     });
-
-    cargarProductos(); // carga inicial
   </script>
 </body>
 </html>

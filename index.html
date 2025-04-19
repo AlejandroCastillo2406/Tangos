@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TANGO’S | Street Food con Fuerza</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <title>TANGO’S | Sabor Brutal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
       --black: #000;
       --white: #fff;
-      --yellow: #ffcc00;
+      --yellow: #ffd700;
       --gray: #111;
     }
 
@@ -33,166 +33,165 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 4px solid var(--yellow);
+      border-bottom: 3px solid var(--yellow);
     }
 
     .logo {
       height: 48px;
     }
 
-    .nav-toggle {
-      background: var(--yellow);
-      color: var(--black);
-      padding: 0.4rem 0.8rem;
-      border-radius: 8px;
-      font-weight: 900;
-      font-size: 1rem;
+    nav a {
+      color: var(--yellow);
       text-decoration: none;
+      font-weight: 700;
+      margin-left: 1rem;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover {
+      color: var(--white);
     }
 
     .hero {
       background: linear-gradient(135deg, var(--black), var(--gray));
       padding: 4rem 1.5rem;
       text-align: center;
+      border-bottom: 3px solid var(--yellow);
     }
 
     .hero h1 {
-      font-size: 2.8rem;
-      color: var(--yellow);
+      font-size: 2.6rem;
       font-weight: 900;
-      line-height: 1.1;
-      text-transform: uppercase;
+      color: var(--yellow);
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+      margin-bottom: 1rem;
     }
 
     .hero p {
       color: #ccc;
-      margin: 1rem auto 2rem;
-      max-width: 320px;
       font-size: 1.1rem;
+      max-width: 320px;
+      margin: 0 auto 2rem;
     }
 
     .btn-hero {
       background: var(--yellow);
       color: var(--black);
-      padding: 1rem 2rem;
-      font-size: 1rem;
       font-weight: 900;
-      border-radius: 12px;
-      box-shadow: 0 0 20px var(--yellow);
+      font-size: 1rem;
+      padding: 1rem 2rem;
+      border-radius: 50px;
       text-decoration: none;
-      display: inline-block;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
     }
 
     .btn-hero:hover {
-      background: #ffe066;
+      background: #ffe000;
     }
 
     .menu-section {
-      background: var(--yellow);
+      background: var(--white);
       color: var(--black);
       padding: 3rem 1.5rem;
-      clip-path: polygon(0 4%, 100% 0, 100% 100%, 0% 100%);
     }
 
     .menu-section h2 {
+      text-align: center;
       font-size: 2rem;
       font-weight: 900;
       margin-bottom: 2rem;
-      text-align: center;
-      text-transform: uppercase;
     }
 
-    .products {
+    .productos-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 2rem;
     }
 
-    .product-card {
-      background: var(--white);
-      border-radius: 1rem;
+    .producto-card {
+      background: #fffef0;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       overflow: hidden;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-      transform: rotate(-1deg);
+      transition: transform 0.3s ease;
     }
 
-    .product-card img {
+    .producto-card:hover {
+      transform: scale(1.02);
+    }
+
+    .producto-card img {
       width: 100%;
       height: 200px;
       object-fit: cover;
-      border-bottom: 4px solid var(--yellow);
+      border-bottom: 3px solid var(--yellow);
     }
 
-    .product-content {
+    .producto-content {
       padding: 1rem;
     }
 
-    .product-content h3 {
-      font-size: 1.3rem;
+    .producto-content h3 {
+      font-size: 1.2rem;
       font-weight: 900;
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
+      margin-bottom: 0.4rem;
     }
 
-    .product-content p {
+    .producto-content p {
       font-size: 0.95rem;
-      color: #222;
-      margin-bottom: 0.8rem;
+      color: #333;
+      margin-bottom: 0.5rem;
     }
 
-    .product-content .precio {
-      font-size: 1.1rem;
-      font-weight: 900;
+    .precio {
       color: var(--black);
-      margin-bottom: 0.8rem;
+      font-weight: 800;
+      font-size: 1.1rem;
     }
 
     .btn-ws {
-      background: var(--black);
-      color: var(--yellow);
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--black);
       font-weight: 700;
       padding: 0.6rem 1.2rem;
       border-radius: 50px;
+      margin-top: 0.8rem;
       text-decoration: none;
-      font-size: 0.95rem;
-      display: inline-block;
     }
 
     .btn-ws:hover {
-      background: var(--gray);
+      background: #ffe000;
     }
 
     footer {
-      background: var(--black);
+      background: var(--gray);
       color: #aaa;
       text-align: center;
       padding: 2rem 1rem;
-      border-top: 4px solid var(--yellow);
-    }
-
-    footer p {
       font-size: 0.9rem;
     }
 
     .loader {
       text-align: center;
+      padding: 2rem;
       font-style: italic;
-      color: #333;
+      color: #666;
     }
 
     @media (min-width: 768px) {
-      .products {
+      .productos-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (min-width: 1024px) {
-      .products {
+      .productos-grid {
         grid-template-columns: repeat(3, 1fr);
       }
 
       .hero h1 {
-        font-size: 3.5rem;
+        font-size: 3.2rem;
       }
     }
   </style>
@@ -201,59 +200,82 @@
 
   <header>
     <img src="assets/images/logo1.png" class="logo" alt="Logo Tango's" />
-    <a href="#menu" class="nav-toggle">MENÚ</a>
+    <nav>
+      <a href="#menu">Menú</a>
+      <a href="encuesta.html">Encuesta</a>
+      <a href="#" onclick="accederAdmin()">Admin</a>
+    </nav>
   </header>
 
   <section class="hero">
-    <h1>El sabor que golpea<br>como debe ser</h1>
-    <p>Sin filtros. Solo sazón real. Solo Tango’s.</p>
-    <a href="https://wa.me/5211234567890" target="_blank" class="btn-hero">Pedir ahora</a>
+    <h1>Tango's Poza Rica</h1>
+    <p>El sabor callejero con clase. Sazón que se impone en cada bocado.</p>
+    <a href="https://wa.me/5211234567890" target="_blank" class="btn-hero">Haz tu pedido</a>
   </section>
 
-  <section id="menu" class="menu-section">
+  <section class="menu-section" id="menu">
     <h2>Menú</h2>
-    <div class="products" id="productos-container">
-      <p class="loader">Cargando el fuego…</p>
+    <div class="productos-grid" id="productos-container">
+      <p class="loader">Cargando menú caliente…</p>
     </div>
   </section>
 
   <footer>
-    <p>&copy; 2025 Tango's | Hecho con 🔥 en Poza Rica</p>
-    <p><a href="https://wa.me/5211234567890" style="color:var(--yellow)">Contáctanos por WhatsApp</a></p>
+    <p>&copy; 2025 Tango's | Hecho con sabor y fuego en Poza Rica</p>
+    <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
   </footer>
 
+  <!-- SUPABASE + PRODUCTOS -->
   <script type="module">
-    import { db } from '../../firebase-config.js';
-    import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js';
 
-    const contenedor = document.querySelector("#productos-container");
-    contenedor.innerHTML = '';
+    const supabaseUrl = 'https://ljlaudvreolkdppgfqul.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk';
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const productosRef = collection(db, "productos");
-    const snapshot = await getDocs(productosRef);
+    const contenedor = document.getElementById("productos-container");
+    contenedor.innerHTML = "";
 
-    if (snapshot.empty) {
-      contenedor.innerHTML = `<p class="loader">Aún no hay productos... pero pronto vendrán.</p>`;
+    const { data: productos, error } = await supabase.from("productos").select("*");
+
+    if (error || productos.length === 0) {
+      contenedor.innerHTML = `<p class="loader">Sin productos disponibles.</p>`;
     } else {
-      snapshot.forEach((doc) => {
-        const p = doc.data();
-        const nombre = encodeURIComponent(`Hola, quiero pedir el producto: ${p.nombre}`);
-        const link = `https://wa.me/5211234567890?text=${nombre}`;
+      productos.forEach(p => {
+        const mensaje = encodeURIComponent(`Hola, quiero pedir: ${p.nombre}`);
+        const link = `https://wa.me/5211234567890?text=${mensaje}`;
 
         const card = document.createElement("div");
-        card.classList.add("product-card");
+        card.classList.add("producto-card");
         card.innerHTML = `
-          <img src="${p.imagenURL}" alt="${p.nombre}" />
-          <div class="product-content">
+          <img src="${p.imagen_url}" alt="${p.nombre}" />
+          <div class="producto-content">
             <h3>${p.nombre}</h3>
             <p>${p.descripcion}</p>
             <span class="precio">$${p.precio}</span>
-            <a href="${link}" target="_blank" class="btn-ws">Pedir por WhatsApp</a>
+            <a href="${link}" target="_blank" class="btn-ws">Pedir</a>
           </div>
         `;
         contenedor.appendChild(card);
       });
     }
+  </script>
+
+  <!-- PROTECCIÓN PARA ENTRAR A ADMIN -->
+  <script>
+    function accederAdmin() {
+      const clave = prompt("Introduce la contraseña de administrador:");
+      if (clave === "240624") {
+        window.location.href = "admin.html";
+      } else {
+        alert("Contraseña incorrecta");
+      }
+    }
+  </script>
+
+</body>
+</html>
+
   </script>
 </body>
 </html>

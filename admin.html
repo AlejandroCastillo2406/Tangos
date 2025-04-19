@@ -97,6 +97,7 @@
     .status {
       font-weight: bold;
       color: var(--yellow);
+      margin-top: 0.5rem;
     }
   </style>
 </head>
@@ -118,6 +119,8 @@
       <button onclick="mostrar('actualizar')">✏️ Actualizar producto</button>
       <button onclick="mostrar('eliminar')">🗑️ Eliminar producto</button>
     </div>
+
+    <p id="statusGlobal" class="status"></p>
 
     <div id="añadir" class="section">
       <form id="formNuevo">
@@ -142,6 +145,8 @@
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
     );
 
+    const statusGlobal = document.getElementById("statusGlobal");
+
     document.getElementById('btnAcceder').addEventListener('click', () => {
       const clave = document.getElementById("clave").value;
       if (clave === "240624") {
@@ -149,13 +154,14 @@
         document.getElementById("panel").style.display = "block";
         cargarProductos();
       } else {
-        alert("Contraseña incorrecta");
+        statusGlobal.textContent = "❌ Contraseña incorrecta";
       }
     });
 
     function mostrar(id) {
       document.querySelectorAll(".section").forEach(div => div.classList.remove("active"));
       document.getElementById(id).classList.add("active");
+      statusGlobal.textContent = "";
     }
     window.mostrar = mostrar;
 
@@ -168,13 +174,19 @@
 
       const nombreArchivo = `${Date.now()}-${archivo.name}`;
       const { error: errorUpload } = await supabase.storage.from('productos').upload(nombreArchivo, archivo);
-      if (errorUpload) return alert("❌ Error al subir imagen");
+      if (errorUpload) {
+        document.getElementById("status").textContent = "❌ Error al subir imagen";
+        return;
+      }
 
       const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
       const imagen_url = data.publicUrl;
 
       const { error: errorInsert } = await supabase.from("productos").insert([{ nombre, descripcion, precio, imagen_url }]);
-      if (errorInsert) return alert("❌ Error al guardar producto");
+      if (errorInsert) {
+        document.getElementById("status").textContent = "❌ Error al guardar producto";
+        return;
+      }
 
       document.getElementById("status").textContent = "✅ Producto guardado";
       e.target.reset();
@@ -195,7 +207,7 @@
         del.onclick = async () => {
           if (confirm(`¿Eliminar "${p.nombre}"?`)) {
             await supabase.from("productos").delete().eq("id", p.id);
-            alert("✅ Eliminado");
+            statusGlobal.textContent = "✅ Producto eliminado";
             cargarProductos();
           }
         };
@@ -222,7 +234,7 @@
               }
 
               await supabase.from("productos").update({ nombre, precio, descripcion, imagen_url: nuevaUrl }).eq("id", p.id);
-              alert("✅ Producto actualizado");
+              statusGlobal.textContent = "✅ Producto actualizado";
               cargarProductos();
             };
             archivoInput.click();

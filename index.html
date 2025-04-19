@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TANGO’S | El Poder del Sabor</title>
+  <title>Tango’s Poza Rica</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-sA+vx6kGNTFJS3zzK8MZgDSr4qHe3t30B4Jb1SE/jr0="
+    crossorigin=""
+  />
   <style>
     :root {
       --black: #000;
@@ -23,7 +29,6 @@
       font-family: 'Inter', sans-serif;
       background: var(--black);
       color: var(--white);
-      overflow-x: hidden;
     }
 
     header {
@@ -88,12 +93,11 @@
       background: #ffe000;
     }
 
-    iframe {
+    #mapa-tangos {
       width: 100%;
-      height: 250px;
-      border: none;
-      margin-top: 2rem;
+      height: 300px;
       border-radius: 12px;
+      margin-top: 2rem;
     }
 
     .menu-section {
@@ -180,13 +184,6 @@
       font-size: 0.9rem;
     }
 
-    .loader {
-      text-align: center;
-      padding: 2rem;
-      font-style: italic;
-      color: #666;
-    }
-
     @media (min-width: 768px) {
       .productos-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -218,16 +215,13 @@
     <h1>Tango's Poza Rica</h1>
     <p>El sabor callejero con clase. Sazón que se impone en cada bocado.</p>
     <button class="btn-hero" onclick="mostrarMenu()">Explora el menú</button>
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3765.2823880406226!2d-97.46157942586789!3d20.542066901428155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1fd68dba3a53f%3A0x48ccfe9c49f77a6c!2sTangos!5e0!3m2!1ses-419!2smx!4v1713543800033!5m2!1ses-419!2smx"
-      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
+    <div id="mapa-tangos"></div>
   </section>
 
   <section class="menu-section" id="menu">
     <h2>Menú</h2>
     <div class="productos-grid" id="productos-container">
-      <p class="loader">Cargando menú caliente…</p>
+      <p style="text-align:center;">Cargando menú caliente…</p>
     </div>
   </section>
 
@@ -235,6 +229,13 @@
     <p>&copy; 2025 Tango's | Hecho con sabor y fuego en Poza Rica</p>
     <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
   </footer>
+
+  <!-- Leaflet Maps -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-o9N1j7kF1WPLM3UxwqS/Y6H+nEfN5F4bZs3lLx1hnpM="
+    crossorigin="">
+  </script>
 
   <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js'
@@ -244,26 +245,20 @@
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
     );
 
-    async function cargarMenu() {
+    const cargarMenu = async () => {
       const contenedor = document.getElementById("productos-container");
       contenedor.innerHTML = "";
+      const { data: productos } = await supabase.from("productos").select("*").order("created_at", { ascending: false });
 
-      const { data: productos, error } = await supabase
-        .from("productos")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error || !productos.length) {
-        contenedor.innerHTML = `<p class="loader">No hay productos disponibles.</p>`;
+      if (!productos.length) {
+        contenedor.innerHTML = "<p>No hay productos disponibles.</p>";
         return;
       }
 
-      productos.forEach((p) => {
-        const nombre = encodeURIComponent(`Hola, quiero pedir: ${p.nombre}`);
-        const link = `https://wa.me/5211234567890?text=${nombre}`;
-
+      productos.forEach(p => {
+        const link = `https://wa.me/5211234567890?text=Hola! Quiero pedir: ${p.nombre}`;
         const card = document.createElement("div");
-        card.classList.add("producto-card");
+        card.className = "producto-card";
         card.innerHTML = `
           <img src="${p.imagen_url}" alt="${p.nombre}" />
           <div class="producto-content">
@@ -282,7 +277,22 @@
       document.getElementById("menu").style.display = "block";
       cargarMenu();
     };
-  </script>
 
+    // Mapa Leaflet
+    const lat = 20.542065;
+    const lng = -97.457769;
+
+    const mapa = L.map('mapa-tangos').setView([lat, lng], 17);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20
+    }).addTo(mapa);
+
+    L.marker([lat, lng])
+      .addTo(mapa)
+      .bindPopup('<b>Tango’s</b><br>Poza Rica, Veracruz')
+      .openPopup();
+  </script>
 </body>
 </html>

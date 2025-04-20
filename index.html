@@ -133,9 +133,11 @@
       border-radius: 20px;
       margin-bottom: 2rem;
       box-sizing: border-box;
-      border: 6px dashed var(--yellow);
-      background-color: var(--white);
-      outline-offset: -5px;
+      border: 5px dashed var(--yellow);
+      background-color: #fff;
+      outline-offset: -8px;
+      outline: 5px solid transparent;
+      background-clip: padding-box;
     }
 
     .menu-section {
@@ -176,10 +178,135 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    .categoria-scroll {
+      display: flex;
+      overflow-x: auto;
+      padding: 1rem 1.5rem;
+      gap: 1rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      justify-content: center;
+    }
+
+    .categoria-box {
+      flex: 0 0 auto;
+      width: 160px;
+      scroll-snap-align: start;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.25);
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .categoria-box img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+
+    .categoria-box span {
+      display: block;
+      padding: 0.7rem;
+      font-weight: 900;
+      font-size: 1rem;
+      color: #000;
+    }
+
+    .categoria-box.active {
+      border: 3px solid var(--yellow);
+      transform: scale(1.05);
+    }
+
+    .productos-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .producto-card {
+      background: #fffef0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.5s ease;
+    }
+
+    .producto-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .producto-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .producto-content {
+      padding: 1rem;
+    }
+
+    .producto-content h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      margin-bottom: 0.3rem;
+    }
+
+    .producto-content p {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .precio {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-ws {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--yellow);
+      color: #000;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    footer {
+      background: var(--gray);
+      color: #aaa;
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    @media (min-width: 768px) {
+      .productos-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .productos-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
   </style>
 </head>
 <body>
-<header>
+  <header>
   <a href="admin.html">
     <img src="assets/images/logo1.png" alt="Logo" class="logo-jump" />
   </a>
@@ -226,6 +353,7 @@
   <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
 </footer>
 
+<!-- Google Maps -->
 <script>
   function initMap() {
     const tangos = { lat: 20.541667, lng: -97.445639 };
@@ -308,3 +436,4 @@
 
 </body>
 </html>
+

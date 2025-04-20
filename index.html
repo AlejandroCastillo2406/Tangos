@@ -32,11 +32,13 @@
 
     .logo-jump {
       height: 48px;
-      transition: transform 0.3s ease;
+      animation: bounce 1.6s ease-in-out infinite;
+      cursor: pointer;
     }
 
-    .logo-jump:hover {
-      transform: scale(1.15) translateY(-5px);
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
     }
 
     nav a {
@@ -89,8 +91,16 @@
     #map {
       width: 100%;
       height: 300px;
-      border-radius: 10px;
+      border-radius: 12px;
       margin-bottom: 2rem;
+      border: 4px dotted var(--yellow);
+      animation: dash 3s linear infinite;
+      background-clip: padding-box;
+    }
+
+    @keyframes dash {
+      0% { border-image: linear-gradient(90deg, var(--yellow) 0%, transparent 100%) 1; }
+      100% { border-image: linear-gradient(90deg, transparent 0%, var(--yellow) 100%) 1; }
     }
 
     .menu-section {
@@ -353,7 +363,6 @@
         </div>
       `;
       contenedor.appendChild(card);
-      // activar animación
       requestAnimationFrame(() => card.classList.add("visible"));
     });
   }
@@ -378,8 +387,8 @@
     });
   });
 
-  // Animación de títulos
-  const observador = new IntersectionObserver(entries => {
+  // Animaciones scroll
+  const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
@@ -387,9 +396,8 @@
     });
   }, { threshold: 0.5 });
 
-  document.querySelectorAll('.animado').forEach(el => observador.observe(el));
+  document.querySelectorAll('.animado').forEach(el => observer.observe(el));
 </script>
 
 </body>
 </html>
-

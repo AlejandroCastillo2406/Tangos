@@ -7,10 +7,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --black: #000;
-      --white: #fff;
+      --black: #000000;
+      --white: #ffffff;
       --yellow: #ffd700;
-      --gray: #111;
+      --gray: #1a1a1a;
+      --glass: rgba(255, 255, 255, 0.05);
     }
 
     * {
@@ -19,27 +20,26 @@
       box-sizing: border-box;
     }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--black);
+    html, body {
+      background: linear-gradient(to bottom right, #0f0f0f, #1c1c1c);
       color: var(--white);
+      font-family: 'Inter', sans-serif;
       overflow-x: hidden;
+      position: relative;
     }
 
     header {
-      position: sticky;
-      top: 0;
+      position: relative;
       z-index: 10;
-      background: rgba(0,0,0,0.9);
-      backdrop-filter: blur(4px);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 1.5rem;
+      padding: 1rem 1.2rem;
+      background: var(--black);
       border-bottom: 2px solid var(--yellow);
     }
 
-    .logo {
+    header img {
       height: 48px;
     }
 
@@ -48,28 +48,26 @@
       font-weight: 700;
       text-decoration: none;
       margin-left: 1rem;
-      transition: color 0.2s;
+      font-size: 0.95rem;
     }
 
-    nav a:hover {
-      color: var(--white);
-    }
-
-    .hero {
+    .portada {
+      padding: 4rem 1.5rem 2rem;
       text-align: center;
-      padding: 5rem 2rem 3rem;
-      background: linear-gradient(to bottom, var(--black), var(--gray));
+      position: relative;
+      z-index: 10;
     }
 
-    .hero h1 {
-      font-size: 2.5rem;
+    .portada h1 {
+      font-size: 2.8rem;
       font-weight: 900;
-      color: var(--yellow);
+      background: linear-gradient(45deg, var(--yellow), #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-bottom: 1rem;
-      text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
     }
 
-    .hero p {
+    .portada p {
       color: #ccc;
       font-size: 1.1rem;
       margin-bottom: 2rem;
@@ -82,90 +80,225 @@
       font-size: 1rem;
       padding: 1rem 2rem;
       border-radius: 50px;
-      text-decoration: none;
+      border: none;
+      cursor: pointer;
       box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-      transition: all 0.3s ease;
+      transition: transform 0.2s ease;
     }
 
     .btn-hero:hover {
-      background: #ffe000;
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
+      transform: scale(1.03);
     }
 
-    .seccion-titulo {
+    .ubicanos-link {
+      display: block;
+      color: var(--yellow);
+      font-weight: 800;
+      font-size: 1.2rem;
+      margin: 2rem 0 1rem;
+      text-decoration: none;
+    }
+
+    #map {
+      width: 100%;
+      height: 300px;
+      border-radius: 12px;
+      filter: brightness(0.9) contrast(1.1);
+    }
+
+    .menu-section {
+      background: var(--glass);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 2rem 1rem;
+      border-top: 2px solid var(--yellow);
+    }
+
+    .titulo-seccion {
       font-size: 1.8rem;
       font-weight: 900;
       text-align: center;
-      margin: 2rem auto 1rem;
       color: var(--yellow);
       text-transform: uppercase;
+      margin: 1.5rem 0 1rem;
       letter-spacing: 1px;
       position: relative;
     }
 
-    .seccion-titulo::after {
+    .titulo-seccion::after {
       content: "";
-      width: 60px;
-      height: 4px;
-      background: var(--yellow);
       display: block;
+      width: 50px;
+      height: 4px;
+      background: var(--white);
       margin: 0.5rem auto 0;
-      border-radius: 3px;
+      border-radius: 2px;
     }
-      </style>
+
+    .categoria-scroll {
+      display: flex;
+      overflow-x: auto;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-padding-left: 1.5rem;
+    }
+
+    .categoria-box {
+      flex: 0 0 auto;
+      width: 140px;
+      scroll-snap-align: start;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 20px rgba(255, 215, 0, 0.1);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, border 0.3s ease;
+    }
+
+    .categoria-box img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+
+    .categoria-box span {
+      display: block;
+      font-weight: 900;
+      padding: 0.7rem;
+      font-size: 1rem;
+      color: var(--white);
+    }
+
+    .categoria-box.active {
+      border: 2px solid var(--yellow);
+      transform: scale(1.05);
+    }
+
+    .productos-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .producto-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+      animation: fadeInUp 0.5s ease forwards;
+    }
+
+    .producto-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .producto-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .producto-content {
+      padding: 1rem;
+    }
+
+    .producto-content h3 {
+      font-size: 1.2rem;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+      color: var(--yellow);
+    }
+
+    .producto-content p {
+      font-size: 0.95rem;
+      color: #eee;
+      margin-bottom: 0.5rem;
+    }
+
+    .precio {
+      color: var(--white);
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-ws {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--black);
+      font-weight: 800;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      text-decoration: none;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+    }
+  </style>
 </head>
 <body>
-
-<header>
-  <img src="assets/images/logo1.png" class="logo" alt="Logo Tango's" />
+  <header>
+  <img src="assets/images/logo1.png" alt="Logo" />
   <nav>
     <a href="encuesta.html">Encuesta</a>
     <a href="admin.html">Admin</a>
   </nav>
 </header>
 
-<section class="hero">
+<section class="portada" id="portada">
   <h1>Tango's Poza Rica</h1>
   <p>El sabor callejero con clase. Sazón que se impone en cada bocado.</p>
   <button class="btn-hero" onclick="mostrarMenu()">Explora el menú</button>
-</section>
-
-<section style="background: var(--gray); padding: 2rem 1rem;">
-  <a href="https://maps.app.goo.gl/swSsLLZGUGFtyFSP8" target="_blank" style="color: var(--yellow); font-weight: 900; font-size: 1.3rem; text-align: center; display: block; margin-bottom: 0.5rem;">📍 Ubícanos</a>
-  <div id="map" style="width: 100%; height: 280px; border-radius: 16px; border: 2px solid var(--yellow);"></div>
+  <a href="https://maps.app.goo.gl/swSsLLZGUGFtyFSP8" class="ubicanos-link" target="_blank">📍 Ubícanos</a>
+  <div id="map"></div>
 </section>
 
 <section class="menu-section" id="menu">
-  <h2 class="seccion-titulo">Categorías</h2>
-
-  <div class="categoria-scroll" id="categorias" style="display: flex; overflow-x: auto; padding: 1rem; gap: 1rem; scroll-snap-type: x mandatory;">
+  <h2 class="titulo-seccion">Categorías</h2>
+  <div class="categoria-scroll" id="categorias">
     <div class="categoria-box" data-cat="bebidas">
-      <img src="assets/images/bebidas.png" alt="Bebidas" style="width: 100%; height: 100px; object-fit: cover; border-top-left-radius: 16px; border-top-right-radius: 16px;" />
-      <span style="display: block; padding: 0.7rem; font-weight: 900; color: #000;">Bebidas</span>
+      <img src="assets/images/bebidas.png" alt="Bebidas" />
+      <span>Bebidas</span>
     </div>
     <div class="categoria-box" data-cat="snacks">
-      <img src="assets/images/snacks.png" alt="Snacks" style="width: 100%; height: 100px; object-fit: cover; border-top-left-radius: 16px; border-top-right-radius: 16px;" />
-      <span style="display: block; padding: 0.7rem; font-weight: 900; color: #000;">Snacks</span>
+      <img src="assets/images/snacks.png" alt="Snacks" />
+      <span>Snacks</span>
     </div>
     <div class="categoria-box" data-cat="elotes">
-      <img src="assets/images/elotes.png" alt="Elotes" style="width: 100%; height: 100px; object-fit: cover; border-top-left-radius: 16px; border-top-right-radius: 16px;" />
-      <span style="display: block; padding: 0.7rem; font-weight: 900; color: #000;">Elotes</span>
+      <img src="assets/images/elotes.png" alt="Elotes" />
+      <span>Elotes</span>
     </div>
     <div class="categoria-box" data-cat="delicias">
-      <img src="assets/images/delicias.png" alt="Delicias" style="width: 100%; height: 100px; object-fit: cover; border-top-left-radius: 16px; border-top-right-radius: 16px;" />
-      <span style="display: block; padding: 0.7rem; font-weight: 900; color: #000;">Delicias</span>
+      <img src="assets/images/delicias.png" alt="Delicias" />
+      <span>Delicias</span>
     </div>
   </div>
 
-  <h2 class="seccion-titulo">Menú</h2>
+  <h2 class="titulo-seccion">Menú</h2>
   <div class="productos-grid" id="productos-container"></div>
 </section>
+
 <footer>
-  <p>&copy; 2025 Tango's | Hecho con sabor y fuego en Poza Rica</p>
-  <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
+  <p style="text-align:center; color:#888; padding: 2rem 1rem;">&copy; 2025 Tango's | Con sabor, fuego y flow en Poza Rica</p>
 </footer>
 
-<!-- Google Maps -->
+<!-- Mapa -->
 <script>
   function initMap() {
     const tangos = { lat: 20.541667, lng: -97.445639 };
@@ -234,17 +367,6 @@
       seleccionarCategoria(categoria);
     });
   });
-
-  // Animación de entrada
-  const observador = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.5 });
-
-  document.querySelectorAll('.seccion-titulo').forEach(el => observador.observe(el));
 </script>
 
 </body>

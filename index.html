@@ -4,525 +4,237 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TANGO'S | El Poder del Sabor</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
       --black: #000;
-      --dark-gray: #0a0a0a;
       --white: #fff;
       --yellow: #FFB308;
-      --yellow-glow: #FFD700;
       --gray: #111;
-      --card-bg: rgba(22, 22, 22, 0.8);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
     }
 
     body {
       background: var(--black);
       color: var(--white);
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
-      overflow-x: hidden;
-      background: linear-gradient(135deg, #000000, #080808, #101010);
-    }
-
-    #particles-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    .particle {
-      position: absolute;
-      background: var(--yellow);
-      border-radius: 50%;
-      opacity: 0.1;
-      filter: blur(2px);
-      pointer-events: none;
     }
 
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 5%;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 2px solid rgba(255, 179, 8, 0.3);
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    .logo-container {
-      position: relative;
-      width: 50px;
-      height: 50px;
+      padding: 1rem;
+      background: var(--black);
+      border-bottom: 3px solid var(--yellow);
     }
 
     .logo-jump {
-      height: 50px;
-      width: auto;
+      height: 48px;
+      animation: bounce 1.6s ease-in-out infinite;
       cursor: pointer;
-      position: relative;
-      z-index: 2;
-      filter: drop-shadow(0 0 8px rgba(255, 179, 8, 0.7));
-      transition: all 0.3s ease;
     }
 
-    .logo-jump:hover {
-      filter: drop-shadow(0 0 15px rgba(255, 179, 8, 0.9));
-      transform: scale(1.05);
-    }
-
-    .logo-glow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 45px;
-      height: 45px;
-      background: radial-gradient(circle, rgba(255, 179, 8, 0.4) 0%, rgba(255, 179, 8, 0) 70%);
-      border-radius: 50%;
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-      50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.3; }
-    }
-
-    nav {
-      display: flex;
-      gap: 1rem;
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
     }
 
     nav a {
-      position: relative;
-      color: var(--white);
-      font-weight: 600;
-      text-decoration: none;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-      padding: 0.5rem 1rem;
-      border-radius: 24px;
-      transition: all 0.3s ease;
-      overflow: hidden;
-      background: rgba(0, 0, 0, 0.3);
-    }
-
-    nav a:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 100%;
-      background: linear-gradient(90deg, rgba(255, 179, 8, 0) 0%, rgba(255, 179, 8, 0.1) 50%, rgba(255, 179, 8, 0) 100%);
-      transition: all 0.5s;
-    }
-
-    nav a:hover {
-      box-shadow: 0 0 15px rgba(255, 179, 8, 0.3);
+      margin-left: 1rem;
       color: var(--yellow);
-    }
-
-    nav a:hover:before {
-      width: 100%;
-      animation: shine 1.5s infinite;
-    }
-
-    @keyframes shine {
-      0% { left: -100%; }
-      100% { left: 100%; }
+      font-weight: 700;
+      text-decoration: none;
     }
 
     .portada {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 6rem 1.5rem 2rem;
-      position: relative;
-      overflow: hidden;
-      background: radial-gradient(circle at center, rgba(20, 20, 20, 0.7) 0%, rgba(0, 0, 0, 1) 70%);
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       text-align: center;
-      max-width: 700px;
+      padding: 4rem 1.5rem 2rem;
     }
 
-    .logo-principal {
-      width: 280px;
-      max-width: 90%;
-      margin: 0 auto 1.5rem;
+    .portada img.logo-principal {
+      width: 220px;
+      max-width: 85%;
+      margin: 0 auto 1rem;
       display: block;
-      filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
-      animation: heroLogo 1.2s ease-out;
+      animation: fadeIn 1s ease;
     }
 
-    @keyframes heroLogo {
-      0% { opacity: 0; transform: scale(0.8) translateY(-30px); }
-      50% { opacity: 1; }
-      70% { transform: scale(1.05) translateY(0); }
-      100% { transform: scale(1) translateY(0); }
-    }
-
-    .hero-tagline {
-      font-family: 'Poppins', sans-serif;
-      color: #e0e0e0;
-      font-size: 1.1rem;
-      line-height: 1.5;
-      margin-bottom: 2rem;
-      font-weight: 300;
-      max-width: 500px;
-      position: relative;
-      animation: fadeIn 1.5s ease 0.5s both;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-    }
-
-    .hero-tagline::after {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 3px;
-      background: linear-gradient(90deg, rgba(255, 179, 8, 0) 0%, rgba(255, 179, 8, 1) 50%, rgba(255, 179, 8, 0) 100%);
-      margin: 1.5rem auto 0;
-    }
-
-    .btn-hero {
-      background: linear-gradient(135deg, #FFC107, #FFB308, #FF9800);
-      color: var(--black);
-      font-weight: 800;
+    .portada p {
+      color: #ccc;
       font-size: 1rem;
-      padding: 1rem 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Botón mejorado */
+    .btn-hero {
+      background: var(--yellow);
+      color: var(--black);
+      font-weight: 900;
+      font-size: 1.1rem;
+      padding: 1.2rem 2.5rem;
       border-radius: 50px;
       cursor: pointer;
       border: none;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 6px 12px rgba(255, 179, 8, 0.4);
+      transition: all 0.3s ease;
       text-transform: uppercase;
       letter-spacing: 1px;
-      box-shadow: 0 5px 25px rgba(255, 179, 8, 0.4);
-      transition: all 0.3s ease;
-      animation: buttonPulse 4s infinite;
     }
 
-    .btn-hero::before {
-      content: '';
+    .btn-hero:before {
+      content: "";
       position: absolute;
       top: 0;
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: 0.5s;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: shine 2s infinite;
     }
 
     .btn-hero:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(255, 179, 8, 0.6);
+      box-shadow: 0 8px 15px rgba(255, 179, 8, 0.6);
     }
 
-    .btn-hero:hover::before {
-      left: 100%;
-      transition: 0.5s;
+    .btn-hero:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 8px rgba(255, 179, 8, 0.3);
     }
 
-    @keyframes buttonPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    .ubicanos-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 800px;
-      animation: fadeIn 1.5s ease 1s both;
+    @keyframes shine {
+      100% {
+        left: 100%;
+      }
     }
 
     .ubicanos-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      color: var(--white);
+      display: block;
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      color: var(--yellow);
       text-decoration: none;
-      padding: 0.7rem 1.5rem;
-      border-radius: 30px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      transition: all 0.3s ease;
-      border: 1px solid rgba(255, 179, 8, 0.3);
+      transition: transform 0.3s ease;
     }
 
     .ubicanos-link:hover {
-      background: rgba(255, 179, 8, 0.15);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
     }
 
-    .ubicanos-icon {
-      font-size: 1.4rem;
-      color: var(--yellow);
-      animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
-
+    /* Mapa mejorado visualmente manteniendo funcionalidad */
     #map {
       width: 100%;
       height: 300px;
       border-radius: 16px;
+      border: 3px solid var(--yellow);
+      margin-bottom: 2rem;
+      box-sizing: border-box;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
       overflow: hidden;
-      position: relative;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      border: 3px solid rgba(255, 179, 8, 0.2);
-    }
-
-    .map-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(255, 179, 8, 0.1) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    .map-glow {
-      position: absolute;
-      bottom: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      height: 40px;
-      background: radial-gradient(ellipse at center, rgba(255, 179, 8, 0.4) 0%, rgba(255, 179, 8, 0) 70%);
-      filter: blur(8px);
-      z-index: 1;
     }
 
     .menu-section {
       display: none;
-      padding: 6rem 1rem 3rem;
-      background: linear-gradient(135deg, #000000, #0a0a0a, #101010);
-      color: var(--white);
-      position: relative;
-      min-height: 100vh;
-    }
-
-    .menu-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMCAwaDEwdjEwSDB6TTIwIDBoMTB2MTBIMjB6TTAgMjBoMTB2MTBIMHoiIGZpbGw9IiNGRkIzMDgiIGZpbGwtb3BhY2l0eT0iLjA1Ii8+PC9zdmc+');
-      z-index: 0;
-      opacity: 0.2;
+      padding: 2rem 1rem;
+      background: var(--white);
+      color: var(--black);
     }
 
     .seccion-titulo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.5rem;
+      font-size: 2rem;
+      font-weight: 900;
       text-align: center;
-      margin: 3rem 0 2rem;
-      color: var(--white);
-      letter-spacing: 2px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .seccion-titulo .highlight {
+      margin: 2rem 0 1rem;
       color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
       position: relative;
-      display: inline-block;
     }
 
-    .seccion-titulo .highlight::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 5px;
-      background: var(--yellow);
+    .seccion-titulo::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--black);
+      margin: 0.5rem auto 0;
       border-radius: 2px;
-      transform: skewX(-15deg);
+    }
+
+    .animado {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .animado.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .categoria-scroll {
       display: flex;
       overflow-x: auto;
-      padding: 1rem 0;
-      gap: 1.2rem;
+      padding: 1rem 1.5rem;
+      gap: 1rem;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       scroll-padding-left: 1.5rem;
-      position: relative;
-      z-index: 2;
-      padding-bottom: 2rem;
-      margin: 0 auto;
-      max-width: 1000px;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-
-    .categoria-scroll::-webkit-scrollbar {
-      display: none;
     }
 
     .categoria-box {
       flex: 0 0 auto;
-      width: 150px;
-      height: 180px;
+      width: 130px;
       scroll-snap-align: start;
-      background: linear-gradient(to bottom, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.9));
+      background: #fff;
       border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.25);
       cursor: pointer;
       text-align: center;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-    }
-
-    .categoria-box::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(255, 179, 8, 0.1) 0%, transparent 80%);
-      z-index: 1;
+      transition: transform 0.3s ease;
     }
 
     .categoria-box img {
       width: 100%;
-      height: 120px;
+      height: 100px;
       object-fit: cover;
       border-top-left-radius: 16px;
       border-top-right-radius: 16px;
-      transition: all 0.3s ease;
-      position: relative;
-      z-index: 1;
-      filter: contrast(1.1) saturate(1.2);
     }
 
     .categoria-box span {
       display: block;
       padding: 0.7rem;
-      font-weight: 600;
+      font-weight: 900;
       font-size: 1rem;
-      color: var(--white);
-      position: relative;
-      z-index: 2;
-      transition: all 0.3s ease;
-    }
-
-    .categoria-box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      color: #000;
     }
 
     .categoria-box.active {
-      border: 2px solid var(--yellow);
-      box-shadow: 0 10px 25px rgba(255, 179, 8, 0.3);
-      transform: translateY(-5px) scale(1.05);
-    }
-
-    .categoria-box.active span {
-      color: var(--yellow);
-      font-weight: 700;
-    }
-
-    .categoria-box.active::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 10px;
-      height: 10px;
-      background: var(--yellow);
-      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    }
-
-    .productos-container {
-      position: relative;
-      z-index: 2;
-      margin: 0 auto;
-      max-width: 1200px;
+      border: 3px solid var(--yellow);
+      transform: scale(1.05);
     }
 
     .productos-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 2rem;
-      padding: 1rem;
+      gap: 1.5rem;
     }
 
     .producto-card {
-      background: linear-gradient(135deg, rgba(25, 25, 25, 0.9), rgba(15, 15, 15, 0.9));
-      border-radius: 18px;
+      background: #fffef0;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
       opacity: 0;
       transform: translateY(30px);
-      transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-      position: relative;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .producto-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(255, 179, 8, 0.05) 0%, transparent 80%);
-      pointer-events: none;
-      z-index: 1;
+      transition: all 0.5s ease;
     }
 
     .producto-card.visible {
@@ -532,249 +244,89 @@
 
     .producto-card img {
       width: 100%;
-      height: 220px;
+      height: 200px;
       object-fit: cover;
-      transition: all 0.6s ease;
-      position: relative;
-      z-index: 1;
-    }
-
-    .producto-card:hover img {
-      transform: scale(1.05);
-      filter: contrast(1.1) saturate(1.2);
     }
 
     .producto-content {
-      padding: 1.5rem;
-      position: relative;
-      z-index: 2;
+      padding: 1rem;
     }
 
     .producto-content h3 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: var(--white);
-      position: relative;
-      display: inline-block;
-    }
-
-    .producto-content h3::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 40px;
-      height: 3px;
-      background: var(--yellow);
-      border-radius: 2px;
+      font-size: 1.1rem;
+      font-weight: 900;
+      margin-bottom: 0.3rem;
     }
 
     .producto-content p {
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-      color: #bbb;
-      line-height: 1.5;
-      font-weight: 300;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
     }
 
     .precio {
-      font-weight: 700;
-      font-size: 1.2rem;
-      margin-bottom: 1.2rem;
-      color: var(--yellow);
-      display: block;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
     }
 
     .btn-ws {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.7rem 1.5rem;
-      background: linear-gradient(135deg, #FFC107, #FFB308, #FF9800);
-      color: var(--black);
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--yellow);
+      color: #000;
       border-radius: 30px;
       text-decoration: none;
       font-weight: 700;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-ws:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .btn-ws::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: 0.5s;
-    }
-
-    .btn-ws:hover::before {
-      left: 100%;
     }
 
     footer {
-      background: var(--dark-gray);
+      background: var(--gray);
       color: #aaa;
       text-align: center;
-      padding: 3rem 1rem;
+      padding: 2rem 1rem;
       font-size: 0.9rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .footer-glow {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 200px;
-      height: 1px;
-      background: linear-gradient(90deg, rgba(255, 179, 8, 0) 0%, rgba(255, 179, 8, 0.5) 50%, rgba(255, 179, 8, 0) 100%);
-    }
-
-    footer p {
-      margin-bottom: 1rem;
-      position: relative;
-      z-index: 2;
-    }
-
-    footer a {
-      color: var(--yellow);
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-
-    footer a:hover {
-      color: var(--yellow-glow);
-      text-shadow: 0 0 8px rgba(255, 179, 8, 0.5);
-    }
-
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin: 1.5rem 0;
-    }
-
-    .social-icon {
-      width: 40px;
-      height: 40px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .social-icon:hover {
-      background: rgba(255, 179, 8, 0.1);
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .loader {
-      text-align: center;
-      color: var(--yellow);
-      font-size: 1.2rem;
-      margin: 2rem 0;
-      font-weight: 300;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (min-width: 768px) {
       .productos-grid {
         grid-template-columns: repeat(2, 1fr);
-        padding: 1.5rem;
       }
-      
-      .hero-tagline {
-        font-size: 1.3rem;
-      }
-
       .btn-hero {
-        font-size: 1.1rem;
+        padding: 1.2rem 3rem;
       }
     }
 
     @media (min-width: 1024px) {
       .productos-grid {
         grid-template-columns: repeat(3, 1fr);
-        padding: 2rem;
       }
-      
-      .categoria-scroll {
-        justify-content: center;
-        flex-wrap: wrap;
-        overflow-x: visible;
-      }
-      
-      .logo-principal {
-        width: 320px;
-      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
-<div id="particles-container"></div>
-
 <header>
-  <div class="logo-container">
-    <a href="admin.html">
-      <img src="assets/images/logo1.png" alt="Logo" class="logo-jump" />
-    </a>
-    <div class="logo-glow"></div>
-  </div>
+  <a href="admin.html">
+    <img src="assets/images/logo1.png" alt="Logo" class="logo-jump" />
+  </a>
   <nav>
     <a href="encuesta.html">Encuesta</a>
   </nav>
 </header>
 
 <section class="portada" id="portada">
-  <div class="hero-content">
-    <img src="assets/images/logo2.png" alt="Tango's" class="logo-principal" />
-    <p class="hero-tagline">El sabor callejero con clase. Sazón que se impone en cada bocado.</p>
-    <button class="btn-hero" onclick="mostrarMenu()">Explora el menú</button>
-  </div>
-  
-  <div class="ubicanos-container">
-    <a href="https://maps.app.goo.gl/swSsLLZGUGFtyFSP8" class="ubicanos-link" target="_blank">
-      <span class="ubicanos-icon">📍</span> Ubícanos
-    </a>
-    <div id="map">
-      <div class="map-overlay"></div>
-      <div class="map-glow"></div>
-    </div>
-  </div>
+  <img src="assets/images/logo2.png" alt="Tango's" class="logo-principal" />
+  <p>El sabor callejero con clase. Sazón que se impone en cada bocado.</p>
+  <button class="btn-hero" onclick="mostrarMenu()">Explora el menú</button>
+  <a href="https://maps.app.goo.gl/swSsLLZGUGFtyFSP8" class="ubicanos-link" target="_blank">📍 Ubícanos</a>
+  <div id="map"></div>
 </section>
 
 <section class="menu-section" id="menu">
-  <div class="menu-bg"></div>
-  
-  <h2 class="seccion-titulo animado">
-    <span class="highlight">Categorías</span>
-  </h2>
-  
+  <h2 class="seccion-titulo animado">Categorías</h2>
   <div class="categoria-scroll" id="categorias">
     <div class="categoria-box" data-cat="bebidas">
       <img src="assets/images/bebidas.png" alt="Bebidas" />
@@ -794,30 +346,96 @@
     </div>
   </div>
 
-  <div class="productos-container">
-    <h2 class="seccion-titulo animado">
-      <span class="highlight">Nuestro Menú</span>
-    </h2>
-    <div class="productos-grid" id="productos-container"></div>
-  </div>
+  <h2 class="seccion-titulo animado">Menú</h2>
+  <div class="productos-grid" id="productos-container"></div>
 </section>
 
 <footer>
-  <div class="footer-glow"></div>
   <p>&copy; 2025 Tango's | Hecho con sabor y fuego en Poza Rica</p>
-  <div class="social-icons">
-    <a href="#" class="social-icon" aria-label="Facebook">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-      </svg>
-    </a>
-    <a href="#" class="social-icon" aria-label="Instagram">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-      </svg>
-    </a>
-    <a href="https://wa.me/5211234567890" class="social-icon" aria-label="WhatsApp">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38
+  <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
+</footer>
+
+<!-- Google Maps - Manteniendo la API exactamente igual -->
+<script>
+  function initMap() {
+    const tangos = { lat: 20.541667, lng: -97.445639 };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 18,
+      center: tangos
+    });
+    new google.maps.Marker({ position: tangos, map, title: "Tango's" });
+  }
+</script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUv0bmRnGTLwNA8dgDY80Ol9J7_ZRUSWg&callback=initMap"></script>
+
+<!-- Supabase -->
+<script type="module">
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+
+  const supabase = createClient(
+    'https://ljlaudvreolkdppgfqul.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
+  );
+
+  const contenedor = document.getElementById("productos-container");
+
+  async function cargarMenu(categoria) {
+    contenedor.innerHTML = `<p class="loader">Cargando ${categoria}...</p>`;
+    const { data, error } = await supabase.from("productos").select("*").eq("categoria", categoria);
+
+    if (error || !data.length) {
+      contenedor.innerHTML = `<p class="loader">No hay productos en esta categoría.</p>`;
+      return;
+    }
+
+    contenedor.innerHTML = "";
+    data.forEach(p => {
+      const card = document.createElement("div");
+      card.classList.add("producto-card");
+      card.innerHTML = `
+        <img src="${p.imagen_url}" alt="${p.nombre}" />
+        <div class="producto-content">
+          <h3>${p.nombre}</h3>
+          <p>${p.descripcion}</p>
+          <span class="precio">$${p.precio}</span>
+          <a href="https://wa.me/5211234567890?text=Hola quiero pedir: ${encodeURIComponent(p.nombre)}" class="btn-ws" target="_blank">Pedir</a>
+        </div>
+      `;
+      contenedor.appendChild(card);
+      requestAnimationFrame(() => card.classList.add("visible"));
+    });
+  }
+
+  window.mostrarMenu = () => {
+    document.getElementById("portada").style.display = "none";
+    document.getElementById("menu").style.display = "block";
+    seleccionarCategoria("bebidas");
+  };
+
+  function seleccionarCategoria(categoria) {
+    document.querySelectorAll(".categoria-box").forEach(c => c.classList.remove("active"));
+    const btn = document.querySelector(`[data-cat="${categoria}"]`);
+    if (btn) btn.classList.add("active");
+    cargarMenu(categoria);
+  }
+
+  document.querySelectorAll(".categoria-box").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const categoria = btn.getAttribute("data-cat");
+      seleccionarCategoria(categoria);
+    });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.animado').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

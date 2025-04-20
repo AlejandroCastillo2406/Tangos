@@ -7,36 +7,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --black: #000000;
-      --white: #ffffff;
+      --black: #000;
+      --white: #fff;
       --yellow: #ffd700;
-      --gray: #1a1a1a;
-      --glass: rgba(255, 255, 255, 0.05);
+      --gray: #111;
     }
 
-    * {
+    body {
       margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      background: linear-gradient(to bottom right, #0f0f0f, #1c1c1c);
-      color: var(--white);
       font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0c0c0c, #1a1a1a);
+      color: var(--white);
       overflow-x: hidden;
-      position: relative;
     }
 
     header {
-      position: relative;
-      z-index: 10;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 1.2rem;
-      background: var(--black);
+      padding: 1rem;
+      background: #000000cc;
+      backdrop-filter: blur(10px);
       border-bottom: 2px solid var(--yellow);
+      position: sticky;
+      top: 0;
+      z-index: 999;
     }
 
     header img {
@@ -44,33 +39,60 @@
     }
 
     nav a {
+      margin-left: 1rem;
       color: var(--yellow);
       font-weight: 700;
       text-decoration: none;
-      margin-left: 1rem;
       font-size: 0.95rem;
     }
 
     .portada {
-      padding: 4rem 1.5rem 2rem;
       text-align: center;
+      padding: 5rem 1.5rem 3rem;
       position: relative;
-      z-index: 10;
+      background: radial-gradient(ellipse at top, #1f1f1f 0%, #000000 100%);
+      overflow: hidden;
+    }
+
+    .portada::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, #ffd70022 10%, transparent 70%);
+      animation: pulse 6s infinite;
+      z-index: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        transform: scale(1.3);
+        opacity: 0.1;
+      }
     }
 
     .portada h1 {
       font-size: 2.8rem;
       font-weight: 900;
-      background: linear-gradient(45deg, var(--yellow), #fff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 1rem;
+      color: var(--yellow);
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      position: relative;
+      z-index: 1;
     }
 
     .portada p {
       color: #ccc;
       font-size: 1.1rem;
-      margin-bottom: 2rem;
+      max-width: 320px;
+      margin: 0 auto 2rem;
+      position: relative;
+      z-index: 1;
     }
 
     .btn-hero {
@@ -78,296 +100,182 @@
       color: var(--black);
       font-weight: 900;
       font-size: 1rem;
-      padding: 1rem 2rem;
-      border-radius: 50px;
+      padding: 1rem 2.2rem;
+      border-radius: 40px;
+      text-decoration: none;
       border: none;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
       cursor: pointer;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-      transition: transform 0.2s ease;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease;
     }
 
     .btn-hero:hover {
-      transform: scale(1.03);
+      transform: scale(1.05);
     }
 
     .ubicanos-link {
       display: block;
-      color: var(--yellow);
-      font-weight: 800;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
+      font-weight: 900;
       margin: 2rem 0 1rem;
+      color: var(--yellow);
       text-decoration: none;
+      z-index: 1;
+      position: relative;
     }
 
     #map {
       width: 100%;
       height: 300px;
-      border-radius: 12px;
-      filter: brightness(0.9) contrast(1.1);
-    }
-
-    .menu-section {
-      background: var(--glass);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      padding: 2rem 1rem;
-      border-top: 2px solid var(--yellow);
-    }
-
-    .titulo-seccion {
-      font-size: 1.8rem;
-      font-weight: 900;
-      text-align: center;
-      color: var(--yellow);
-      text-transform: uppercase;
-      margin: 1.5rem 0 1rem;
-      letter-spacing: 1px;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      z-index: 1;
       position: relative;
     }
 
-    .titulo-seccion::after {
-      content: "";
-      display: block;
-      width: 50px;
-      height: 4px;
+    .menu-section {
+      display: none;
+      padding: 2rem 1rem;
       background: var(--white);
-      margin: 0.5rem auto 0;
-      border-radius: 2px;
-    }
-
-    .categoria-scroll {
-      display: flex;
-      overflow-x: auto;
-      gap: 1rem;
-      padding: 1rem 1.5rem;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scroll-padding-left: 1.5rem;
-    }
-
-    .categoria-box {
-      flex: 0 0 auto;
-      width: 140px;
-      scroll-snap-align: start;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      border: 2px solid transparent;
-      box-shadow: 0 4px 20px rgba(255, 215, 0, 0.1);
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s ease, border 0.3s ease;
-    }
-
-    .categoria-box img {
-      width: 100%;
-      height: 100px;
-      object-fit: cover;
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
-    }
-
-    .categoria-box span {
-      display: block;
-      font-weight: 900;
-      padding: 0.7rem;
-      font-size: 1rem;
-      color: var(--white);
-    }
-
-    .categoria-box.active {
-      border: 2px solid var(--yellow);
-      transform: scale(1.05);
-    }
-
-    .productos-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .producto-card {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(12px);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease;
-      animation: fadeInUp 0.5s ease forwards;
-    }
-
-    .producto-card:hover {
-      transform: translateY(-3px);
-    }
-
-    .producto-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .producto-content {
-      padding: 1rem;
-    }
-
-    .producto-content h3 {
-      font-size: 1.2rem;
-      font-weight: 900;
-      margin-bottom: 0.5rem;
-      color: var(--yellow);
-    }
-
-    .producto-content p {
-      font-size: 0.95rem;
-      color: #eee;
-      margin-bottom: 0.5rem;
-    }
-
-    .precio {
-      color: var(--white);
-      font-weight: bold;
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .btn-ws {
-      display: inline-block;
-      background: var(--yellow);
       color: var(--black);
-      font-weight: 800;
-      padding: 0.5rem 1rem;
-      border-radius: 50px;
-      text-decoration: none;
     }
 
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
+    footer {
+      background: #111;
+      color: #999;
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
   <header>
-  <img src="assets/images/logo1.png" alt="Logo" />
-  <nav>
-    <a href="encuesta.html">Encuesta</a>
-    <a href="admin.html">Admin</a>
-  </nav>
-</header>
+    <img src="assets/images/logo1.png" alt="Logo" />
+    <nav>
+      <a href="encuesta.html">Encuesta</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+  </header>
 
-<section class="portada" id="portada">
-  <h1>Tango's Poza Rica</h1>
-  <p>El sabor callejero con clase. Sazón que se impone en cada bocado.</p>
-  <button class="btn-hero" onclick="mostrarMenu()">Explora el menú</button>
-  <a href="https://maps.app.goo.gl/swSsLLZGUGFtyFSP8" class="ubicanos-link" target="_blank">📍 Ubícanos</a>
-  <div id="map"></div>
-</section>
-
-<section class="menu-section" id="menu">
-  <h2 class="titulo-seccion">Categorías</h2>
-  <div class="categoria-scroll" id="categorias">
-    <div class="categoria-box" data-cat="bebidas">
-      <img src="assets/images/bebidas.png" alt="Bebidas" />
-      <span>Bebidas</span>
+  <section class="portada" id="portada">
+    <h1>Tango's Poza Rica</h1>
+    <p>El sabor callejero con clase. Sazón que se impone en cada bocado.</p>
+    <button class="btn-hero" onclick="mostrarMenu()">Explora el menú</button>
+    <a href="https://maps.app.goo.gl/swSsLLZGUGFtyFSP8" class="ubicanos-link" target="_blank">📍 Ubícanos</a>
+    <div id="map"></div>
+  </section>
+    <section class="menu-section" id="menu">
+    <h2 class="seccion-titulo animado">Categorías</h2>
+    <div class="categoria-scroll" id="categorias">
+      <div class="categoria-box" data-cat="bebidas">
+        <img src="assets/images/bebidas.png" alt="Bebidas" />
+        <span>Bebidas</span>
+      </div>
+      <div class="categoria-box" data-cat="snacks">
+        <img src="assets/images/snacks.png" alt="Snacks" />
+        <span>Snacks</span>
+      </div>
+      <div class="categoria-box" data-cat="elotes">
+        <img src="assets/images/elotes.png" alt="Elotes" />
+        <span>Elotes</span>
+      </div>
+      <div class="categoria-box" data-cat="delicias">
+        <img src="assets/images/delicias.png" alt="Delicias" />
+        <span>Delicias</span>
+      </div>
     </div>
-    <div class="categoria-box" data-cat="snacks">
-      <img src="assets/images/snacks.png" alt="Snacks" />
-      <span>Snacks</span>
-    </div>
-    <div class="categoria-box" data-cat="elotes">
-      <img src="assets/images/elotes.png" alt="Elotes" />
-      <span>Elotes</span>
-    </div>
-    <div class="categoria-box" data-cat="delicias">
-      <img src="assets/images/delicias.png" alt="Delicias" />
-      <span>Delicias</span>
-    </div>
-  </div>
 
-  <h2 class="titulo-seccion">Menú</h2>
-  <div class="productos-grid" id="productos-container"></div>
-</section>
+    <h2 class="seccion-titulo animado">Menú</h2>
+    <div class="productos-grid" id="productos-container"></div>
+  </section>
 
-<footer>
-  <p style="text-align:center; color:#888; padding: 2rem 1rem;">&copy; 2025 Tango's | Con sabor, fuego y flow en Poza Rica</p>
-</footer>
+  <footer>
+    <p>&copy; 2025 Tango's | Hecho con sabor y fuego en Poza Rica</p>
+    <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
+  </footer>
 
-<!-- Mapa -->
-<script>
-  function initMap() {
-    const tangos = { lat: 20.541667, lng: -97.445639 };
-    const map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 18,
-      center: tangos
-    });
-    new google.maps.Marker({ position: tangos, map, title: "Tango’s" });
-  }
-</script>
-<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUv0bmRnGTLwNA8dgDY80Ol9J7_ZRUSWg&callback=initMap"></script>
+  <script>
+    function initMap() {
+      const tangos = { lat: 20.541667, lng: -97.445639 };
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 18,
+        center: tangos
+      });
+      new google.maps.Marker({ position: tangos, map, title: "Tango’s" });
+    }
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUv0bmRnGTLwNA8dgDY80Ol9J7_ZRUSWg&callback=initMap"></script>
 
-<!-- Supabase -->
-<script type="module">
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
-  const supabase = createClient(
-    'https://ljlaudvreolkdppgfqul.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
-  );
+    const supabase = createClient(
+      'https://ljlaudvreolkdppgfqul.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
+    );
 
-  const contenedor = document.getElementById("productos-container");
+    const contenedor = document.getElementById("productos-container");
 
-  async function cargarMenu(categoria) {
-    contenedor.innerHTML = `<p class="loader">Cargando ${categoria}...</p>`;
-    const { data, error } = await supabase.from("productos").select("*").eq("categoria", categoria);
+    async function cargarMenu(categoria) {
+      contenedor.innerHTML = `<p class="loader">Cargando ${categoria}...</p>`;
+      const { data, error } = await supabase.from("productos").select("*").eq("categoria", categoria);
 
-    if (error || !data.length) {
-      contenedor.innerHTML = `<p class="loader">No hay productos en esta categoría.</p>`;
-      return;
+      if (error || !data.length) {
+        contenedor.innerHTML = `<p class="loader">No hay productos en esta categoría.</p>`;
+        return;
+      }
+
+      contenedor.innerHTML = "";
+      data.forEach(p => {
+        const card = document.createElement("div");
+        card.classList.add("producto-card");
+        card.innerHTML = `
+          <img src="${p.imagen_url}" alt="${p.nombre}" />
+          <div class="producto-content">
+            <h3>${p.nombre}</h3>
+            <p>${p.descripcion}</p>
+            <span class="precio">$${p.precio}</span>
+            <a href="https://wa.me/5211234567890?text=Hola quiero pedir: ${encodeURIComponent(p.nombre)}" class="btn-ws" target="_blank">Pedir</a>
+          </div>
+        `;
+        contenedor.appendChild(card);
+      });
     }
 
-    contenedor.innerHTML = "";
-    data.forEach(p => {
-      const card = document.createElement("div");
-      card.classList.add("producto-card");
-      card.innerHTML = `
-        <img src="${p.imagen_url}" alt="${p.nombre}" />
-        <div class="producto-content">
-          <h3>${p.nombre}</h3>
-          <p>${p.descripcion}</p>
-          <span class="precio">$${p.precio}</span>
-          <a href="https://wa.me/5211234567890?text=Hola quiero pedir: ${encodeURIComponent(p.nombre)}" class="btn-ws" target="_blank">Pedir</a>
-        </div>
-      `;
-      contenedor.appendChild(card);
+    window.mostrarMenu = () => {
+      document.getElementById("portada").style.display = "none";
+      document.getElementById("menu").style.display = "block";
+      seleccionarCategoria("bebidas");
+    };
+
+    function seleccionarCategoria(categoria) {
+      document.querySelectorAll(".categoria-box").forEach(c => c.classList.remove("active"));
+      const btn = document.querySelector(`[data-cat="${categoria}"]`);
+      if (btn) btn.classList.add("active");
+      cargarMenu(categoria);
+    }
+
+    document.querySelectorAll(".categoria-box").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const categoria = btn.getAttribute("data-cat");
+        seleccionarCategoria(categoria);
+      });
     });
-  }
 
-  window.mostrarMenu = () => {
-    document.getElementById("portada").style.display = "none";
-    document.getElementById("menu").style.display = "block";
-    seleccionarCategoria("bebidas");
-  };
+    // Fade-in animación de títulos
+    const observador = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.5 });
 
-  function seleccionarCategoria(categoria) {
-    document.querySelectorAll(".categoria-box").forEach(c => c.classList.remove("active"));
-    const btn = document.querySelector(`[data-cat="${categoria}"]`);
-    if (btn) btn.classList.add("active");
-    cargarMenu(categoria);
-  }
-
-  document.querySelectorAll(".categoria-box").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const categoria = btn.getAttribute("data-cat");
-      seleccionarCategoria(categoria);
-    });
-  });
-</script>
+    document.querySelectorAll('.animado').forEach(el => observador.observe(el));
+  </script>
 
 </body>
 </html>

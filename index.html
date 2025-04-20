@@ -11,6 +11,7 @@
       --white: #fff;
       --yellow: #ffd700;
       --gray: #111;
+      --shock: #ff0099;
     }
 
     body {
@@ -19,19 +20,25 @@
       font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
     }
 
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem;
+      padding: 1rem 1.5rem;
       background: var(--black);
-      border-bottom: 3px solid var(--yellow);
+      border-bottom: 5px solid var(--yellow);
     }
 
-    header img {
+    header .logo-left {
       height: 48px;
+      transition: transform 0.3s ease;
+    }
+
+    header .logo-left:hover {
+      transform: scale(1.1) rotate(-5deg);
     }
 
     nav a {
@@ -39,23 +46,41 @@
       color: var(--yellow);
       font-weight: 700;
       text-decoration: none;
+      text-shadow: 1px 1px 0 var(--black);
     }
 
     .portada {
       text-align: center;
       padding: 4rem 1.5rem 2rem;
+      background: linear-gradient(135deg, var(--black), var(--gray));
+      position: relative;
     }
 
-    .portada h1 {
-      font-size: 3rem;
-      font-weight: 900;
-      color: var(--yellow);
+    .portada img.logo-grande {
+      width: 220px;
+      max-width: 90%;
+      filter: drop-shadow(0 0 12px rgba(255, 255, 0, 0.6));
+      margin-bottom: 1rem;
+      animation: boom 1.2s ease-out;
+    }
+
+    @keyframes boom {
+      from {
+        transform: scale(0.6) rotate(-10deg);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
     }
 
     .portada p {
       color: #ccc;
       font-size: 1rem;
       margin-bottom: 1.5rem;
+      font-style: italic;
+      letter-spacing: 0.5px;
     }
 
     .btn-hero {
@@ -67,16 +92,25 @@
       border-radius: 50px;
       cursor: pointer;
       border: none;
-      margin-bottom: 1.5rem;
+      box-shadow: 0 0 20px var(--yellow);
+      transition: all 0.3s ease;
+    }
+
+    .btn-hero:hover {
+      background: var(--white);
+      color: var(--shock);
+      transform: scale(1.05);
     }
 
     .ubicanos-link {
       display: block;
       font-size: 1.4rem;
       font-weight: 900;
+      margin-top: 2rem;
       margin-bottom: 1rem;
       color: var(--yellow);
       text-decoration: none;
+      text-shadow: 1px 1px 0 var(--black);
     }
 
     #map {
@@ -85,300 +119,126 @@
       border-radius: 10px;
       margin-bottom: 2rem;
     }
-
-    .menu-section {
-      display: none;
-      padding: 2rem 1rem;
-      background: var(--white);
-      color: var(--black);
-    }
-
-    .seccion-titulo {
-      font-size: 2rem;
-      font-weight: 900;
-      text-align: center;
-      margin: 2rem 0 1rem;
-      color: var(--yellow);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      position: relative;
-      margin-top:-5px;
-    }
-
-    .seccion-titulo::after {
-      content: "";
-      display: block;
-      width: 60px;
-      height: 4px;
-      background: var(--black);
-      margin: 0.5rem auto 0;
-      border-radius: 2px;
-    }
-
-    .animado {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .animado.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .categoria-scroll {
-      display: flex;
-      overflow-x: auto;
-      padding: 1rem 1.5rem;
-      gap: 1rem;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scroll-padding-left: 1.5rem;
-    }
-
-    .categoria-box {
-      flex: 0 0 auto;
-      width: 130px;
-      scroll-snap-align: start;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.25);
-      cursor: pointer;
-      text-align: center;
-      transition: transform 0.3s ease;
-      margin-bottom:20px;
-      margin-top:-5px;
-    }
-
-    .categoria-box img {
-      width: 100%;
-      height: 100px;
-      object-fit: cover;
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
-    }
-
-    .categoria-box span {
-      display: block;
-      padding: 0.7rem;
-      font-weight: 900;
-      font-size: 1rem;
-      color: #000;
-    }
-
-    .categoria-box.active {
-      border: 3px solid var(--yellow);
-      transform: scale(1.05);
-    }
-
-    .productos-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .producto-card {
-      background: #fffef0;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.5s ease forwards;
-    }
-
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .producto-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .producto-content {
-      padding: 1rem;
-    }
-
-    .producto-content h3 {
-      font-size: 1.1rem;
-      font-weight: 900;
-      margin-bottom: 0.3rem;
-    }
-
-    .producto-content p {
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .precio {
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-
-    .btn-ws {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background: var(--yellow);
-      color: #000;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    footer {
-      background: var(--gray);
-      color: #aaa;
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
-    }
-
-    @media (min-width: 768px) {
-      .productos-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .productos-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-  </style>
+      </style>
 </head>
 <body>
+
   <header>
-  <img src="assets/images/logo1.png" alt="Logo" />
-  <nav>
-    <a href="encuesta.html">Encuesta</a>
-    <a href="admin.html">Admin</a>
-  </nav>
-</header>
+    <a href="admin.html">
+      <img src="assets/images/logo1.png" class="logo-left" alt="Logo Admin" />
+    </a>
+    <nav>
+      <a href="encuesta.html">Encuesta</a>
+    </nav>
+  </header>
 
-<section class="portada" id="portada">
-  <h1>Tango's Poza Rica</h1>
-  <p>El sabor callejero con clase. Sazón que se impone en cada bocado.</p>
-  <button class="btn-hero" onclick="mostrarMenu()">Explora el menú</button>
-  <a href="https://maps.app.goo.gl/swSsLLZGUGFtyFSP8" class="ubicanos-link" target="_blank">📍 Ubícanos</a>
-  <div id="map"></div>
-</section>
+  <section class="portada" id="portada">
+    <img src="assets/images/logo2.png" alt="Logo Tango's" class="logo-grande" />
+    <p>El sabor callejero con clase. Sazón que se impone en cada bocado.</p>
+    <button class="btn-hero" onclick="mostrarMenu()">Explora el menú</button>
+    <a href="https://maps.app.goo.gl/swSsLLZGUGFtyFSP8" class="ubicanos-link" target="_blank">📍 Ubícanos</a>
+    <div id="map"></div>
+  </section>
 
-<section class="menu-section" id="menu">
-  <h2 class="seccion-titulo animado">Categorías</h2>
-  <div class="categoria-scroll" id="categorias">
-    <div class="categoria-box" data-cat="bebidas">
-      <img src="assets/images/bebidas.png" alt="Bebidas" />
-      <span>Bebidas</span>
+  <section class="menu-section" id="menu">
+    <h2 class="seccion-titulo">Categorías</h2>
+    <div class="categoria-scroll" id="categorias">
+      <div class="categoria-box" data-cat="bebidas">
+        <img src="assets/images/bebidas.png" alt="Bebidas" />
+        <span>Bebidas</span>
+      </div>
+      <div class="categoria-box" data-cat="snacks">
+        <img src="assets/images/snacks.png" alt="Snacks" />
+        <span>Snacks</span>
+      </div>
+      <div class="categoria-box" data-cat="elotes">
+        <img src="assets/images/elotes.png" alt="Elotes" />
+        <span>Elotes</span>
+      </div>
+      <div class="categoria-box" data-cat="delicias">
+        <img src="assets/images/delicias.png" alt="Delicias" />
+        <span>Delicias</span>
+      </div>
     </div>
-    <div class="categoria-box" data-cat="snacks">
-      <img src="assets/images/snaks.png" alt="Snacks" />
-      <span>Snacks</span>
-    </div>
-    <div class="categoria-box" data-cat="elotes">
-      <img src="assets/images/elotes.png" alt="Elotes" />
-      <span>Elotes</span>
-    </div>
-    <div class="categoria-box" data-cat="delicias">
-      <img src="assets/images/delicias.png" alt="Delicias" />
-      <span>Delicias</span>
-    </div>
-  </div>
 
-  <h2 class="seccion-titulo animado">Menú</h2>
-  <div class="productos-grid" id="productos-container"></div>
-</section>
+    <h2 class="seccion-titulo">Menú</h2>
+    <div class="productos-grid" id="productos-container"></div>
+  </section>
 
-<footer>
-  <p>&copy; 2025 Tango's | Hecho con sabor y fuego en Poza Rica</p>
-  <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
-</footer>
+  <footer>
+    <p>&copy; 2025 Tango's | Hecho con sabor y fuego en Poza Rica</p>
+    <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
+  </footer>
 
-<!-- Google Maps -->
-<script>
-  function initMap() {
-    const tangos = { lat: 20.541667, lng: -97.445639 };
-    const map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 18,
-      center: tangos
-    });
-    new google.maps.Marker({ position: tangos, map, title: "Tango’s" });
-  }
-</script>
-<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUv0bmRnGTLwNA8dgDY80Ol9J7_ZRUSWg&callback=initMap"></script>
+  <script>
+    function initMap() {
+      const tangos = { lat: 20.541667, lng: -97.445639 };
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 18,
+        center: tangos
+      });
+      new google.maps.Marker({ position: tangos, map, title: "Tango’s" });
+    }
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUv0bmRnGTLwNA8dgDY80Ol9J7_ZRUSWg&callback=initMap"></script>
 
-<!-- Supabase -->
-<script type="module">
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
-  const supabase = createClient(
-    'https://ljlaudvreolkdppgfqul.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
-  );
+    const supabase = createClient(
+      'https://ljlaudvreolkdppgfqul.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
+    );
 
-  const contenedor = document.getElementById("productos-container");
+    const contenedor = document.getElementById("productos-container");
 
-  async function cargarMenu(categoria) {
-    contenedor.innerHTML = `<p class="loader">Cargando ${categoria}...</p>`;
-    const { data, error } = await supabase.from("productos").select("*").eq("categoria", categoria);
+    async function cargarMenu(categoria) {
+      contenedor.innerHTML = `<p class="loader">Cargando ${categoria}...</p>`;
+      const { data, error } = await supabase.from("productos").select("*").eq("categoria", categoria);
 
-    if (error || !data.length) {
-      contenedor.innerHTML = `<p class="loader">No hay productos en esta categoría.</p>`;
-      return;
+      if (error || !data.length) {
+        contenedor.innerHTML = `<p class="loader">No hay productos en esta categoría.</p>`;
+        return;
+      }
+
+      contenedor.innerHTML = "";
+      data.forEach(p => {
+        const card = document.createElement("div");
+        card.classList.add("producto-card");
+        card.innerHTML = `
+          <img src="${p.imagen_url}" alt="${p.nombre}" />
+          <div class="producto-content">
+            <h3>${p.nombre}</h3>
+            <p>${p.descripcion}</p>
+            <span class="precio">$${p.precio}</span>
+            <a href="https://wa.me/5211234567890?text=Hola quiero pedir: ${encodeURIComponent(p.nombre)}" class="btn-ws" target="_blank">Pedir</a>
+          </div>
+        `;
+        contenedor.appendChild(card);
+      });
     }
 
-    contenedor.innerHTML = "";
-    data.forEach(p => {
-      const card = document.createElement("div");
-      card.classList.add("producto-card");
-      card.innerHTML = `
-        <img src="${p.imagen_url}" alt="${p.nombre}" />
-        <div class="producto-content">
-          <h3>${p.nombre}</h3>
-          <p>${p.descripcion}</p>
-          <span class="precio">$${p.precio}</span>
-          <a href="https://wa.me/5211234567890?text=Hola quiero pedir: ${encodeURIComponent(p.nombre)}" class="btn-ws" target="_blank">Pedir</a>
-        </div>
-      `;
-      contenedor.appendChild(card);
+    window.mostrarMenu = () => {
+      document.getElementById("portada").style.display = "none";
+      document.getElementById("menu").style.display = "block";
+      seleccionarCategoria("bebidas");
+    };
+
+    function seleccionarCategoria(categoria) {
+      document.querySelectorAll(".categoria-box").forEach(c => c.classList.remove("active"));
+      const btn = document.querySelector(`[data-cat="${categoria}"]`);
+      if (btn) btn.classList.add("active");
+      cargarMenu(categoria);
+    }
+
+    document.querySelectorAll(".categoria-box").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const categoria = btn.getAttribute("data-cat");
+        seleccionarCategoria(categoria);
+      });
     });
-  }
-
-  window.mostrarMenu = () => {
-    document.getElementById("portada").style.display = "none";
-    document.getElementById("menu").style.display = "block";
-    seleccionarCategoria("bebidas");
-  };
-
-  function seleccionarCategoria(categoria) {
-    document.querySelectorAll(".categoria-box").forEach(c => c.classList.remove("active"));
-    const btn = document.querySelector(`[data-cat="${categoria}"]`);
-    if (btn) btn.classList.add("active");
-    cargarMenu(categoria);
-  }
-
-  document.querySelectorAll(".categoria-box").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const categoria = btn.getAttribute("data-cat");
-      seleccionarCategoria(categoria);
-    });
-  });
-
-  // Animación al hacer scroll
-  const observador = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.5 });
-
-  document.querySelectorAll('.animado').forEach(el => observador.observe(el));
-</script>
+  </script>
 
 </body>
 </html>
+

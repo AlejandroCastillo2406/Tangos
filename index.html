@@ -233,14 +233,12 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
       opacity: 0;
       transform: translateY(30px);
-      animation: fadeInUp 0.5s ease forwards;
+      transition: all 0.5s ease;
     }
 
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .producto-card.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .producto-card img {
@@ -301,7 +299,7 @@
   </style>
 </head>
 <body>
-<header>
+  <header>
   <a href="admin.html">
     <img src="assets/images/logo1.png" alt="Logo" class="logo-jump" />
   </a>

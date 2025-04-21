@@ -166,15 +166,142 @@
       border-radius: 2px;
     }
 
-    .animado {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+    .categoria-scroll {
+      display: flex;
+      overflow-x: auto;
+      padding: 1rem 1.5rem;
+      gap: 1rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-padding-left: 1.5rem;
     }
 
-    .animado.visible {
+    .categoria-box {
+      flex: 0 0 auto;
+      width: 130px;
+      scroll-snap-align: start;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.25);
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.3s ease;
+      margin-bottom:20px;
+      margin-top:-5px;
+    }
+
+    .categoria-box img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+
+    .categoria-box span {
+      display: block;
+      padding: 0.7rem;
+      font-weight: 900;
+      font-size: 1rem;
+      color: #000;
+    }
+
+    .categoria-box.active {
+      border: 3px solid var(--yellow);
+      transform: scale(1.05);
+    }
+
+    .productos-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .producto-card {
+      background: #fffef0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.5s ease;
+    }
+
+    .producto-card.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    .producto-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .producto-content {
+      padding: 1rem;
+    }
+
+    .producto-content h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      margin-bottom: 0.3rem;
+    }
+
+    .producto-content p {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .precio {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-ws {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--yellow);
+      color: #000;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    footer {
+      background: var(--gray);
+      color: #aaa;
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background-color: var(--yellow);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 40px;
+      transition: transform 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.1);
+    }
+
+    .social-icons svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--black);
     }
   </style>
 </head>
@@ -224,6 +351,24 @@
 <footer>
   <p>&copy; 2025 Tango's | Hecho con sabor y fuego en Poza Rica</p>
   <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
+
+  <div class="social-icons">
+    <a href="https://www.facebook.com/TangosPozaRica" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M9.197 12.173l-.372 2.308h2.576V5.945h-2.922c-.223 0-.413.06-.56.178-.147.118-.224.276-.224.462v2.184H4.931v2.309h2.156v5.773h2.573v-5.773h2.039c.186 0 .348-.084.472-.229s.176-.33.176-.51c0-.385-.238-.691-.577-.852-.34-.161-.752-.26-1.191-.26h-2.07v-2.22c0-.423.257-.651.678-.651h1.45v-2.308h-1.82c-2.553 0-4.564 1.888-4.564 4.192v2.559h-2.104v2.31H9.197zm0 0" />
+      </svg>
+    </a>
+    <a href="https://www.instagram.com/tangospozarica/" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 0c6.627 0 12 5.373 12 12s-5.373 12-12 12-12-5.373-12-12 5.373-12 12-12zm0 18.4c2.25 0 4.116-1.866 4.116-4.165 0-2.25-1.866-4.116-4.116-4.116s-4.116 1.866-4.116 4.116c0 2.299 1.866 4.165 4.116 4.165zm0-6.25c1.15 0 2.084.934 2.084 2.084s-.934 2.084-2.084 2.084-2.084-.934-2.084-2.084.934-2.084 2.084-2.084zm6.092-2.479c0 1.053-.86 1.911-1.911 1.911s-1.911-.86-1.911-1.911 1.011-1.911 1.911-1.911 1.911.86 1.911 1.911zm-6.092 2.479c1.149 0 2.084.934 2.084 2.084s-.934 2.084-2.084 2.084-2.084-.934-2.084-2.084.934-2.084 2.084-2.084z" />
+      </svg>
+    </a>
+    <a href="https://wa.me/5211234567890" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M18.414 18.414l-3.125-3.125c1.435-2.033.455-4.835-2.293-6.084-1.627-1.17-3.884-1.098-5.095.347l-.022.022c-1.26 1.405-1.121 3.374.318 4.727l-.022.022-2.6 6.333c-1.1-.137-1.735-.264-2.383-.264-3.313 0-6 2.687-6 6s2.687 6 6 6h6c3.313 0 6-2.687 6-6 0-1.266-.399-2.44-1.057-3.414zm-7.335-2.825c.744-.743 1.401-.763 2.264-.237 1.092.574 2.312 1.477 2.965 2.663.703 1.19.913 2.494.549 3.877-2.723-3.609-2.059-4.767-4.777-7.073z" />
+      </svg>
+    </a>
+  </div>
 </footer>
 
 <script>
@@ -308,4 +453,3 @@
 
 </body>
 </html>
-

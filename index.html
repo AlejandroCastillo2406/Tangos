@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TANGO'S | El Poder del Sabor</title>
+  <title>TANGO’S | El Poder del Sabor</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -67,50 +67,16 @@
       margin-bottom: 1.5rem;
     }
 
-    /* Botón mejorado */
     .btn-hero {
       background: var(--yellow);
       color: var(--black);
       font-weight: 900;
-      font-size: 1.1rem;
-      padding: 1.2rem 2.5rem;
+      font-size: 1rem;
+      padding: 1rem 2rem;
       border-radius: 50px;
       cursor: pointer;
       border: none;
-      margin-bottom: 2rem;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 6px 12px rgba(255, 179, 8, 0.4);
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .btn-hero:before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      animation: shine 2s infinite;
-    }
-
-    .btn-hero:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 15px rgba(255, 179, 8, 0.6);
-    }
-
-    .btn-hero:active {
-      transform: translateY(1px);
-      box-shadow: 0 4px 8px rgba(255, 179, 8, 0.3);
-    }
-
-    @keyframes shine {
-      100% {
-        left: 100%;
-      }
+      margin-bottom: 1.5rem;
     }
 
     .ubicanos-link {
@@ -120,23 +86,15 @@
       margin-bottom: 1rem;
       color: var(--yellow);
       text-decoration: none;
-      transition: transform 0.3s ease;
     }
 
-    .ubicanos-link:hover {
-      transform: scale(1.05);
-    }
-
-    /* Mapa mejorado visualmente manteniendo funcionalidad */
     #map {
       width: 100%;
       height: 300px;
       border-radius: 16px;
-      border: 3px solid var(--yellow);
+      border: 3px dashed var(--yellow);
       margin-bottom: 2rem;
       box-sizing: border-box;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
     }
 
     .menu-section {
@@ -290,9 +248,6 @@
       .productos-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-      .btn-hero {
-        padding: 1.2rem 3rem;
-      }
     }
 
     @media (min-width: 1024px) {
@@ -355,7 +310,7 @@
   <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
 </footer>
 
-<!-- Google Maps - Manteniendo la API exactamente igual -->
+<!-- Google Maps -->
 <script>
   function initMap() {
     const tangos = { lat: 20.541667, lng: -97.445639 };
@@ -363,7 +318,7 @@
       zoom: 18,
       center: tangos
     });
-    new google.maps.Marker({ position: tangos, map, title: "Tango's" });
+    new google.maps.Marker({ position: tangos, map, title: "Tango’s" });
   }
 </script>
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUv0bmRnGTLwNA8dgDY80Ol9J7_ZRUSWg&callback=initMap"></script>

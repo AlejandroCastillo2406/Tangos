@@ -7,64 +7,93 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --black: #000;
-      --white: #fff;
+      --black: #000000;
+      --white: #ffffff;
       --yellow: #FFB308;
-      --gray: #111;
+      --gray: #111111;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      background: var(--black);
-      color: var(--white);
       font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
+      background: linear-gradient(to bottom, var(--black), #1a1a1a);
+      color: var(--white);
+      overflow-x: hidden;
     }
 
     header {
+      background: var(--black);
+      border-bottom: 3px solid var(--yellow);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem;
-      background: var(--black);
-      border-bottom: 3px solid var(--yellow);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     .logo-jump {
       height: 48px;
-      animation: bounce 1.6s ease-in-out infinite;
+      animation: bounce 1.6s infinite ease-in-out;
       cursor: pointer;
     }
 
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
+      50% { transform: translateY(-8px); }
     }
 
     nav a {
-      margin-left: 1rem;
       color: var(--yellow);
       font-weight: 700;
       text-decoration: none;
+      font-size: 1rem;
     }
 
     .portada {
       text-align: center;
       padding: 4rem 1.5rem 2rem;
+      background: radial-gradient(circle at top center, #2c2c2c, #000);
+      box-shadow: inset 0 -30px 80px rgba(0,0,0,0.7);
+      position: relative;
     }
 
-    .portada img.logo-principal {
-      width: 220px;
-      max-width: 85%;
-      margin: 0 auto 1rem;
-      display: block;
-      animation: fadeIn 1s ease;
+    .portada::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.04), transparent 70%);
+      z-index: 0;
+    }
+
+    .logo-principal {
+      position: relative;
+      z-index: 1;
+      width: 240px;
+      max-width: 90%;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 15px rgba(255, 179, 8, 0.25));
+      animation: fadeInScale 1s ease-out;
+    }
+
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.85); }
+      100% { opacity: 1; transform: scale(1); }
     }
 
     .portada p {
       color: #ccc;
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+      max-width: 320px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+      z-index: 1;
     }
 
     .btn-hero {
@@ -76,25 +105,37 @@
       border-radius: 50px;
       cursor: pointer;
       border: none;
-      margin-bottom: 1.5rem;
+      z-index: 1;
+      position: relative;
+      box-shadow: 0 0 12px rgba(255, 179, 8, 0.5);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-hero:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 18px rgba(255, 179, 8, 0.75);
     }
 
     .ubicanos-link {
       display: block;
       font-size: 1.4rem;
       font-weight: 900;
-      margin-bottom: 1rem;
+      margin: 2rem 0 1rem;
       color: var(--yellow);
       text-decoration: none;
+      z-index: 1;
+      position: relative;
     }
 
     #map {
       width: 100%;
       height: 300px;
-      border-radius: 16px;
-      border: 3px dashed var(--yellow);
+      border-radius: 20px;
       margin-bottom: 2rem;
       box-sizing: border-box;
+      border: 6px dashed var(--yellow);
+      background-color: var(--white);
+      outline-offset: -5px;
     }
 
     .menu-section {
@@ -134,131 +175,6 @@
     .animado.visible {
       opacity: 1;
       transform: translateY(0);
-    }
-
-    .categoria-scroll {
-      display: flex;
-      overflow-x: auto;
-      padding: 1rem 1.5rem;
-      gap: 1rem;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scroll-padding-left: 1.5rem;
-    }
-
-    .categoria-box {
-      flex: 0 0 auto;
-      width: 130px;
-      scroll-snap-align: start;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.25);
-      cursor: pointer;
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-
-    .categoria-box img {
-      width: 100%;
-      height: 100px;
-      object-fit: cover;
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
-    }
-
-    .categoria-box span {
-      display: block;
-      padding: 0.7rem;
-      font-weight: 900;
-      font-size: 1rem;
-      color: #000;
-    }
-
-    .categoria-box.active {
-      border: 3px solid var(--yellow);
-      transform: scale(1.05);
-    }
-
-    .productos-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .producto-card {
-      background: #fffef0;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.5s ease;
-    }
-
-    .producto-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .producto-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .producto-content {
-      padding: 1rem;
-    }
-
-    .producto-content h3 {
-      font-size: 1.1rem;
-      font-weight: 900;
-      margin-bottom: 0.3rem;
-    }
-
-    .producto-content p {
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .precio {
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-
-    .btn-ws {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background: var(--yellow);
-      color: #000;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    footer {
-      background: var(--gray);
-      color: #aaa;
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
-    }
-
-    @media (min-width: 768px) {
-      .productos-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .productos-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
@@ -310,7 +226,6 @@
   <p><a href="https://wa.me/5211234567890" style="color: var(--yellow)">Contáctanos por WhatsApp</a></p>
 </footer>
 
-<!-- Google Maps -->
 <script>
   function initMap() {
     const tangos = { lat: 20.541667, lng: -97.445639 };
@@ -323,7 +238,6 @@
 </script>
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUv0bmRnGTLwNA8dgDY80Ol9J7_ZRUSWg&callback=initMap"></script>
 
-<!-- Supabase -->
 <script type="module">
   import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
@@ -394,3 +308,4 @@
 
 </body>
 </html>
+

@@ -141,7 +141,18 @@
     .menu-section {
       display: none;
       padding: 2rem 1rem;
-      background: var(--gray); /* Fondo gris para categorías */
+      color: var(--black);
+    }
+
+    .categoria-container {
+      background: var(--gray);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .menu-container {
+      background: var(--white);
+      padding: 2rem;
       color: var(--black);
     }
 
@@ -164,17 +175,6 @@
       background: var(--black);
       margin: 0.5rem auto 0;
       border-radius: 2px;
-    }
-
-    .animado {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .animado.visible {
-      opacity: 1;
-      transform: translateY(0);
     }
 
     .categoria-scroll {
@@ -320,7 +320,9 @@
 
   </style>
 </head>
-<body><header>
+<body>
+
+<header>
   <a href="admin.html">
     <img src="assets/images/logo1.png" alt="Logo" class="logo-jump" />
   </a>
@@ -338,28 +340,34 @@
 </section>
 
 <section class="menu-section" id="menu">
-  <h2 class="seccion-titulo animado">Categorías</h2>
-  <div class="categoria-scroll" id="categorias">
-    <div class="categoria-box" data-cat="bebidas">
-      <img src="assets/images/bebidas.png" alt="Bebidas" />
-      <span>Bebidas</span>
-    </div>
-    <div class="categoria-box" data-cat="snacks">
-      <img src="assets/images/snacks.png" alt="Snacks" />
-      <span>Snacks</span>
-    </div>
-    <div class="categoria-box" data-cat="elotes">
-      <img src="assets/images/elotes.png" alt="Elotes" />
-      <span>Elotes</span>
-    </div>
-    <div class="categoria-box" data-cat="delicias">
-      <img src="assets/images/delicias.png" alt="Delicias" />
-      <span>Delicias</span>
+  <!-- Categorías -->
+  <div class="categoria-container">
+    <h2 class="seccion-titulo animado">Categorías</h2>
+    <div class="categoria-scroll" id="categorias">
+      <div class="categoria-box" data-cat="bebidas">
+        <img src="assets/images/bebidas.png" alt="Bebidas" />
+        <span>Bebidas</span>
+      </div>
+      <div class="categoria-box" data-cat="snacks">
+        <img src="assets/images/snacks.png" alt="Snacks" />
+        <span>Snacks</span>
+      </div>
+      <div class="categoria-box" data-cat="elotes">
+        <img src="assets/images/elotes.png" alt="Elotes" />
+        <span>Elotes</span>
+      </div>
+      <div class="categoria-box" data-cat="delicias">
+        <img src="assets/images/delicias.png" alt="Delicias" />
+        <span>Delicias</span>
+      </div>
     </div>
   </div>
 
-  <h2 class="seccion-titulo animado">Menú</h2>
-  <div class="productos-grid" id="productos-container"></div>
+  <!-- Menú -->
+  <div class="menu-container">
+    <h2 class="seccion-titulo animado">Menú</h2>
+    <div class="productos-grid" id="productos-container"></div>
+  </div>
 </section>
 
 <footer>

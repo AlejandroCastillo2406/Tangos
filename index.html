@@ -7,55 +7,93 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --black: #000;
-      --white: #fff;
-      --yellow: #ffd700;
-      --gray: #111;
+      --black: #000000;
+      --white: #ffffff;
+      --yellow: #FFB308;
+      --gray: #111111;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      background: var(--black);
-      color: var(--white);
       font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
+      background: linear-gradient(to bottom, var(--black), #1a1a1a);
+      color: var(--white);
+      overflow-x: hidden;
     }
 
     header {
+      background: var(--black);
+      border-bottom: 3px solid var(--yellow);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem;
-      background: var(--black);
-      border-bottom: 3px solid var(--yellow);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
-    header img {
+    .logo-jump {
       height: 48px;
+      animation: bounce 1.6s infinite ease-in-out;
+      cursor: pointer;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
 
     nav a {
-      margin-left: 1rem;
       color: var(--yellow);
       font-weight: 700;
       text-decoration: none;
+      font-size: 1rem;
     }
 
     .portada {
       text-align: center;
       padding: 4rem 1.5rem 2rem;
+      background: radial-gradient(circle at top center, #2c2c2c, #000);
+      box-shadow: inset 0 -30px 80px rgba(0,0,0,0.7);
+      position: relative;
     }
 
-    .portada h1 {
-      font-size: 3rem;
-      font-weight: 900;
-      color: var(--yellow);
+    .portada::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.04), transparent 70%);
+      z-index: 0;
+    }
+
+    .logo-principal {
+      position: relative;
+      z-index: 1;
+      width: 240px;
+      max-width: 90%;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 15px rgba(255, 179, 8, 0.25));
+      animation: fadeInScale 1s ease-out;
+    }
+
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.85); }
+      100% { opacity: 1; transform: scale(1); }
     }
 
     .portada p {
       color: #ccc;
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+      max-width: 320px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+      z-index: 1;
     }
 
     .btn-hero {
@@ -67,29 +105,43 @@
       border-radius: 50px;
       cursor: pointer;
       border: none;
-      margin-bottom: 1.5rem;
+      z-index: 1;
+      position: relative;
+      box-shadow: 0 0 12px rgba(255, 179, 8, 0.5);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-hero:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 18px rgba(255, 179, 8, 0.75);
     }
 
     .ubicanos-link {
       display: block;
       font-size: 1.4rem;
       font-weight: 900;
-      margin-bottom: 1rem;
+      margin: 2rem 0 1rem;
       color: var(--yellow);
       text-decoration: none;
+      z-index: 1;
+      position: relative;
     }
 
     #map {
       width: 100%;
       height: 300px;
-      border-radius: 10px;
+      border-radius: 20px;
       margin-bottom: 2rem;
+      box-sizing: border-box;
+      border: 6px dashed var(--yellow);
+      background-color: var(--white);
+      outline-offset: -5px;
     }
 
     .menu-section {
       display: none;
       padding: 2rem 1rem;
-      background: var(--white);
+      background: var(--gray); /* Fondo gris para categorías */
       color: var(--black);
     }
 
@@ -102,7 +154,6 @@
       text-transform: uppercase;
       letter-spacing: 1.5px;
       position: relative;
-      margin-top:-5px;
     }
 
     .seccion-titulo::after {
@@ -113,6 +164,17 @@
       background: var(--black);
       margin: 0.5rem auto 0;
       border-radius: 2px;
+    }
+
+    .animado {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .animado.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .categoria-scroll {
@@ -164,23 +226,23 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 1.5rem;
+      background: var(--white); /* Fondo blanco para los productos */
     }
 
     .producto-card {
-      background: #fffef0;
+      background: #fff; /* Fondo blanco */
+      border: 3px solid var(--yellow); /* Borde amarillo */
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
       opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.5s ease forwards;
+      transform: translateY(30px);
+      transition: all 0.5s ease;
     }
 
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .producto-card.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .producto-card img {
@@ -231,43 +293,35 @@
       display: flex;
       justify-content: center;
       gap: 1rem;
-      margin-top: 1rem;
+      margin: 2rem 0;
     }
 
     .social-icons a {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 45px;
-      height: 45px;
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background-color: var(--yellow);
       border-radius: 50%;
-      background: var(--yellow);
-      color: var(--black);
-      text-decoration: none;
-      font-size: 1.5rem;
-      transition: all 0.3s ease;
+      text-align: center;
+      line-height: 40px;
+      transition: transform 0.3s ease;
     }
 
     .social-icons a:hover {
-      background: var(--black);
-      color: var(--yellow);
       transform: scale(1.1);
     }
 
-    @media (min-width: 768px) {
-      .productos-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    .social-icons svg {
+      width: 24px; /* Aumentado el tamaño del icono */
+      height: 24px; /* Aumentado el tamaño del icono */
+      fill: var(--black); /* Dorado */
+      vertical-align: middle; /* Asegura que el SVG esté centrado */
     }
 
-    @media (min-width: 1024px) {
-      .productos-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
   </style>
 </head>
 <body>
+
   <header>
   <img src="assets/images/logo1.png" alt="Logo" />
   <nav>

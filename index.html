@@ -140,28 +140,27 @@
 
     .menu-section {
     display: none;
-    padding: 2rem 1rem;
+    padding: 2rem 0; /* Remove horizontal padding */
     color: var(--black);
     margin-top: -50px;
-    width: 100%;
-    margin-left: -15px;
+    width: 100vw; /* Full viewport width */
+    margin-left: 0; /* Remove negative margin */
 }
 
-    .categoria-container {
-      background: var(--gray);
-      padding: 2rem;
-      margin-right: -15px;
-      margin-bottom: 2rem;
-      width: 100%;
-      box-sizing: border-box;
-    }
+.categoria-container {
+    background: var(--gray);
+    padding: 2rem;
+    margin: 0; /* Remove all margins */
+    width: 100vw; /* Full viewport width */
+    box-sizing: border-box;
+}
 
-    .menu-container {
+.menu-container {
     background: var(--white);
     padding: 2rem;
     color: var(--black);
-    margin-right: -15px;
-    width: 100%;
+    margin: 0; /* Remove all margins */
+    width: 100vw; /* Full viewport width */
     box-sizing: border-box;
     margin-top: -40px;
 }

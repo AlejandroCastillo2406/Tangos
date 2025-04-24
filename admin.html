@@ -7,10 +7,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --black: #000000;
-      --white: #ffffff;
+      --black: #000;
+      --white: #fff;
       --yellow: #FFB308;
-      --gray: #111111;
+      --gray: #111;
     }
 
     * {
@@ -20,7 +20,7 @@
     }
 
     body {
-      background: linear-gradient(to bottom, var(--black), #1a1a1a);
+      background: var(--black);
       color: var(--white);
       font-family: 'Inter', sans-serif;
       padding: 2rem 1rem;
@@ -166,7 +166,6 @@
     <h1>Administrador</h1>
     <input type="password" id="clave" placeholder="Contraseña de acceso" autocomplete="off" inputmode="numeric" />
     <button id="btnAcceder">Entrar</button>
-    <p id="statusGlobal" class="status"></p> <!-- Aquí aparece el mensaje de error si la contraseña es incorrecta -->
   </div>
 
   <div id="panel" style="display:none;">
@@ -221,7 +220,7 @@
         document.getElementById("panel").style.display = "block";
         cargarProductos();
       } else {
-        statusGlobal.textContent = "❌ Contraseña incorrecta"; // Error en contraseña se muestra aquí
+        statusGlobal.textContent = "❌ Contraseña incorrecta";
       }
     });
 
@@ -232,7 +231,7 @@
     }
 
     window.salirAdmin = () => {
-      window.location.href = "index.html"; // Redirige al index cuando salimos del admin
+      window.location.href = "index.html";
     }
 
     document.getElementById("formNuevo").addEventListener("submit", async (e) => {
@@ -249,7 +248,7 @@
         return;
       }
 
-      const nombreArchivo = `${Date.now()}-${archivo.name}`;
+      const nombreArchivo = ${Date.now()}-${archivo.name};
       const { error: errorUpload } = await supabase.storage.from('productos').upload(nombreArchivo, archivo);
 
       if (errorUpload) {
@@ -284,7 +283,7 @@
         del.className = "producto-item";
         del.textContent = p.nombre;
         del.onclick = async () => {
-          if (confirm(`¿Eliminar "${p.nombre}"?`)) {
+          if (confirm(¿Eliminar "${p.nombre}"?)) {
             await supabase.from("productos").delete().eq("id", p.id);
             statusGlobal.textContent = "✅ Producto eliminado";
             cargarProductos();

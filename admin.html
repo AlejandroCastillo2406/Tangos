@@ -9,8 +9,14 @@
     :root {
       --black: #000;
       --white: #fff;
-      --yellow: #ffd700;
+      --yellow: #FFB308;
       --gray: #111;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
@@ -28,7 +34,7 @@
     }
 
     h1 {
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-weight: 900;
       color: var(--yellow);
       margin-bottom: 2rem;
@@ -59,6 +65,14 @@
       color: var(--black);
       font-weight: 900;
       cursor: pointer;
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #FF9F00;
     }
 
     .btn-group {
@@ -104,11 +118,49 @@
       color: var(--yellow);
       margin-top: 0.5rem;
     }
+
+    /* Ajustes para un diseño similar a la portada */
+    .btn-group button {
+      background: var(--yellow);
+      color: var(--black);
+      font-weight: 900;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(255, 179, 8, 0.25);
+      font-size: 1.2rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-group button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(255, 179, 8, 0.5);
+    }
+
+    .logo-jump {
+      height: 48px;
+      animation: bounce 1.6s infinite ease-in-out;
+      cursor: pointer;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    footer {
+      background: var(--gray);
+      color: #aaa;
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+    }
+
   </style>
 </head>
 <body>
 
-  <img src="assets/images/logo1.png" alt="Logo Tango's" class="logo" />
+  <img src="assets/images/logo1.png" alt="Logo Tango's" class="logo-jump" onclick="window.location.href='admin.html'" />
 
   <div id="auth">
     <h1>Administrador</h1>
@@ -121,7 +173,6 @@
 
     <div class="btn-group">
       <button onclick="mostrar('añadir')">➕ Añadir producto</button>
-      <button onclick="mostrar('actualizar')">✏️ Actualizar producto</button>
       <button onclick="mostrar('eliminar')">🗑️ Eliminar producto</button>
     </div>
 
@@ -145,12 +196,14 @@
       </form>
     </div>
 
-    <div id="actualizar" class="section"><div id="listaActualizar"></div></div>
-    <div id="eliminar" class="section"><div id="listaEliminar"></div></div>
+    <div id="eliminar" class="section">
+      <div id="listaEliminar"></div>
+    </div>
 
-    <button onclick="salirAdmin()" style="margin-top: 3rem;">🚪 Salir del modo admin</button>
+    <button onclick="window.location.href='index.html'" style="margin-top: 3rem;">🚪 Salir del modo admin</button>
   </div>
-    <script type="module">
+
+  <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
     const supabase = createClient(
@@ -176,13 +229,9 @@
       document.getElementById(id).classList.add("active");
       statusGlobal.textContent = "";
     }
-    window.mostrar = mostrar;
 
     window.salirAdmin = () => {
-      document.getElementById("panel").style.display = "none";
-      document.getElementById("auth").style.display = "block";
-      document.getElementById("clave").value = "";
-      statusGlobal.textContent = "";
+      window.location.href = "index.html";
     }
 
     document.getElementById("formNuevo").addEventListener("submit", async (e) => {
@@ -226,9 +275,7 @@
 
     async function cargarProductos() {
       const { data: productos } = await supabase.from("productos").select("*").order("created_at", { ascending: false });
-      const listaActualizar = document.getElementById("listaActualizar");
       const listaEliminar = document.getElementById("listaEliminar");
-      listaActualizar.innerHTML = "";
       listaEliminar.innerHTML = "";
 
       productos.forEach(p => {
@@ -243,44 +290,8 @@
           }
         };
         listaEliminar.appendChild(del);
-
-        const upd = document.createElement("div");
-        upd.className = "producto-item";
-        upd.textContent = p.nombre;
-        upd.onclick = async () => {
-          const nuevo = prompt("Editar nombre|precio|descripcion", `${p.nombre}|${p.precio}|${p.descripcion}`);
-          if (nuevo) {
-            const [nombre, precio, descripcion] = nuevo.split("|");
-            const archivoInput = document.createElement("input");
-            archivoInput.type = "file";
-            archivoInput.accept = "image/*";
-            archivoInput.onchange = async () => {
-              let nuevaUrl = p.imagen_url;
-              if (archivoInput.files.length > 0) {
-                const archivo = archivoInput.files[0];
-                const nuevoNombre = `${Date.now()}-${archivo.name}`;
-                await supabase.storage.from('productos').upload(nuevoNombre, archivo);
-                const { data } = supabase.storage.from('productos').getPublicUrl(nuevoNombre);
-                nuevaUrl = data.publicUrl;
-              }
-
-              await supabase.from("productos").update({
-                nombre,
-                precio,
-                descripcion,
-                imagen_url: nuevaUrl
-              }).eq("id", p.id);
-
-              statusGlobal.textContent = "✅ Producto actualizado";
-              cargarProductos();
-            };
-            archivoInput.click();
-          }
-        };
-        listaActualizar.appendChild(upd);
       });
     }
   </script>
 </body>
 </html>
-

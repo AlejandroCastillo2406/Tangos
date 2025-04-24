@@ -7,8 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --black: #000;
-      --white: #fff;
+      --black: #000000;
+      --white: #ffffff;
       --yellow: #FFB308;
       --gray: #111111;
     }
@@ -20,7 +20,7 @@
     }
 
     body {
-      background: var(--black);
+      background: linear-gradient(to bottom, var(--black), #1a1a1a);
       color: var(--white);
       font-family: 'Inter', sans-serif;
       padding: 2rem 1rem;
@@ -156,128 +156,6 @@
       font-size: 0.9rem;
     }
 
-    /* Degradado en la portada */
-    .portada {
-      text-align: center;
-      padding: 4rem 1.5rem 2rem;
-      background: radial-gradient(circle at top center, #2c2c2c, #000);
-      box-shadow: inset 0 -30px 80px rgba(0,0,0,0.7);
-      position: relative;
-    }
-
-    .portada::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(ellipse at center, rgba(255,255,255,0.04), transparent 70%);
-      z-index: 0;
-    }
-
-    /* Mejorando el diseño de las categorías y productos */
-    .categoria-scroll {
-      display: flex;
-      overflow-x: auto;
-      padding: 1rem 1.5rem;
-      gap: 1rem;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scroll-padding-left: 1.5rem;
-    }
-
-    .categoria-box {
-      flex: 0 0 auto;
-      width: 130px;
-      scroll-snap-align: start;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.25);
-      cursor: pointer;
-      text-align: center;
-      transition: transform 0.3s ease;
-      margin-bottom:20px;
-      margin-top:-5px;
-    }
-
-    .categoria-box img {
-      width: 100%;
-      height: 100px;
-      object-fit: cover;
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
-    }
-
-    .categoria-box span {
-      display: block;
-      padding: 0.7rem;
-      font-weight: 900;
-      font-size: 1rem;
-      color: #000;
-    }
-
-    .categoria-box.active {
-      border: 3px solid var(--yellow);
-      transform: scale(1.05);
-    }
-
-    .productos-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      background: var(--white); /* Fondo blanco para los productos */
-    }
-
-    .producto-card {
-      background: #fff; /* Fondo blanco */
-      border: 3px solid var(--yellow); /* Borde amarillo */
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.5s ease;
-    }
-
-    .producto-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .producto-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .producto-content {
-      padding: 1rem;
-    }
-
-    .producto-content h3 {
-      font-size: 1.1rem;
-      font-weight: 900;
-      margin-bottom: 0.3rem;
-    }
-
-    .producto-content p {
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .precio {
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-
-    .btn-ws {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background: var(--yellow);
-      color: #000;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 700;
-    }
-
   </style>
 </head>
 <body>
@@ -288,6 +166,7 @@
     <h1>Administrador</h1>
     <input type="password" id="clave" placeholder="Contraseña de acceso" autocomplete="off" inputmode="numeric" />
     <button id="btnAcceder">Entrar</button>
+    <p id="statusGlobal" class="status"></p> <!-- Aquí aparece el mensaje de error si la contraseña es incorrecta -->
   </div>
 
   <div id="panel" style="display:none;">
@@ -342,7 +221,7 @@
         document.getElementById("panel").style.display = "block";
         cargarProductos();
       } else {
-        statusGlobal.textContent = "❌ Contraseña incorrecta";
+        statusGlobal.textContent = "❌ Contraseña incorrecta"; // Error en contraseña se muestra aquí
       }
     });
 
@@ -353,7 +232,7 @@
     }
 
     window.salirAdmin = () => {
-      window.location.href = "index.html";
+      window.location.href = "index.html"; // Redirige al index cuando salimos del admin
     }
 
     document.getElementById("formNuevo").addEventListener("submit", async (e) => {

@@ -40,7 +40,7 @@
       margin-bottom: 2rem;
     }
 
-    input, textarea, button {
+    input, textarea, select, button {
       width: 90%;
       max-width: 350px;
       padding: 0.75rem;
@@ -50,9 +50,14 @@
       border-radius: 8px;
     }
 
-    input, textarea {
+    input, textarea, select {
       background: #222;
       color: var(--white);
+    }
+
+    select option {
+      background: #111;
+      color: #fff;
     }
 
     button {
@@ -112,6 +117,24 @@
       font-weight: bold;
       color: var(--yellow);
       margin-top: 0.5rem;
+    }
+
+    /* Ajustes para un diseño similar a la portada */
+    .btn-group button {
+      background: var(--yellow);
+      color: var(--black);
+      font-weight: 900;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(255, 179, 8, 0.25);
+      font-size: 1.2rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-group button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(255, 179, 8, 0.5);
     }
 
     .logo-jump {

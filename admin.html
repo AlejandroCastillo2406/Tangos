@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Panel Admin | Tango's</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
+  <title>Admin | Tango's</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --black: #000;
@@ -18,26 +18,25 @@
       color: var(--white);
       font-family: 'Inter', sans-serif;
       padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    .logo {
+      width: 100px;
+      margin: 0 auto 1rem;
+      display: block;
     }
 
     h1 {
-      text-align: center;
       font-size: 2rem;
       font-weight: 900;
       color: var(--yellow);
       margin-bottom: 2rem;
     }
 
-    form, .card {
-      background: var(--gray);
-      padding: 1.5rem;
-      border-radius: 12px;
-      margin-bottom: 2rem;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
-    }
-
     input, textarea, button {
-      width: 100%;
+      width: 90%;
+      max-width: 350px;
       padding: 0.75rem;
       margin-bottom: 1rem;
       font-size: 1rem;
@@ -57,189 +56,203 @@
       cursor: pointer;
     }
 
-    button:hover {
-      background: #ffe066;
-    }
-
-    input[type="file"] {
-      border: 2px dashed #444;
-      background: #111;
-    }
-
-    .img-preview {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 1rem;
-      border: 2px solid var(--yellow);
-    }
-
-    .acciones {
+    .btn-group {
       display: flex;
+      flex-direction: column;
       gap: 1rem;
-      margin-top: 1rem;
+      margin: 2rem 0;
     }
 
-    .acciones button {
-      flex: 1;
+    .btn-group button {
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    .section {
+      display: none;
+      background: var(--gray);
+      padding: 2rem 1rem;
+      margin-top: 2rem;
+      border-radius: 12px;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .producto-item {
+      background: #222;
+      margin: 0.5rem auto;
+      padding: 1rem;
+      border-radius: 8px;
+      max-width: 90%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .producto-item:hover {
+      background: #333;
     }
 
     .status {
-      text-align: center;
       font-weight: bold;
-      margin-top: 1rem;
-    }
-
-    .producto-editable {
-      background: #1a1a1a;
+      color: var(--yellow);
+      margin-top: 0.5rem;
     }
   </style>
 </head>
 <body>
 
-  <h1>Panel de Administrador</h1>
+  <img src="assets/images/logo1.png" alt="Logo Tango's" class="logo" />
 
-  <form id="formNuevo">
-    <input type="text" id="nombre" placeholder="Nombre" required />
-    <textarea id="descripcion" placeholder="Descripción" required></textarea>
-    <input type="number" id="precio" placeholder="Precio" required />
-    <input type="file" id="imagen" accept="image/*" required />
-    <button type="submit">Añadir producto</button>
-    <p id="status" class="status"></p>
-  </form>
+  <div id="auth">
+    <h1>Administrador</h1>
+    <input type="password" id="clave" placeholder="Contraseña de acceso" autocomplete="off" inputmode="numeric" />
+    <button id="btnAcceder">Entrar</button>
+  </div>
 
-  <div id="productos"></div>
+  <div id="panel" style="display:none;">
+    <h1>Gestión de productos</h1>
+
+    <div class="btn-group">
+      <button onclick="mostrar('añadir')">➕ Añadir producto</button>
+      <button onclick="mostrar('actualizar')">✏️ Actualizar producto</button>
+      <button onclick="mostrar('eliminar')">🗑️ Eliminar producto</button>
+    </div>
+
+    <p id="statusGlobal" class="status"></p>
+
+    <div id="añadir" class="section">
+      <form id="formNuevo">
+        <input type="text" id="nombre" placeholder="Nombre" required />
+        <textarea id="descripcion" placeholder="Descripción" required></textarea>
+        <input type="number" id="precio" placeholder="Precio" required />
+        <input type="file" id="imagen" accept="image/*" required />
+        <button type="submit">Guardar producto</button>
+        <p id="status" class="status"></p>
+      </form>
+    </div>
+
+    <div id="actualizar" class="section"><div id="listaActualizar"></div></div>
+    <div id="eliminar" class="section"><div id="listaEliminar"></div></div>
+
+    <!-- 🔁 BOTÓN SALIR -->
+    <button onclick="salirAdmin()" style="margin-top: 3rem;">🚪 Salir del modo admin</button>
+  </div>
 
   <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
-    const supabaseUrl = 'https://ljlaudvreolkdppgfqul.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk';
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = createClient(
+      'https://ljlaudvreolkdppgfqul.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
+    );
 
-    const form = document.getElementById('formNuevo');
-    const status = document.getElementById('status');
-    const contenedor = document.getElementById('productos');
+    const statusGlobal = document.getElementById("statusGlobal");
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      status.textContent = 'Subiendo producto...';
-
-      const nombre = form.nombre.value;
-      const descripcion = form.descripcion.value;
-      const precio = parseFloat(form.precio.value);
-      const archivo = form.imagen.files[0];
-
-      const nombreArchivo = `${Date.now()}-${archivo.name}`;
-      const { error: errorUpload } = await supabase.storage
-        .from('productos')
-        .upload(nombreArchivo, archivo);
-
-      if (errorUpload) {
-        status.textContent = '❌ Error al subir imagen';
-        return;
-      }
-
-      const { data: urlData } = supabase.storage
-        .from('productos')
-        .getPublicUrl(nombreArchivo);
-
-      const imagen_url = urlData.publicUrl;
-
-      const { error: errorInsert } = await supabase
-        .from('productos')
-        .insert([{ nombre, descripcion, precio, imagen_url }]);
-
-      if (errorInsert) {
-        status.textContent = '❌ Error al guardar producto';
-      } else {
-        status.textContent = '✅ Producto guardado';
-        form.reset();
+    document.getElementById('btnAcceder').addEventListener('click', () => {
+      const clave = document.getElementById("clave").value;
+      if (clave === "240624") {
+        document.getElementById("auth").style.display = "none";
+        document.getElementById("panel").style.display = "block";
         cargarProductos();
+      } else {
+        statusGlobal.textContent = "❌ Contraseña incorrecta";
       }
     });
 
-    async function cargarProductos() {
-      contenedor.innerHTML = '<p>Cargando productos...</p>';
-      const { data: productos, error } = await supabase
-        .from('productos')
-        .select('*')
-        .order('created_at', { ascending: false });
+    function mostrar(id) {
+      document.querySelectorAll(".section").forEach(div => div.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      statusGlobal.textContent = "";
+    }
+    window.mostrar = mostrar;
 
-      if (error) {
-        contenedor.innerHTML = '<p>Error al cargar productos</p>';
+    window.salirAdmin = () => {
+      document.getElementById("panel").style.display = "none";
+      document.getElementById("auth").style.display = "block";
+      document.getElementById("clave").value = "";
+      statusGlobal.textContent = "";
+    }
+
+    document.getElementById("formNuevo").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById("nombre").value;
+      const descripcion = document.getElementById("descripcion").value;
+      const precio = parseFloat(document.getElementById("precio").value);
+      const archivo = document.getElementById("imagen").files[0];
+
+      const nombreArchivo = `${Date.now()}-${archivo.name}`;
+      const { error: errorUpload } = await supabase.storage.from('productos').upload(nombreArchivo, archivo);
+      if (errorUpload) {
+        document.getElementById("status").textContent = "❌ Error al subir imagen";
         return;
       }
 
-      contenedor.innerHTML = '';
-      productos.forEach(p => renderProducto(p));
+      const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
+      const imagen_url = data.publicUrl;
+
+      const { error: errorInsert } = await supabase.from("productos").insert([{ nombre, descripcion, precio, imagen_url }]);
+      if (errorInsert) {
+        document.getElementById("status").textContent = "❌ Error al guardar producto";
+        return;
+      }
+
+      document.getElementById("status").textContent = "✅ Producto guardado";
+      e.target.reset();
+      cargarProductos();
+    });
+
+    async function cargarProductos() {
+      const { data: productos } = await supabase.from("productos").select("*").order("created_at", { ascending: false });
+      const listaActualizar = document.getElementById("listaActualizar");
+      const listaEliminar = document.getElementById("listaEliminar");
+      listaActualizar.innerHTML = "";
+      listaEliminar.innerHTML = "";
+
+      productos.forEach(p => {
+        const del = document.createElement("div");
+        del.className = "producto-item";
+        del.textContent = p.nombre;
+        del.onclick = async () => {
+          if (confirm(`¿Eliminar "${p.nombre}"?`)) {
+            await supabase.from("productos").delete().eq("id", p.id);
+            statusGlobal.textContent = "✅ Producto eliminado";
+            cargarProductos();
+          }
+        };
+        listaEliminar.appendChild(del);
+
+        const upd = document.createElement("div");
+        upd.className = "producto-item";
+        upd.textContent = p.nombre;
+        upd.onclick = async () => {
+          const nuevo = prompt("Editar nombre|precio|descripcion", `${p.nombre}|${p.precio}|${p.descripcion}`);
+          if (nuevo) {
+            const [nombre, precio, descripcion] = nuevo.split("|");
+            const archivoInput = document.createElement("input");
+            archivoInput.type = "file";
+            archivoInput.accept = "image/*";
+            archivoInput.onchange = async () => {
+              let nuevaUrl = p.imagen_url;
+              if (archivoInput.files.length > 0) {
+                const archivo = archivoInput.files[0];
+                const nuevoNombre = `${Date.now()}-${archivo.name}`;
+                await supabase.storage.from('productos').upload(nuevoNombre, archivo);
+                const { data } = supabase.storage.from('productos').getPublicUrl(nuevoNombre);
+                nuevaUrl = data.publicUrl;
+              }
+
+              await supabase.from("productos").update({ nombre, precio, descripcion, imagen_url: nuevaUrl }).eq("id", p.id);
+              statusGlobal.textContent = "✅ Producto actualizado";
+              cargarProductos();
+            };
+            archivoInput.click();
+          }
+        };
+        listaActualizar.appendChild(upd);
+      });
     }
-    function renderProducto(p) {
-      const card = document.createElement('div');
-      card.classList.add('card');
-      card.innerHTML = `
-        <img src="${p.imagen_url}" class="img-preview" alt="${p.nombre}" />
-        <input value="${p.nombre}" placeholder="Nombre" id="nombre-${p.id}" class="producto-editable" />
-        <textarea placeholder="Descripción" id="descripcion-${p.id}" class="producto-editable">${p.descripcion}</textarea>
-        <input type="number" value="${p.precio}" placeholder="Precio" id="precio-${p.id}" class="producto-editable" />
-        <input type="file" id="imagen-${p.id}" accept="image/*" />
-        <div class="acciones">
-          <button onclick="actualizarProducto('${p.id}', '${p.imagen_url}')">Actualizar</button>
-          <button onclick="eliminarProducto('${p.id}')">Eliminar</button>
-        </div>
-      `;
-      contenedor.appendChild(card);
-    }
-
-    window.actualizarProducto = async (id, imagenAntigua) => {
-      const nombre = document.getElementById(`nombre-${id}`).value;
-      const descripcion = document.getElementById(`descripcion-${id}`).value;
-      const precio = parseFloat(document.getElementById(`precio-${id}`).value);
-      const imagenInput = document.getElementById(`imagen-${id}`);
-      let nuevaUrl = imagenAntigua;
-
-      if (imagenInput.files.length > 0) {
-        const archivo = imagenInput.files[0];
-        const nombreArchivo = `${Date.now()}-${archivo.name}`;
-        await supabase.storage.from('productos').upload(nombreArchivo, archivo);
-        const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
-        nuevaUrl = data.publicUrl;
-      }
-
-      const { error } = await supabase
-        .from('productos')
-        .update({ nombre, descripcion, precio, imagen_url: nuevaUrl })
-        .eq('id', id);
-
-      if (!error) {
-        alert('✅ Producto actualizado');
-        cargarProductos();
-      } else {
-        alert('❌ Error al actualizar');
-        console.error(error);
-      }
-    };
-
-    window.eliminarProducto = async (id) => {
-      const confirmar = confirm('¿Eliminar este producto?');
-      if (!confirmar) return;
-
-      const { error } = await supabase
-        .from('productos')
-        .delete()
-        .eq('id', id);
-
-      if (!error) {
-        alert('✅ Producto eliminado');
-        cargarProductos();
-      } else {
-        alert('❌ Error al eliminar');
-        console.error(error);
-      }
-    };
-
-    cargarProductos();
   </script>
 </body>
 </html>

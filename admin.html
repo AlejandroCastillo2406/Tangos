@@ -55,11 +55,6 @@
       color: var(--white);
     }
 
-    select option {
-      background: #111;
-      color: #fff;
-    }
-
     button {
       background: var(--yellow);
       color: var(--black);
@@ -119,24 +114,6 @@
       margin-top: 0.5rem;
     }
 
-    /* Ajustes para un diseño similar a la portada */
-    .btn-group button {
-      background: var(--yellow);
-      color: var(--black);
-      font-weight: 900;
-      border: none;
-      padding: 1rem 2rem;
-      border-radius: 50px;
-      box-shadow: 0 4px 12px rgba(255, 179, 8, 0.25);
-      font-size: 1.2rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .btn-group button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 18px rgba(255, 179, 8, 0.5);
-    }
-
     .logo-jump {
       height: 48px;
       animation: bounce 1.6s infinite ease-in-out;
@@ -172,8 +149,8 @@
     <h1>Gestión de productos</h1>
 
     <div class="btn-group">
-      <button onclick="mostrar('añadir')">➕ Añadir producto</button>
-      <button onclick="mostrar('eliminar')">🗑️ Eliminar producto</button>
+      <button id="btnAñadir" onclick="mostrar('añadir')">➕ Añadir producto</button>
+      <button id="btnEliminar" onclick="mostrar('eliminar')">🗑️ Eliminar producto</button>
     </div>
 
     <p id="statusGlobal" class="status"></p>

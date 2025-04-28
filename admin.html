@@ -9,8 +9,14 @@
     :root {
       --black: #000;
       --white: #fff;
-      --yellow: #ffd700;
-      --gray: #111;
+      --yellow: #FFB308;
+      --gray: #1A1A1A;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
@@ -25,16 +31,22 @@
       width: 100px;
       margin: 0 auto 1rem;
       display: block;
+      animation: bounce 1.6s infinite ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
 
     h1 {
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-weight: 900;
       color: var(--yellow);
       margin-bottom: 2rem;
     }
 
-    input, textarea, button {
+    input, textarea, select, button {
       width: 90%;
       max-width: 350px;
       padding: 0.75rem;
@@ -44,7 +56,7 @@
       border-radius: 8px;
     }
 
-    input, textarea {
+    input, textarea, select {
       background: #222;
       color: var(--white);
     }
@@ -54,6 +66,16 @@
       color: var(--black);
       font-weight: 900;
       cursor: pointer;
+      border-radius: 50px;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      transition: background 0.3s, transform 0.2s;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background: #FF9F00;
+      transform: scale(1.05);
     }
 
     .btn-group {
@@ -74,6 +96,7 @@
       padding: 2rem 1rem;
       margin-top: 2rem;
       border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
 
     .section.active {
@@ -99,11 +122,24 @@
       color: var(--yellow);
       margin-top: 0.5rem;
     }
+
+    footer {
+      background: var(--gray);
+      color: #aaa;
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    .logo-footer {
+      width: 120px;
+      margin-bottom: 1rem;
+    }
   </style>
 </head>
 <body>
 
-  <img src="assets/images/logo1.png" alt="Logo Tango's" class="logo" />
+  <img src="assets/images/logo1.png" alt="Logo Tango's" class="logo" onclick="window.location.href='admin.html'" />
 
   <div id="auth">
     <h1>Administrador</h1>
@@ -116,7 +152,6 @@
 
     <div class="btn-group">
       <button onclick="mostrar('añadir')">➕ Añadir producto</button>
-      <button onclick="mostrar('actualizar')">✏️ Actualizar producto</button>
       <button onclick="mostrar('eliminar')">🗑️ Eliminar producto</button>
     </div>
 
@@ -127,17 +162,25 @@
         <input type="text" id="nombre" placeholder="Nombre" required />
         <textarea id="descripcion" placeholder="Descripción" required></textarea>
         <input type="number" id="precio" placeholder="Precio" required />
+        <select id="categoria" required>
+          <option value="" disabled selected>Selecciona una categoría</option>
+          <option value="bebidas">🥤 Bebidas</option>
+          <option value="snacks">🍟 Snacks</option>
+          <option value="elotes">🌽 Elotes</option>
+          <option value="delicias">🍓 Delicias</option>
+        </select>
         <input type="file" id="imagen" accept="image/*" required />
         <button type="submit">Guardar producto</button>
         <p id="status" class="status"></p>
       </form>
     </div>
 
-    <div id="actualizar" class="section"><div id="listaActualizar"></div></div>
-    <div id="eliminar" class="section"><div id="listaEliminar"></div></div>
+    <div id="eliminar" class="section">
+      <div id="listaEliminar"></div>
+    </div>
 
     <!-- 🔁 BOTÓN SALIR -->
-    <button onclick="salirAdmin()" style="margin-top: 3rem;">🚪 Salir del modo admin</button>
+    <button onclick="window.location.href='index.html'" style="margin-top: 3rem;">🚪 Salir del modo admin</button>
   </div>
 
   <script type="module">
@@ -166,20 +209,18 @@
       document.getElementById(id).classList.add("active");
       statusGlobal.textContent = "";
     }
-    window.mostrar = mostrar;
 
     window.salirAdmin = () => {
-      document.getElementById("panel").style.display = "none";
-      document.getElementById("auth").style.display = "block";
-      document.getElementById("clave").value = "";
-      statusGlobal.textContent = "";
+      window.location.href = "index.html";
     }
 
     document.getElementById("formNuevo").addEventListener("submit", async (e) => {
       e.preventDefault();
+
       const nombre = document.getElementById("nombre").value;
       const descripcion = document.getElementById("descripcion").value;
       const precio = parseFloat(document.getElementById("precio").value);
+      const categoria = document.getElementById("categoria").value;
       const archivo = document.getElementById("imagen").files[0];
 
       const nombreArchivo = `${Date.now()}-${archivo.name}`;
@@ -192,7 +233,10 @@
       const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
       const imagen_url = data.publicUrl;
 
-      const { error: errorInsert } = await supabase.from("productos").insert([{ nombre, descripcion, precio, imagen_url }]);
+      const { error: errorInsert } = await supabase.from("productos").insert([
+        { nombre, descripcion, precio, imagen_url, categoria }
+      ]);
+
       if (errorInsert) {
         document.getElementById("status").textContent = "❌ Error al guardar producto";
         return;
@@ -205,9 +249,7 @@
 
     async function cargarProductos() {
       const { data: productos } = await supabase.from("productos").select("*").order("created_at", { ascending: false });
-      const listaActualizar = document.getElementById("listaActualizar");
       const listaEliminar = document.getElementById("listaEliminar");
-      listaActualizar.innerHTML = "";
       listaEliminar.innerHTML = "";
 
       productos.forEach(p => {
@@ -222,37 +264,9 @@
           }
         };
         listaEliminar.appendChild(del);
-
-        const upd = document.createElement("div");
-        upd.className = "producto-item";
-        upd.textContent = p.nombre;
-        upd.onclick = async () => {
-          const nuevo = prompt("Editar nombre|precio|descripcion", `${p.nombre}|${p.precio}|${p.descripcion}`);
-          if (nuevo) {
-            const [nombre, precio, descripcion] = nuevo.split("|");
-            const archivoInput = document.createElement("input");
-            archivoInput.type = "file";
-            archivoInput.accept = "image/*";
-            archivoInput.onchange = async () => {
-              let nuevaUrl = p.imagen_url;
-              if (archivoInput.files.length > 0) {
-                const archivo = archivoInput.files[0];
-                const nuevoNombre = `${Date.now()}-${archivo.name}`;
-                await supabase.storage.from('productos').upload(nuevoNombre, archivo);
-                const { data } = supabase.storage.from('productos').getPublicUrl(nuevoNombre);
-                nuevaUrl = data.publicUrl;
-              }
-
-              await supabase.from("productos").update({ nombre, precio, descripcion, imagen_url: nuevaUrl }).eq("id", p.id);
-              statusGlobal.textContent = "✅ Producto actualizado";
-              cargarProductos();
-            };
-            archivoInput.click();
-          }
-        };
-        listaActualizar.appendChild(upd);
       });
     }
   </script>
+
 </body>
 </html>

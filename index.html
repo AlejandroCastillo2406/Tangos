@@ -484,6 +484,12 @@
   }, { threshold: 0.5 });
 
   document.querySelectorAll('.animado').forEach(el => observer.observe(el));
+  
+  // Deshabilitar clic derecho en toda la página
+  document.addEventListener("contextmenu", function(event) {
+    event.preventDefault();  // Prevenir el menú contextual (clic derecho)
+    alert("El clic derecho está deshabilitado en esta página.");
+  });
 </script>
 
 </body>

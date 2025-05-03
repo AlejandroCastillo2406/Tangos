@@ -51,7 +51,7 @@
     }
 
     h1 {
-      font-size: 1.5rem;
+      font-size: 2rem;
       font-weight: 900;
       color: var(--yellow);
       margin-bottom: 2rem;
@@ -221,6 +221,7 @@
       <h1>Administrador</h1>
       <input type="password" id="clave" placeholder="Contraseña de acceso" autocomplete="off" inputmode="numeric" />
       <button id="btnAcceder">Entrar</button>
+      <p id="statusGlobal" class="status"></p>
     </div>
 
     <div id="panel" style="display:none;">
@@ -258,21 +259,18 @@
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
     );
 
+    const statusGlobal = document.getElementById("statusGlobal");
+
     document.getElementById('btnAcceder').addEventListener('click', () => {
-  const clave = document.getElementById("clave").value;
-  const statusGlobal = document.getElementById("statusGlobal");
-
-  if (clave === "240624") {
-    document.getElementById("auth").style.display = "none";
-    document.getElementById("panel").style.display = "block";
-    cargarProductos();
-  } else {
-    // Muestra el mensaje de error directamente en la pestaña de autenticación
-    statusGlobal.textContent = "❌ Contraseña incorrecta";
-    document.getElementById("statusGlobal").style.color = "red"; // Cambia el color a rojo para destacar el error
-  }
-});
-
+      const clave = document.getElementById("clave").value;
+      if (clave === "240624") {
+        document.getElementById("auth").style.display = "none";
+        document.getElementById("panel").style.display = "block";
+        cargarProductos();
+      } else {
+        document.getElementById("statusGlobal").textContent = "❌ Contraseña incorrecta";
+      }
+    });
 
     function mostrar(id) {
       document.querySelectorAll(".section").forEach(div => div.classList.remove("active"));
@@ -282,10 +280,7 @@
     window.mostrar = mostrar;
 
     window.salirAdmin = () => {
-      document.getElementById("panel").style.display = "none";
-      document.getElementById("auth").style.display = "block";
-      document.getElementById("clave").value = "";
-      statusGlobal.textContent = "";
+      window.location.href = "index.html";  // Redirecciona al index
     }
 
     document.getElementById("formNuevo").addEventListener("submit", async (e) => {
@@ -335,10 +330,6 @@
         listaEliminar.appendChild(del);
       });
     }
-
-     // Deshabilitar clic derecho en toda la página
-  document.addEventListener("contextmenu", function(event) {
-    event.preventDefault();  // Prevenir el menú contextual (clic derecho)
   </script>
 </body>
 </html>

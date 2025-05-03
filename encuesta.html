@@ -7,10 +7,10 @@
   <link rel="stylesheet" href="assets/css/styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    /* Aquí van los estilos previos de tu código */
+    /* Aquí están los estilos mejorados */
     body {
-      background: var(--black);
-      color: var(--white);
+      background-color: #0e0e0e;
+      color: #fff;
       font-family: 'Inter', sans-serif;
       padding: 2rem;
       text-align: center;
@@ -19,24 +19,25 @@
     .encuesta-wrapper {
       max-width: 600px;
       margin: 0 auto;
-      background-color: #222;
+      background-color: #1e1e1e;
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+      color: #ffb308;
+      font-size: 2rem;
+      margin-bottom: 2rem;
     }
 
     .encuesta-formulario {
       margin-bottom: 2rem;
     }
 
-    label {
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-    }
-
     .btn-guardar {
-      background-color: var(--yellow);
-      color: var(--black);
+      background-color: #ffb308;
+      color: black;
       padding: 0.75rem 2rem;
       border-radius: 8px;
       cursor: pointer;
@@ -45,13 +46,53 @@
     }
 
     .btn-guardar:hover {
-      background-color: var(--dark-yellow);
+      background-color: #e09900;
+    }
+
+    .pregunta-container {
+      margin-bottom: 2rem;
+    }
+
+    .opcion {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #333;
+      border-radius: 50px;
+      color: #fff;
+      font-size: 1.1rem;
+      margin: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .opcion:hover {
+      background-color: #444;
+    }
+
+    .opcion:active {
+      background-color: #555;
     }
 
     .mensaje-confirmacion {
       font-weight: bold;
-      color: var(--yellow);
+      color: #ffb308;
       margin-top: 1rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background-color: #444;
+      border-radius: 5px;
+      margin-bottom: 2rem;
+    }
+
+    .progress-bar span {
+      display: block;
+      height: 100%;
+      background-color: #ffb308;
+      width: 0%;
+      border-radius: 5px;
     }
   </style>
 </head>
@@ -60,37 +101,45 @@
   <div class="encuesta-wrapper">
     <h2>Tu opinión nos importa</h2>
     <form id="formEncuesta">
-      <!-- Sección 1: Sabor -->
+      <!-- Barra de progreso -->
+      <div class="progress-bar">
+        <span id="progress-bar" style="width: 0%"></span>
+      </div>
+
+      <!-- Sección de preguntas -->
       <div id="seccion-sabor" class="encuesta-formulario">
         <h3>¿Qué te pareció el sabor?</h3>
-        <label><input type="radio" name="sabor" value="5"> Excelente</label><br>
-        <label><input type="radio" name="sabor" value="4"> Muy bueno</label><br>
-        <label><input type="radio" name="sabor" value="3"> Bueno</label><br>
-        <label><input type="radio" name="sabor" value="2"> Regular</label><br>
-        <label><input type="radio" name="sabor" value="1"> Malo</label><br>
+        <div class="pregunta-container">
+          <span class="opcion" onclick="guardarRespuesta('sabor', 5)">Excelente</span>
+          <span class="opcion" onclick="guardarRespuesta('sabor', 4)">Muy Bueno</span>
+          <span class="opcion" onclick="guardarRespuesta('sabor', 3)">Bueno</span>
+          <span class="opcion" onclick="guardarRespuesta('sabor', 2)">Regular</span>
+          <span class="opcion" onclick="guardarRespuesta('sabor', 1)">Malo</span>
+        </div>
       </div>
 
-      <!-- Sección 2: Local -->
       <div id="seccion-local" class="encuesta-formulario" style="display:none;">
         <h3>¿Qué opinas del local?</h3>
-        <label><input type="radio" name="local" value="5"> Excelente</label><br>
-        <label><input type="radio" name="local" value="4"> Muy bueno</label><br>
-        <label><input type="radio" name="local" value="3"> Bueno</label><br>
-        <label><input type="radio" name="local" value="2"> Regular</label><br>
-        <label><input type="radio" name="local" value="1"> Malo</label><br>
+        <div class="pregunta-container">
+          <span class="opcion" onclick="guardarRespuesta('local', 5)">Excelente</span>
+          <span class="opcion" onclick="guardarRespuesta('local', 4)">Muy Bueno</span>
+          <span class="opcion" onclick="guardarRespuesta('local', 3)">Bueno</span>
+          <span class="opcion" onclick="guardarRespuesta('local', 2)">Regular</span>
+          <span class="opcion" onclick="guardarRespuesta('local', 1)">Malo</span>
+        </div>
       </div>
 
-      <!-- Sección 3: Atención -->
       <div id="seccion-atencion" class="encuesta-formulario" style="display:none;">
         <h3>¿Cómo fue la atención?</h3>
-        <label><input type="radio" name="atencion" value="5"> Excelente</label><br>
-        <label><input type="radio" name="atencion" value="4"> Muy buena</label><br>
-        <label><input type="radio" name="atencion" value="3"> Buena</label><br>
-        <label><input type="radio" name="atencion" value="2"> Regular</label><br>
-        <label><input type="radio" name="atencion" value="1"> Mala</label><br>
+        <div class="pregunta-container">
+          <span class="opcion" onclick="guardarRespuesta('atencion', 5)">Excelente</span>
+          <span class="opcion" onclick="guardarRespuesta('atencion', 4)">Muy Bueno</span>
+          <span class="opcion" onclick="guardarRespuesta('atencion', 3)">Bueno</span>
+          <span class="opcion" onclick="guardarRespuesta('atencion', 2)">Regular</span>
+          <span class="opcion" onclick="guardarRespuesta('atencion', 1)">Malo</span>
+        </div>
       </div>
 
-      <!-- Sección 4: Comentarios -->
       <div id="seccion-comentarios" class="encuesta-formulario" style="display:none;">
         <h3>Observaciones (opcional)</h3>
         <textarea id="comentarios" rows="4" placeholder="¿Algo que quieras comentarnos?"></textarea><br>
@@ -110,69 +159,59 @@
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
     );
 
-    const btnSiguiente = document.getElementById('btnSiguiente');
-    const mensajeConfirmacion = document.getElementById("mensajeConfirmacion");
     let currentSection = 1;
+    let respuestas = {};
 
+    // Función para guardar respuesta
+    function guardarRespuesta(seccion, respuesta) {
+      respuestas[seccion] = respuesta;
+      mostrarSiguiente();
+    }
+
+    // Función para mostrar la siguiente sección
     function mostrarSiguiente() {
-      const sabor = document.querySelector('input[name="sabor"]:checked')?.value;
-      const local = document.querySelector('input[name="local"]:checked')?.value;
-      const atencion = document.querySelector('input[name="atencion"]:checked')?.value;
-
-      // Validar que cada sección esté respondida
-      if (currentSection === 1 && !sabor) {
-        mensajeConfirmacion.textContent = "❌ Por favor selecciona una opción para el sabor.";
-        return;
+      if (currentSection === 1 && !respuestas['sabor']) {
+        return alert("Por favor selecciona una opción para el sabor.");
       }
 
-      if (currentSection === 2 && !local) {
-        mensajeConfirmacion.textContent = "❌ Por favor selecciona una opción para el local.";
-        return;
+      if (currentSection === 2 && !respuestas['local']) {
+        return alert("Por favor selecciona una opción para el local.");
       }
 
-      if (currentSection === 3 && !atencion) {
-        mensajeConfirmacion.textContent = "❌ Por favor selecciona una opción para la atención.";
-        return;
+      if (currentSection === 3 && !respuestas['atencion']) {
+        return alert("Por favor selecciona una opción para la atención.");
       }
 
-      // Mostrar la siguiente sección
-      if (currentSection === 1) {
-        document.getElementById("seccion-sabor").style.display = "none";
-        document.getElementById("seccion-local").style.display = "block";
-        currentSection = 2;
-      } else if (currentSection === 2) {
-        document.getElementById("seccion-local").style.display = "none";
-        document.getElementById("seccion-atencion").style.display = "block";
-        currentSection = 3;
-      } else if (currentSection === 3) {
-        document.getElementById("seccion-atencion").style.display = "none";
-        document.getElementById("seccion-comentarios").style.display = "block";
-        currentSection = 4;
-        btnSiguiente.textContent = "Enviar Encuesta"; // Cambiar texto del botón
-      } else if (currentSection === 4) {
-        const comentarios = document.getElementById("comentarios").value;
+      if (currentSection === 4) {
+        const comentarios = document.getElementById('comentarios').value;
+        respuestas['comentarios'] = comentarios;
 
-        // Guardar encuesta en Supabase
-        const { data, error } = await supabase.from("encuestas").insert([
-          {
-            sabor_1: sabor,
-            local_1: local,
-            atencion_1: atencion,
-            comentarios: comentarios || null
+        // Enviar encuesta a Supabase
+        supabase.from('encuestas').insert([respuestas]).then(response => {
+          if (response.error) {
+            document.getElementById('mensajeConfirmacion').textContent = "❌ Error al enviar la encuesta";
+          } else {
+            document.getElementById('mensajeConfirmacion').textContent = "✅ Encuesta enviada con éxito!";
           }
-        ]);
+        });
 
-        if (error) {
-          mensajeConfirmacion.textContent = "❌ Ocurrió un error al enviar la encuesta.";
-        } else {
-          mensajeConfirmacion.textContent = "✅ Encuesta enviada con éxito!";
-        }
+        // Mostrar mensaje de éxito
+        return;
+      }
+
+      document.getElementById(`seccion-${['sabor', 'local', 'atencion'][currentSection - 1]}`).style.display = 'none';
+      currentSection++;
+      document.getElementById(`seccion-${['sabor', 'local', 'atencion'][currentSection - 1]}`).style.display = 'block';
+
+      // Actualizar progreso
+      document.getElementById('progress-bar').style.width = (currentSection * 33.3) + '%';
+      if (currentSection === 4) {
+        document.getElementById('btnSiguiente').textContent = 'Enviar Encuesta';
       }
     }
 
-    btnSiguiente.addEventListener('click', mostrarSiguiente);
+    document.getElementById('btnSiguiente').addEventListener('click', mostrarSiguiente);
   </script>
 
 </body>
 </html>
-

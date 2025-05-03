@@ -258,18 +258,21 @@
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
     );
 
-    const statusGlobal = document.getElementById("statusGlobal");
-
     document.getElementById('btnAcceder').addEventListener('click', () => {
-      const clave = document.getElementById("clave").value;
-      if (clave === "240624") {
-        document.getElementById("auth").style.display = "none";
-        document.getElementById("panel").style.display = "block";
-        cargarProductos();
-      } else {
-        statusGlobal.textContent = "❌ Contraseña incorrecta";
-      }
-    });
+  const clave = document.getElementById("clave").value;
+  const statusGlobal = document.getElementById("statusGlobal");
+
+  if (clave === "240624") {
+    document.getElementById("auth").style.display = "none";
+    document.getElementById("panel").style.display = "block";
+    cargarProductos();
+  } else {
+    // Muestra el mensaje de error directamente en la pestaña de autenticación
+    statusGlobal.textContent = "❌ Contraseña incorrecta";
+    document.getElementById("statusGlobal").style.color = "red"; // Cambia el color a rojo para destacar el error
+  }
+});
+
 
     function mostrar(id) {
       document.querySelectorAll(".section").forEach(div => div.classList.remove("active"));

@@ -335,6 +335,10 @@
         listaEliminar.appendChild(del);
       });
     }
+
+     // Deshabilitar clic derecho en toda la página
+  document.addEventListener("contextmenu", function(event) {
+    event.preventDefault();  // Prevenir el menú contextual (clic derecho)
   </script>
 </body>
 </html>

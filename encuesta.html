@@ -2,200 +2,177 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Encuesta - Tango's</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --black: #000;
-      --white: #fff;
-      --yellow: #FFB308;
-      --gray: #111;
-      --dark-gray: #222;
-    }
-
+    /* Aquí van los estilos previos de tu código */
     body {
       background: var(--black);
       color: var(--white);
       font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-image: linear-gradient(45deg, #000000, #222222);
+      padding: 2rem;
+      text-align: center;
     }
 
     .encuesta-wrapper {
-      background: var(--dark-gray);
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #222;
       padding: 2rem;
       border-radius: 12px;
-      width: 100%;
-      max-width: 800px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
 
-    h2 {
-      text-align: center;
-      color: var(--yellow);
+    .encuesta-formulario {
       margin-bottom: 2rem;
-      text-transform: uppercase;
-      font-size: 2rem;
-    }
-
-    .seccion {
-      display: none;
-      padding: 1.5rem;
-      background: var(--gray);
-      border-radius: 8px;
-      margin-bottom: 2rem;
-    }
-
-    .seccion.active {
-      display: block;
     }
 
     label {
-      font-weight: 600;
+      font-size: 1.1rem;
       margin-bottom: 1rem;
-      display: block;
     }
 
-    .radio-buttons {
-      display: flex;
-      justify-content: space-around;
-    }
-
-    .radio-buttons input {
-      margin-right: 1rem;
-    }
-
-    button {
-      width: 100%;
-      padding: 1rem;
-      background: var(--yellow);
+    .btn-guardar {
+      background-color: var(--yellow);
       color: var(--black);
-      border: none;
-      font-weight: 700;
-      cursor: pointer;
+      padding: 0.75rem 2rem;
       border-radius: 8px;
-      margin-top: 2rem;
-      transition: background 0.3s;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border: none;
     }
 
-    button:hover {
-      background: #e09900;
+    .btn-guardar:hover {
+      background-color: var(--dark-yellow);
     }
 
-    .status {
+    .mensaje-confirmacion {
       font-weight: bold;
       color: var(--yellow);
       margin-top: 1rem;
-      text-align: center;
     }
   </style>
 </head>
 <body>
+
   <div class="encuesta-wrapper">
-    <h2>Tu Opinión Nos Importa</h2>
-
-    <form id="encuestaForm">
-      <!-- Sección Sabor -->
-      <div class="seccion" id="seccion-sabor">
-        <h3>1. ¿Qué te pareció el sabor?</h3>
-        <div class="radio-buttons">
-          <label><input type="radio" name="sabor-1" value="5" required /> Excelente</label>
-          <label><input type="radio" name="sabor-1" value="4" /> Muy bueno</label>
-          <label><input type="radio" name="sabor-1" value="3" /> Bueno</label>
-          <label><input type="radio" name="sabor-1" value="2" /> Regular</label>
-          <label><input type="radio" name="sabor-1" value="1" /> Malo</label>
-        </div>
-        <!-- Repetir para 4 preguntas más -->
+    <h2>Tu opinión nos importa</h2>
+    <form id="formEncuesta">
+      <!-- Sección 1: Sabor -->
+      <div id="seccion-sabor" class="encuesta-formulario">
+        <h3>¿Qué te pareció el sabor?</h3>
+        <label><input type="radio" name="sabor" value="5"> Excelente</label><br>
+        <label><input type="radio" name="sabor" value="4"> Muy bueno</label><br>
+        <label><input type="radio" name="sabor" value="3"> Bueno</label><br>
+        <label><input type="radio" name="sabor" value="2"> Regular</label><br>
+        <label><input type="radio" name="sabor" value="1"> Malo</label><br>
       </div>
 
-      <!-- Sección Local -->
-      <div class="seccion" id="seccion-local">
-        <h3>2. ¿Qué opinas del local?</h3>
-        <div class="radio-buttons">
-          <label><input type="radio" name="local-1" value="5" required /> Excelente</label>
-          <label><input type="radio" name="local-1" value="4" /> Muy bueno</label>
-          <label><input type="radio" name="local-1" value="3" /> Bueno</label>
-          <label><input type="radio" name="local-1" value="2" /> Regular</label>
-          <label><input type="radio" name="local-1" value="1" /> Malo</label>
-        </div>
-        <!-- Repetir para 4 preguntas más -->
+      <!-- Sección 2: Local -->
+      <div id="seccion-local" class="encuesta-formulario" style="display:none;">
+        <h3>¿Qué opinas del local?</h3>
+        <label><input type="radio" name="local" value="5"> Excelente</label><br>
+        <label><input type="radio" name="local" value="4"> Muy bueno</label><br>
+        <label><input type="radio" name="local" value="3"> Bueno</label><br>
+        <label><input type="radio" name="local" value="2"> Regular</label><br>
+        <label><input type="radio" name="local" value="1"> Malo</label><br>
       </div>
 
-      <!-- Sección Atención al cliente -->
-      <div class="seccion" id="seccion-atencion">
-        <h3>3. ¿Cómo fue la atención?</h3>
-        <div class="radio-buttons">
-          <label><input type="radio" name="atencion-1" value="5" required /> Excelente</label>
-          <label><input type="radio" name="atencion-1" value="4" /> Muy buena</label>
-          <label><input type="radio" name="atencion-1" value="3" /> Buena</label>
-          <label><input type="radio" name="atencion-1" value="2" /> Regular</label>
-          <label><input type="radio" name="atencion-1" value="1" /> Mala</label>
-        </div>
-        <!-- Repetir para 4 preguntas más -->
+      <!-- Sección 3: Atención -->
+      <div id="seccion-atencion" class="encuesta-formulario" style="display:none;">
+        <h3>¿Cómo fue la atención?</h3>
+        <label><input type="radio" name="atencion" value="5"> Excelente</label><br>
+        <label><input type="radio" name="atencion" value="4"> Muy buena</label><br>
+        <label><input type="radio" name="atencion" value="3"> Buena</label><br>
+        <label><input type="radio" name="atencion" value="2"> Regular</label><br>
+        <label><input type="radio" name="atencion" value="1"> Mala</label><br>
       </div>
 
-      <!-- Sección Comentarios -->
-      <div class="seccion" id="seccion-comentarios">
-        <h3>4. ¿Tienes alguna sugerencia o comentario?</h3>
-        <textarea id="comentarios" rows="4" placeholder="Escribe tu comentario aquí..."></textarea>
+      <!-- Sección 4: Comentarios -->
+      <div id="seccion-comentarios" class="encuesta-formulario" style="display:none;">
+        <h3>Observaciones (opcional)</h3>
+        <textarea id="comentarios" rows="4" placeholder="¿Algo que quieras comentarnos?"></textarea><br>
       </div>
 
-      <!-- Botón Enviar Encuesta -->
-      <button type="submit">Enviar Encuesta</button>
-      <p id="mensajeConfirmacion" class="status"></p>
+      <button type="button" id="btnSiguiente" class="btn-guardar">Siguiente</button>
     </form>
+
+    <p id="mensajeConfirmacion" class="mensaje-confirmacion"></p>
   </div>
 
   <script type="module">
-    import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js';
 
     const supabase = createClient(
       'https://ljlaudvreolkdppgfqul.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
     );
 
-    const encuestaForm = document.getElementById("encuestaForm");
+    const btnSiguiente = document.getElementById('btnSiguiente');
     const mensajeConfirmacion = document.getElementById("mensajeConfirmacion");
+    let currentSection = 1;
 
-    encuestaForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    function mostrarSiguiente() {
+      const sabor = document.querySelector('input[name="sabor"]:checked')?.value;
+      const local = document.querySelector('input[name="local"]:checked')?.value;
+      const atencion = document.querySelector('input[name="atencion"]:checked')?.value;
 
-      // Obtener respuestas
-      const sabor = document.querySelector('input[name="sabor-1"]:checked')?.value;
-      const local = document.querySelector('input[name="local-1"]:checked')?.value;
-      const atencion = document.querySelector('input[name="atencion-1"]:checked')?.value;
-      const comentarios = document.getElementById("comentarios").value;
-
-      // Verificar si se ha completado la encuesta
-      if (!sabor || !local || !atencion) {
-        mensajeConfirmacion.textContent = "❌ Por favor completa todas las preguntas antes de enviar.";
+      // Validar que cada sección esté respondida
+      if (currentSection === 1 && !sabor) {
+        mensajeConfirmacion.textContent = "❌ Por favor selecciona una opción para el sabor.";
         return;
       }
 
-      // Guardar encuesta en Supabase
-      const { data, error } = await supabase.from("encuestas").insert([
-        {
-          sabor,
-          local,
-          atencion,
-          comentarios: comentarios || null
-        }
-      ]);
-
-      if (error) {
-        mensajeConfirmacion.textContent = "❌ Ocurrió un error al enviar la encuesta.";
-      } else {
-        mensajeConfirmacion.textContent = "✅ Encuesta enviada con éxito!";
-        encuestaForm.reset(); // Limpiar el formulario
+      if (currentSection === 2 && !local) {
+        mensajeConfirmacion.textContent = "❌ Por favor selecciona una opción para el local.";
+        return;
       }
-    });
+
+      if (currentSection === 3 && !atencion) {
+        mensajeConfirmacion.textContent = "❌ Por favor selecciona una opción para la atención.";
+        return;
+      }
+
+      // Mostrar la siguiente sección
+      if (currentSection === 1) {
+        document.getElementById("seccion-sabor").style.display = "none";
+        document.getElementById("seccion-local").style.display = "block";
+        currentSection = 2;
+      } else if (currentSection === 2) {
+        document.getElementById("seccion-local").style.display = "none";
+        document.getElementById("seccion-atencion").style.display = "block";
+        currentSection = 3;
+      } else if (currentSection === 3) {
+        document.getElementById("seccion-atencion").style.display = "none";
+        document.getElementById("seccion-comentarios").style.display = "block";
+        currentSection = 4;
+        btnSiguiente.textContent = "Enviar Encuesta"; // Cambiar texto del botón
+      } else if (currentSection === 4) {
+        const comentarios = document.getElementById("comentarios").value;
+
+        // Guardar encuesta en Supabase
+        const { data, error } = await supabase.from("encuestas").insert([
+          {
+            sabor_1: sabor,
+            local_1: local,
+            atencion_1: atencion,
+            comentarios: comentarios || null
+          }
+        ]);
+
+        if (error) {
+          mensajeConfirmacion.textContent = "❌ Ocurrió un error al enviar la encuesta.";
+        } else {
+          mensajeConfirmacion.textContent = "✅ Encuesta enviada con éxito!";
+        }
+      }
+    }
+
+    btnSiguiente.addEventListener('click', mostrarSiguiente);
   </script>
+
 </body>
 </html>
 

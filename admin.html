@@ -417,17 +417,17 @@
       const { data, error } = await supabase.from("encuesta").select("*");
       if (error || !data.length) return alert("No hay datos de encuesta");
 
-      const preguntasSabor   = ["sabor1","sabor2","sabor3","sabor4","sabor5"];
-      const preguntasLocal   = ["local1","local2","local3","local4","local5"];
-      const preguntasAtencion= ["atencion1","atencion2","atencion3","atencion4","atencion5"];
+      const preguntasSabor    = ["sabor1","sabor2","sabor3","sabor4","sabor5"];
+      const preguntasLocal    = ["local1","local2","local3","local4","local5"];
+      const preguntasAtencion = ["atencion1","atencion2","atencion3","atencion4","atencion5"];
 
-      let labels=[], values=[];
+      let labels = [], values = [];
 
       if (tipo === "porPregunta") {
         const todas = [...preguntasSabor, ...preguntasLocal, ...preguntasAtencion];
         labels = todas.map(q => q.replace(/([a-z])([0-9])/i,"$1 $2"));
         values = todas.map(col => {
-          const sum = data.reduce((acc,r)=> acc + (r[col]||0),0);
+          const sum = data.reduce((acc, r) => acc + (r[col]||0), 0);
           return +(sum / data.length).toFixed(2);
         });
       } else {
@@ -438,7 +438,9 @@
         ];
         labels = secciones.map(s=>s.name);
         values = secciones.map(s => {
-          const sum = data.reduce((acc,r)=> acc + s.cols.reduce((a,c)=>a + (r[c]||0),0),0);
+          const sum = data.reduce((acc,r)=>
+            acc + s.cols.reduce((a,c)=> a + (r[c]||0), 0)
+          , 0);
           return +(sum / (s.cols.length * data.length)).toFixed(2);
         });
       }
@@ -448,21 +450,23 @@
       const ul = document.getElementById("listaSugerencias");
       ul.innerHTML = "";
       sugerencias.forEach(s => {
-        const li = document.createElement("li"); li.textContent = s;
+        const li = document.createElement("li");
+        li.textContent = s;
         ul.appendChild(li);
       });
 
+      // pintar gráfico
       const ctx = document.getElementById("reportChart").getContext("2d");
       if (reportChart) reportChart.destroy();
       reportChart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels, datasets: [{
+          labels,
+          datasets: [{
             data: values,
-            borderColor: '#FFB308',
-            backgroundColor: 'transparent',
-            borderWidth: 3,
-            borderRadius: 4,
+            backgroundColor: '#FFB308',  // Dorado sólido
+            borderColor: '#FFB308',      
+            borderWidth: 1,
             barPercentage: 0.6,
             categoryPercentage: 0.7
           }]
@@ -496,4 +500,3 @@
   </script>
 </body>
 </html>
-

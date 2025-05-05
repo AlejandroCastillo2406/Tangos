@@ -417,9 +417,9 @@
       const { data, error } = await supabase.from("encuesta").select("*");
       if (error || !data.length) return alert("No hay datos de encuesta");
 
-      const preguntasSabor    = ["sabor1","sabor2","sabor3","sabor4","sabor5"];
-      const preguntasLocal    = ["local1","local2","local3","local4","local5"];
-      const preguntasAtencion = ["atencion1","atencion2","atencion3","atencion4","atencion5"];
+      const preguntasLocal    = ["local_1","local_2","local_3","local_4","local_5"];
+      const preguntasSabor    = ["sabor_1","sabor_2","sabor_3","sabor_4","sabor_5"];
+      const preguntasAtencion = ["atencion_1","atencion_2","atencion_3","atencion_4","atencion_5"];
 
       let labels = [], values = [];
 
@@ -446,7 +446,7 @@
       }
 
       // sugerencias
-      const sugerencias = data.map(r=>r.sugerencia).filter(t=>t);
+      const sugerencias = data.map(r=>r.sugerencias).filter(t=>t);
       const ul = document.getElementById("listaSugerencias");
       ul.innerHTML = "";
       sugerencias.forEach(s => {

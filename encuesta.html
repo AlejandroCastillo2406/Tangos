@@ -3,18 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Encuesta | Tango’s</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet"/>
+  <title>Encuesta | Tango's</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet" />
   <style>
     :root {
       --black: #000;
       --white: #fff;
       --yellow: #FFB308;
-      --gray-dark: #111;
-      --gray-light: #222;
-      --accent: #FFD56B;
+      --gray: #111;
     }
-    * { margin:0; padding:0; box-sizing:border-box }
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family:'Inter',sans-serif;
       background: var(--black);
@@ -24,310 +22,355 @@
       min-height:100vh;
     }
     header {
-      background: var(--gray-dark);
+      background: var(--black);
+      border-bottom:3px solid var(--yellow);
       padding:1rem;
       text-align:center;
-      border-bottom:3px solid var(--yellow);
     }
     header h1 {
       color: var(--yellow);
       font-weight:900;
-      font-size:1.75rem;
+      font-size:1.8rem;
     }
-
     main {
       flex:1;
-      display:flex;
-      align-items:center;
-      justify-content:center;
       padding:1rem;
+      max-width:480px;
+      margin:0 auto;
     }
-    .escenario {
-      max-width:400px;
-      width:100%;
-      background: var(--gray-light);
-      padding:2rem;
-      border-radius:12px;
-      box-shadow:0 0 20px rgba(0,0,0,0.7);
+    .step {
       display:none;
+      animation:fadeIn 0.4s ease-out;
     }
-    .escenario.active { display:block; animation:fadeIn 0.4s ease }
-
+    .step.active {
+      display:block;
+    }
     @keyframes fadeIn {
-      from { opacity:0; transform:translateY(20px) }
-      to { opacity:1; transform:translateY(0) }
+      from {opacity:0;transform:translateY(10px);}
+      to   {opacity:1;transform:translateY(0);}
     }
-
-    .titulo-seccion {
-      font-size:1.25rem;
-      font-weight:600;
-      margin-bottom:1rem;
+    .step h2 {
       color: var(--yellow);
+      margin-bottom:1rem;
+      text-transform:uppercase;
+      font-weight:600;
       text-align:center;
     }
-    .pregunta {
+    .question {
       margin:1rem 0 0.5rem;
       font-size:1rem;
     }
-    .respuestas {
-      display:grid;
-      grid-template-columns:repeat(5,1fr);
+    .rating {
+      display:flex;
+      justify-content:center;
       gap:0.5rem;
-      justify-items:center;
+      margin-bottom:1rem;
     }
-    .respuestas label {
-      cursor:pointer;
-    }
-    .respuestas input {
-      display:none;
-    }
-    .respuestas .circle {
+    .rating input { display:none; }
+    .rating label {
       width:40px; height:40px;
+      border:2px solid var(--yellow);
       border-radius:50%;
-      background: var(--gray-dark);
       display:flex;
       align-items:center;
       justify-content:center;
-      color: var(--white);
-      font-weight:600;
-      transition:background 0.2s, transform 0.2s;
-    }
-    .respuestas input:checked + .circle {
-      background: var(--yellow);
-      color: var(--black);
-      transform: scale(1.1);
-    }
-
-    .btn-group {
-      display:flex;
-      justify-content: space-between;
-      margin-top:2rem;
-    }
-    .btn {
-      padding:0.75rem 1.5rem;
-      background: var(--yellow);
-      color: var(--black);
-      border:none;
-      border-radius:50px;
-      font-weight:600;
       cursor:pointer;
-      transition:transform 0.2s;
+      color: var(--white);
+      transition:background 0.2s, color 0.2s;
     }
-    .btn:disabled {
-      opacity:0.5; cursor:not-allowed;
+    .rating input:checked + label {
+      background: var(--yellow);
+      color: var(--black);
     }
-    .btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-    }
-
     textarea {
       width:100%;
-      height:80px;
-      padding:0.75rem;
-      border:none;
+      min-height:100px;
+      background:#222;
+      color:var(--white);
+      border:2px solid var(--yellow);
       border-radius:8px;
-      background: var(--gray-dark);
-      color: var(--white);
+      padding:0.5rem;
       resize:none;
+      margin-bottom:1rem;
     }
-
-    .loader, .mensaje {
-      text-align:center;
+    .buttons {
+      display:flex;
+      justify-content:space-between;
+      gap:1rem;
+    }
+    .buttons button {
+      flex:1;
+      background: var(--yellow);
+      color: var(--black);
+      border:none;
+      padding:0.75rem;
+      font-weight:600;
+      cursor:pointer;
+      border-radius:8px;
+      transition:transform 0.2s;
+    }
+    .buttons button:disabled {
+      background: #444;
+      cursor: not-allowed;
+    }
+    .buttons button:hover:not(:disabled) {
+      transform:translateY(-2px);
+    }
+    .message {
       margin-top:1rem;
-      color:var(--accent);
-    }
-
-    footer {
-      background: var(--gray-dark);
-      padding:1rem;
       text-align:center;
-      font-size:0.85rem;
-      color:#888;
+      font-weight:600;
+    }
+    footer {
+      background: var(--gray);
+      text-align:center;
+      padding:1rem;
+      font-size:0.8rem;
+      color:#aaa;
     }
   </style>
 </head>
 <body>
 
-<header><h1>Encuesta Tango’s</h1></header>
+  <header>
+    <h1>Encuesta Tango's</h1>
+  </header>
 
-<main>
-  <!-- Local -->
-  <div class="escenario" id="esc-local">
-    <div class="titulo-seccion">Sección: Local</div>
-    <div id="preg-local"></div>
-    <div class="btn-group">
-      <button class="btn" id="btn-local-next" disabled>Siguiente</button>
+  <main>
+    <!-- Step 1: Sabor -->
+    <div class="step active" data-step="1">
+      <h2>Sección 1: Sabor</h2>
+      <div class="question">1. ¿Qué tan intenso te pareció el sabor?</div>
+      <div class="rating" data-key="sabor1">
+        <input type="radio" id="sabor1-1" name="sabor1" value="1"><label for="sabor1-1">1</label>
+        <input type="radio" id="sabor1-2" name="sabor1" value="2"><label for="sabor1-2">2</label>
+        <input type="radio" id="sabor1-3" name="sabor1" value="3"><label for="sabor1-3">3</label>
+        <input type="radio" id="sabor1-4" name="sabor1" value="4"><label for="sabor1-4">4</label>
+        <input type="radio" id="sabor1-5" name="sabor1" value="5"><label for="sabor1-5">5</label>
+      </div>
+      <div class="question">2. ¿Lo encontraste equilibrado?</div>
+      <div class="rating" data-key="sabor2">
+        <input type="radio" id="sabor2-1" name="sabor2" value="1"><label for="sabor2-1">1</label>
+        <input type="radio" id="sabor2-2" name="sabor2" value="2"><label for="sabor2-2">2</label>
+        <input type="radio" id="sabor2-3" name="sabor2" value="3"><label for="sabor2-3">3</label>
+        <input type="radio" id="sabor2-4" name="sabor2" value="4"><label for="sabor2-4">4</label>
+        <input type="radio" id="sabor2-5" name="sabor2" value="5"><label for="sabor2-5">5</label>
+      </div>
+      <div class="question">3. ¿Fue memorable?</div>
+      <div class="rating" data-key="sabor3">
+        <input type="radio" id="sabor3-1" name="sabor3" value="1"><label for="sabor3-1">1</label>
+        <input type="radio" id="sabor3-2" name="sabor3" value="2"><label for="sabor3-2">2</label>
+        <input type="radio" id="sabor3-3" name="sabor3" value="3"><label for="sabor3-3">3</label>
+        <input type="radio" id="sabor3-4" name="sabor3" value="4"><label for="sabor3-4">4</label>
+        <input type="radio" id="sabor3-5" name="sabor3" value="5"><label for="sabor3-5">5</label>
+      </div>
+      <div class="question">4. ¿La textura ayudó al sabor?</div>
+      <div class="rating" data-key="sabor4">
+        <input type="radio" id="sabor4-1" name="sabor4" value="1"><label for="sabor4-1">1</label>
+        <input type="radio" id="sabor4-2" name="sabor4" value="2"><label for="sabor4-2">2</label>
+        <input type="radio" id="sabor4-3" name="sabor4" value="3"><label for="sabor4-3">3</label>
+        <input type="radio" id="sabor4-4" name="sabor4" value="4"><label for="sabor4-4">4</label>
+        <input type="radio" id="sabor4-5" name="sabor4" value="5"><label for="sabor4-5">5</label>
+      </div>
+      <div class="question">5. ¿Lo recomendarías?</div>
+      <div class="rating" data-key="sabor5">
+        <input type="radio" id="sabor5-1" name="sabor5" value="1"><label for="sabor5-1">1</label>
+        <input type="radio" id="sabor5-2" name="sabor5" value="2"><label for="sabor5-2">2</label>
+        <input type="radio" id="sabor5-3" name="sabor5" value="3"><label for="sabor5-3">3</label>
+        <input type="radio" id="sabor5-4" name="sabor5" value="4"><label for="sabor5-4">4</label>
+        <input type="radio" id="sabor5-5" name="sabor5" value="5"><label for="sabor5-5">5</label>
+      </div>
+      <div class="buttons">
+        <button id="next1">Siguiente</button>
+      </div>
     </div>
-  </div>
 
-  <!-- Sabor -->
-  <div class="escenario" id="esc-sabor">
-    <div class="titulo-seccion">Sección: Sabor</div>
-    <div id="preg-sabor"></div>
-    <div class="btn-group">
-      <button class="btn" id="btn-sabor-back">Anterior</button>
-      <button class="btn" id="btn-sabor-next" disabled>Siguiente</button>
+    <!-- Step 2: Local -->
+    <div class="step" data-step="2">
+      <h2>Sección 2: Local</h2>
+      <div class="question">1. ¿El ambiente te gustó?</div>
+      <div class="rating" data-key="local1">
+        <input type="radio" id="local1-1" name="local1" value="1"><label for="local1-1">1</label>
+        <input type="radio" id="local1-2" name="local1" value="2"><label for="local1-2">2</label>
+        <input type="radio" id="local1-3" name="local1" value="3"><label for="local1-3">3</label>
+        <input type="radio" id="local1-4" name="local1" value="4"><label for="local1-4">4</label>
+        <input type="radio" id="local1-5" name="local1" value="5"><label for="local1-5">5</label>
+      </div>
+      <div class="question">2. ¿Limpio y ordenado?</div>
+      <div class="rating" data-key="local2">
+        <input type="radio" id="local2-1" name="local2" value="1"><label for="local2-1">1</label>
+        <input type="radio" id="local2-2" name="local2" value="2"><label for="local2-2">2</label>
+        <input type="radio" id="local2-3" name="local2" value="3"><label for="local2-3">3</label>
+        <input type="radio" id="local2-4" name="local2" value="4"><label for="local2-4">4</label>
+        <input type="radio" id="local2-5" name="local2" value="5"><label for="local2-5">5</label>
+      </div>
+      <div class="question">3. ¿Cómodo para sentarte?</div>
+      <div class="rating" data-key="local3">
+        <input type="radio" id="local3-1" name="local3" value="1"><label for="local3-1">1</label>
+        <input type="radio" id="local3-2" name="local3" value="2"><label for="local3-2">2</label>
+        <input type="radio" id="local3-3" name="local3" value="3"><label for="local3-3">3</label>
+        <input type="radio" id="local3-4" name="local3" value="4"><label for="local3-4">4</label>
+        <input type="radio" id="local3-5" name="local3" value="5"><label for="local3-5">5</label>
+      </div>
+      <div class="question">4. ¿Buena iluminación?</div>
+      <div class="rating" data-key="local4">
+        <input type="radio" id="local4-1" name="local4" value="1"><label for="local4-1">1</label>
+        <input type="radio" id="local4-2" name="local4" value="2"><label for="local4-2">2</label>
+        <input type="radio" id="local4-3" name="local4" value="3"><label for="local4-3">3</label>
+        <input type="radio" id="local4-4" name="local4" value="4"><label for="local4-4">4</label>
+        <input type="radio" id="local4-5" name="local4" value="5"><label for="local4-5">5</label>
+      </div>
+      <div class="question">5. ¿Te sentirías de nuevo?</div>
+      <div class="rating" data-key="local5">
+        <input type="radio" id="local5-1" name="local5" value="1"><label for="local5-1">1</label>
+        <input type="radio" id="local5-2" name="local5" value="2"><label for="local5-2">2</label>
+        <input type="radio" id="local5-3" name="local5" value="3"><label for="local5-3">3</label>
+        <input type="radio" id="local5-4" name="local5" value="4"><label for="local5-4">4</label>
+        <input type="radio" id="local5-5" name="local5" value="5"><label for="local5-5">5</label>
+      </div>
+      <div class="buttons">
+        <button id="prev2">Anterior</button>
+        <button id="next2">Siguiente</button>
+      </div>
     </div>
-  </div>
 
-  <!-- Atención -->
-  <div class="escenario" id="esc-atencion">
-    <div class="titulo-seccion">Sección: Atención</div>
-    <div id="preg-atencion"></div>
-    <div class="btn-group">
-      <button class="btn" id="btn-atn-back">Anterior</button>
-      <button class="btn" id="btn-atn-next" disabled>Siguiente</button>
+    <!-- Step 3: Atención -->
+    <div class="step" data-step="3">
+      <h2>Sección 3: Atención al Cliente</h2>
+      <div class="question">1. ¿Fueron amables?</div>
+      <div class="rating" data-key="atencion1">
+        <input type="radio" id="at1-1" name="atencion1" value="1"><label for="at1-1">1</label>
+        <input type="radio" id="at1-2" name="atencion1" value="2"><label for="at1-2">2</label>
+        <input type="radio" id="at1-3" name="atencion1" value="3"><label for="at1-3">3</label>
+        <input type="radio" id="at1-4" name="atencion1" value="4"><label for="at1-4">4</label>
+        <input type="radio" id="at1-5" name="atencion1" value="5"><label for="at1-5">5</label>
+      </div>
+      <div class="question">2. ¿Fueron rápidos?</div>
+      <div class="rating" data-key="atencion2">
+        <input type="radio" id="at2-1" name="atencion2" value="1"><label for="at2-1">1</label>
+        <input type="radio" id="at2-2" name="atencion2" value="2"><label for="at2-2">2</label>
+        <input type="radio" id="at2-3" name="atencion2" value="3"><label for="at2-3">3</label>
+        <input type="radio" id="at2-4" name="atencion2" value="4"><label for="at2-4">4</label>
+        <input type="radio" id="at2-5" name="atencion2" value="5"><label for="at2-5">5</label>
+      </div>
+      <div class="question">3. ¿Fueron profesionales?</div>
+      <div class="rating" data-key="atencion3">
+        <input type="radio" id="at3-1" name="atencion3" value="1"><label for="at3-1">1</label>
+        <input type="radio" id="at3-2" name="atencion3" value="2"><label for="at3-2">2</label>
+        <input type="radio" id="at3-3" name="atencion3" value="3"><label for="at3-3">3</label>
+        <input type="radio" id="at3-4" name="atencion3" value="4"><label for="at3-4">4</label>
+        <input type="radio" id="at3-5" name="atencion3" value="5"><label for="at3-5">5</label>
+      </div>
+      <div class="question">4. ¿Resol vieron dudas?</div>
+      <div class="rating" data-key="atencion4">
+        <input type="radio" id="at4-1" name="atencion4" value="1"><label for="at4-1">1</label>
+        <input type="radio" id="at4-2" name="atencion4" value="2"><label for="at4-2">2</label>
+        <input type="radio" id="at4-3" name="atencion4" value="3"><label for="at4-3">3</label>
+        <input type="radio" id="at4-4" name="atencion4" value="4"><label for="at4-4">4</label>
+        <input type="radio" id="at4-5" name="atencion4" value="5"><label for="at4-5">5</label>
+      </div>
+      <div class="question">5. ¿Volverías por la atención?</div>
+      <div class="rating" data-key="atencion5">
+        <input type="radio" id="at5-1" name="atencion5" value="1"><label for="at5-1">1</label>
+        <input type="radio" id="at5-2" name="atencion5" value="2"><label for="at5-2">2</label>
+        <input type="radio" id="at5-3" name="atencion5" value="3"><label for="at5-3">3</label>
+        <input type="radio" id="at5-4" name="atencion5" value="4"><label for="at5-4">4</label>
+        <input type="radio" id="at5-5" name="atencion5" value="5"><label for="at5-5">5</label>
+      </div>
+      <div class="buttons">
+        <button id="prev3">Anterior</button>
+        <button id="next3">Siguiente</button>
+      </div>
     </div>
-  </div>
 
-  <!-- Sugerencias -->
-  <div class="escenario" id="esc-suger">
-    <div class="titulo-seccion">Sugerencias (opcional)</div>
-    <textarea id="input-suger" placeholder="¿Algo que quieras comentarnos?"></textarea>
-    <div class="btn-group">
-      <button class="btn" id="btn-suger-back">Anterior</button>
-      <button class="btn" id="btn-submit">Enviar</button>
+    <!-- Step 4: Sugerencias -->
+    <div class="step" data-step="4">
+      <h2>Sección 4: Sugerencias</h2>
+      <p class="question">¿Tienes alguna sugerencia o comentario?</p>
+      <textarea id="sugerencias" placeholder="Escribe aquí... (opcional)"></textarea>
+      <div class="buttons">
+        <button id="prev4">Anterior</button>
+        <button id="submit">Enviar</button>
+      </div>
     </div>
-    <div id="mensaje" class="mensaje"></div>
-  </div>
-</main>
 
-<footer>&copy; 2025 Tango’s. ¡Gracias por tu tiempo!</footer>
+    <p id="message" class="message"></p>
+  </main>
 
-<script type="module">
-import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+  <footer>
+    &copy; 2025 Tango's | ¡Gracias por tu feedback!
+  </footer>
 
-const supabaseUrl = 'https://ljlaudvreolkdppgfqul.supabase.co'
-const supabaseKey = 'TU_ANON_KEY_AQUÍ'
-const supabase = createClient(supabaseUrl, supabaseKey)
+  <!-- Supabase y lógica -->
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
-// Preguntas por sección
-const preguntas = {
-  local: [
-    '¿Cómo calificas la limpieza?',
-    '¿Cómo está la iluminación?',
-    '¿Cómo te pareció la música/ambiente?',
-    '¿Qué tal la comodidad del lugar?',
-    '¿El precio vs experiencia?'
-  ],
-  sabor: [
-    '¿El sabor es consistente?',
-    '¿La presentación te agradó?',
-    '¿La variedad de menú es suficiente?',
-    '¿La temperatura de la bebida fue adecuada?',
-    '¿El nivel de dulzura/sal equilibrado?'
-  ],
-  atencion: [
-    '¿La atención fue amable?',
-    '¿El tiempo de espera fue razonable?',
-    '¿Te explicaron bien el menú?',
-    '¿El personal fue proactivo?',
-    '¿Recomendarías el servicio?'
-  ]
-}
+    const supabase = createClient(
+      'https://ljlaudvreolkdppgfqul.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
+    );
 
-// Generar o recuperar device_id
-let deviceId = localStorage.getItem('enc_device')
-if (!deviceId) {
-  deviceId = crypto.randomUUID()
-  localStorage.setItem('enc_device', deviceId)
-}
+    // Impide doble envío por dispositivo
+    if (localStorage.getItem('encuestaRespondida')) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('message').textContent = 'Ya completaste la encuesta. ¡Gracias!';
+    }
 
-// Comprueba si ya respondió
-(async()=>{
-  const { data } = await supabase
-    .from('encuesta')
-    .select('id')
-    .eq('device_id', deviceId)
-  if (data.length) {
-    document.body.innerHTML = `
-      <header><h1>Encuesta Tango’s</h1></header>
-      <main><p class="loader">Ya respondiste esta encuesta. ¡Gracias!</p></main>
-      <footer>&copy; 2025 Tango’s</footer>`
-  } else {
-    initEncuesta()
-  }
-})()
+    const steps = [...document.querySelectorAll('.step')];
+    let current = 0;
+    const answers = {};
 
-function initEncuesta(){
-  // Rendiriza preguntas
-  ['local','sabor','atencion'].forEach(sec=>{
-    const cont = document.getElementById(`preg-${sec}`)
-    preguntas[sec].forEach((txt,i)=>{
-      const num = i+1
-      const div = document.createElement('div')
-      div.className = 'pregunta'
-      div.textContent = `${num}. ${txt}`
-      cont.appendChild(div)
-      const respuestas = document.createElement('div')
-      respuestas.className = 'respuestas'
-      for(let v=1; v<=5; v++){
-        const id = `${sec}_${num}_${v}`
-        respuestas.innerHTML += `
-          <label for="${id}">
-            <input type="radio" name="${sec}_${num}" id="${id}" value="${v}">
-            <div class="circle">${v}</div>
-          </label>`
-      }
-      cont.appendChild(respuestas)
-    })
-  })
+    function goTo(step) {
+      steps[current].classList.remove('active');
+      current = step;
+      steps[current].classList.add('active');
+    }
 
-  // Navegación
-  const show = id=> {
-    document.querySelectorAll('.escenario').forEach(e=>e.classList.remove('active'))
-    document.getElementById(id).classList.add('active')
-  }
-  show('esc-local')
+    // botones Next/Prev
+    document.getElementById('next1').onclick = () => goTo(1);
+    document.getElementById('prev2').onclick = () => goTo(0);
+    document.getElementById('next2').onclick = () => goTo(2);
+    document.getElementById('prev3').onclick = () => goTo(1);
+    document.getElementById('next3').onclick = () => goTo(3);
+    document.getElementById('prev4').onclick = () => goTo(2);
 
-  // Habilitar botones al seleccionar
-  document.querySelectorAll('.respuestas input').forEach(r=>{
-    r.addEventListener('change',()=>{
-      const [sec] = r.name.split('_')
-      const btn = document.getElementById(`btn-${sec}-next`)
-      const todos = preguntas[sec].length
-      // comprueba que todas del sec tengan respuesta
-      let ok=true
-      for(let i=1;i<=todos;i++){
-        if(!document.querySelector(`[name="${sec}_${i}"]:checked`)){
-          ok=false; break
+    // recoger respuestas
+    document.querySelectorAll('.rating').forEach(r => {
+      r.addEventListener('change', e => {
+        const key = r.dataset.key;
+        answers[key] = Number(e.target.value);
+      });
+    });
+
+    // submit
+    document.getElementById('submit').onclick = async () => {
+      // valida que todas las claves (desde sabor1 hasta atencion5) existan
+      for (let i = 1; i <= 5; i++) {
+        if (!answers['sabor'+i] || !answers['local'+i] || !answers['atencion'+i]) {
+          document.getElementById('message').textContent = 'Por favor responde todas las preguntas.';
+          return;
         }
       }
-      btn.disabled = !ok
-    })
-  })
+      const suger = document.getElementById('sugerencias').value.trim();
+      answers.sugerencias = suger;
 
-  // Botones
-  document.getElementById('btn-local-next').onclick = ()=> show('esc-sabor')
-  document.getElementById('btn-sabor-back').onclick = ()=> show('esc-local')
-  document.getElementById('btn-sabor-next').onclick = ()=> show('esc-atencion')
-  document.getElementById('btn-atn-back').onclick = ()=> show('esc-sabor')
-  document.getElementById('btn-atn-next').onclick = ()=> show('esc-suger')
-  document.getElementById('btn-suger-back').onclick = ()=> show('esc-atencion')
+      // identifica dispositivo
+      answers.dispositivo = navigator.userAgent;
 
-  document.getElementById('btn-submit').onclick = enviarEncuesta
-}
+      // inserta en Supabase
+      const { error } = await supabase
+        .from('encuesta')
+        .insert([answers]);
 
-async function enviarEncuesta(){
-  // recolecta valores
-  const row = { device_id: deviceId }
-  for(const sec of ['local','sabor','atencion']){
-    preguntas[sec].forEach((_,i)=>{
-      const val = parseInt(document.querySelector(`[name="${sec}_${i+1}"]:checked`).value)
-      row[`${sec}_${i+1}`] = val
-    })
-  }
-  row.sugerencias = document.getElementById('input-suger').value || null
-
-  // insertar
-  const { error } = await supabase.from('encuesta').insert(row)
-  const msg = document.getElementById('mensaje')
-  if (error) {
-    msg.textContent = '❌ Error al enviar, intenta de nuevo'
-  } else {
-    msg.textContent = '✅ ¡Encuesta enviada, mil gracias!'
-    document.getElementById('btn-submit').disabled = true
-  }
-}
-</script>
-
+      if (error) {
+        document.getElementById('message').textContent = '❌ Error al enviar, intenta de nuevo.';
+        console.error(error);
+      } else {
+        localStorage.setItem('encuestaRespondida', '1');
+        document.getElementById('message').textContent = '✅ Encuesta enviada. ¡Gracias!';
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      }
+    };
+  </script>
+</body>
+</html>

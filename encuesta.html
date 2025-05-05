@@ -329,6 +329,10 @@
     }
     document.getElementById('submit').disabled = true;
   };
+    document.addEventListener("contextmenu", function(event) {
+    event.preventDefault();  // Prevenir el menú contextual (clic derecho)
+  });
+
 </script>
 
 </body>

@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin | Tango's</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --black: #000;
@@ -212,24 +210,53 @@
       font-size: 1.5rem;
     }
 
-    /* === NUEVO: sección de Reportes === */
-    #chartContainer {
-      position: relative;
-      width: 100%;
-      height: 320px;
-      margin: 1.5rem 0;
-      padding: 0 1rem;
+    /* === Estilos de Reportes mejorados para móvil === */
+    #reportes h2 {
+      margin-bottom: 1rem;
     }
-
-    .comment {
-      background: #222;
-      color: #fff;
-      padding: 0.8rem;
-      margin: 0.5rem auto;
+    #reportControls {
+      display: flex;
+      justify-content: center;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+    #reportControls select,
+    #reportControls button {
+      padding: .5rem 1rem;
+      font-size: .9rem;
+    }
+    #chartContainer {
+      margin-top: 1.5rem;
+      background: #1a1a1a;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      max-width: 100%;
+      overflow: hidden;
+      position: relative;
+      height: 260px;
+    }
+    #chartContainer canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    #commentsSection {
+      margin-top: 1.5rem;
       max-width: 90%;
-      border-left: 4px solid var(--yellow);
-      border-radius: 8px;
+      margin-left: auto;
+      margin-right: auto;
       text-align: left;
+    }
+    #commentsSection h3 {
+      color: var(--yellow);
+      margin-bottom: .5rem;
+    }
+    #commentsSection .comment {
+      background: #222;
+      padding: .75rem;
+      border-radius: 6px;
+      margin-bottom: .5rem;
+      font-size: .9rem;
     }
   </style>
 </head>
@@ -252,7 +279,7 @@
       <div class="btn-group">
         <button onclick="mostrar('añadir')"><span class="icon">➕</span> Añadir producto</button>
         <button onclick="mostrar('eliminar')"><span class="icon">🗑️</span> Eliminar producto</button>
-        <button onclick="mostrar('reportes')"><span class="icon">📊</span> Reportes encuesta</button>
+        <button onclick="mostrar('reportes')"><span class="icon">📊</span> Reportes</button>
       </div>
 
       <p id="statusGlobal" class="status"></p>
@@ -264,7 +291,7 @@
           <input type="number" id="precio" placeholder="Precio" required />
           <input type="file" id="imagen" accept="image/*" required />
           <button type="submit">Guardar producto</button>
-          <p id="statusNuevo" class="status"></p>
+          <p id="status" class="status"></p>
         </form>
       </div>
 
@@ -273,30 +300,41 @@
       </div>
 
       <div id="reportes" class="section">
-        <label for="reportMode" style="color:var(--yellow);font-weight:700;">Ver gráfico por:</label><br/>
-        <select id="reportMode" style="margin-bottom:1rem;">
-          <option value="seccion">Sección</option>
-          <option value="pregunta">Pregunta</option>
-        </select><br/>
-        <button id="btnLoadReport">Cargar reporte</button>
-        <div id="chartContainer"><canvas id="reportChart"></canvas></div>
-        <h2 style="color:var(--yellow);margin:1rem 0 0.5rem;">Sugerencias</h2>
-        <div id="commentsList"></div>
+        <h2>Reportes de Encuesta</h2>
+        <div id="reportControls">
+          <label>
+            Ver gráfico:
+            <select id="reportMode">
+              <option value="seccion">Por sección</option>
+              <option value="pregunta">Por pregunta</option>
+            </select>
+          </label>
+          <button id="btnLoadReport">Cargar gráfico</button>
+        </div>
+        <div id="chartContainer">
+          <canvas id="reportChart"></canvas>
+        </div>
+        <div id="commentsSection">
+          <h3>Sugerencias recibidas</h3>
+          <div id="commentsList"></div>
+        </div>
       </div>
 
-      <button onclick="window.location.href='index.html'" class="salir-btn"><span class="icon">🚪</span> Salir modo admin</button>
+      <button onclick="salirAdmin()" class="salir-btn"><span class="icon">🚪</span> Salir del modo admin</button>
     </div>
   </div>
 
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js'
-
     const supabase = createClient(
       'https://ljlaudvreolkdppgfqul.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZENwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9hcGxhc3ZzZWciLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc0NTAzMTM5NiwiZXhwIjoyMDYwNjA3Mzk2fQ.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
     );
 
-    const statusAuth = document.getElementById("statusGlobal");
+    const statusGlobal = document.getElementById("statusGlobal");
+
     document.getElementById('btnAcceder').addEventListener('click', () => {
       const clave = document.getElementById("clave").value;
       if (clave === "240624") {
@@ -304,40 +342,34 @@
         document.getElementById("panel").style.display = "block";
         cargarProductos();
       } else {
-        statusAuth.textContent = "❌ Contraseña incorrecta";
+        document.getElementById("statusGlobal").textContent = "❌ Contraseña incorrecta";
       }
     });
 
     function mostrar(id) {
       document.querySelectorAll(".section").forEach(div => div.classList.remove("active"));
       document.getElementById(id).classList.add("active");
-      statusAuth.textContent = "";
+      statusGlobal.textContent = "";
     }
+    window.mostrar = mostrar;
+    window.salirAdmin = () => location.href = "index.html";
 
-    // CRUD productos
     document.getElementById("formNuevo").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const st = document.getElementById("statusNuevo");
       const nombre = document.getElementById("nombre").value;
       const descripcion = document.getElementById("descripcion").value;
       const precio = parseFloat(document.getElementById("precio").value);
       const archivo = document.getElementById("imagen").files[0];
       const nombreArchivo = `${Date.now()}-${archivo.name}`;
       const { error: errorUpload } = await supabase.storage.from('productos').upload(nombreArchivo, archivo);
-      if (errorUpload) {
-        st.textContent = "❌ Error al subir imagen";
-        return;
-      }
+      if (errorUpload) return document.getElementById("status").textContent = "❌ Error al subir imagen";
       const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
       const imagen_url = data.publicUrl;
-      const { error: errorInsert } = await supabase.from("productos").insert([{ nombre, descripcion, precio, imagen_url }]);
-      if (errorInsert) {
-        st.textContent = "❌ Error al guardar producto";
-        return;
-      }
-      st.textContent = "✅ Producto guardado";
-      e.target.reset();
-      cargarProductos();
+      const { error: errorInsert } = await supabase.from("productos")
+        .insert([{ nombre, descripcion, precio, imagen_url }]);
+      if (errorInsert) return document.getElementById("status").textContent = "❌ Error al guardar producto";
+      document.getElementById("status").textContent = "✅ Producto guardado";
+      e.target.reset(); cargarProductos();
     });
 
     async function cargarProductos() {
@@ -351,48 +383,50 @@
         del.onclick = async () => {
           if (!confirm(`¿Eliminar "${p.nombre}"?`)) return;
           await supabase.from("productos").delete().eq("id", p.id);
-          statusAuth.textContent = "✅ Producto eliminado";
+          statusGlobal.textContent = "✅ Producto eliminado";
           cargarProductos();
         };
         listaEliminar.appendChild(del);
       });
     }
 
-    // Reportes
+    // === Reportes ===
     let reportChart;
     document.getElementById('btnLoadReport').onclick = async () => {
       const mode = document.getElementById('reportMode').value;
       const { data: encuestas } = await supabase.from('encuesta').select('*');
       if (!encuestas) return;
-      let labels = [], values = [];
-
+      let labels, values;
       if (mode === 'seccion') {
         const secs = ['sabor','local','atencion'];
         labels = ['Sabor','Local','Atención'];
         values = secs.map(sec => {
-          let sum = 0, cnt = 0;
+          let sum=0,count=0;
           encuestas.forEach(e => {
-            for (let i = 1; i <= 5; i++) {
+            for(let i=1;i<=5;i++){
               sum += e[`${sec}_${i}`];
-              cnt++;
+              count++;
             }
           });
-          return +(sum / cnt).toFixed(2);
+          return +(sum/count).toFixed(2);
         });
       } else {
+        labels = [];
+        values = [];
         ['sabor','local','atencion'].forEach(sec => {
-          for (let i = 1; i <= 5; i++) {
-            labels.push(`${sec} ${i}`);
-            let sum = 0;
+          for(let i=1;i<=5;i++){
+            labels.push(`${sec.charAt(0).toUpperCase()+sec.slice(1)} ${i}`);
+            let sum=0;
             encuestas.forEach(e => sum += e[`${sec}_${i}`]);
-            values.push(+(sum / encuestas.length).toFixed(2));
+            values.push(+(sum/encuestas.length).toFixed(2));
           }
         });
       }
-
       const ctx = document.getElementById('reportChart').getContext('2d');
+      const grad = ctx.createLinearGradient(0,0,0,300);
+      grad.addColorStop(0,'rgba(255,179,8,0.8)');
+      grad.addColorStop(1,'rgba(255,179,8,0.3)');
       if (reportChart) reportChart.destroy();
-
       reportChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -400,53 +434,46 @@
           datasets: [{
             label: 'Promedio',
             data: values,
-            backgroundColor: context => {
-              const grad = context.chart.ctx.createLinearGradient(0, 0, 0, context.chart.height);
-              grad.addColorStop(0, 'rgba(255, 179, 8, 0.8)');
-              grad.addColorStop(1, 'rgba(255, 179, 8, 0.4)');
-              return grad;
-            },
-            borderColor: '#FFB308',
+            backgroundColor: grad,
+            borderColor: 'var(--yellow)',
             borderWidth: 2,
-            borderRadius: 8,
-            borderSkipped: false,
-            maxBarThickness: 60
+            borderRadius: 6,
+            barPercentage: 0.6,
+            categoryPercentage: 0.6
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          layout: {
-            padding: { top: 16, bottom: 16, left: 8, right: 8 }
-          },
+          layout: { padding: 10 },
           scales: {
             x: {
-              ticks: { color: '#FFB308', font: { weight: '600' } },
+              ticks: { color: '#fff', font: { size: 12 } },
               grid: { display: false }
             },
             y: {
               beginAtZero: true,
               max: 5,
-              ticks: { color: '#FFB308', stepSize: 1, font: { weight: '600' } },
-              grid: { color: 'rgba(255,179,8,0.2)', borderDash: [4, 4] }
+              ticks: { color: '#fff', font: { size: 12 } },
+              grid: { borderDash: [4,4], color: '#444' }
             }
           },
           plugins: {
             legend: { display: false },
             tooltip: {
-              backgroundColor: 'rgba(0,0,0,0.8)',
-              titleColor: '#FFB308',
-              bodyColor: '#fff',
-              titleFont: { weight: '700' },
-              padding: 12
+              backgroundColor: '#fff',
+              titleColor: '#000',
+              bodyColor: '#000',
+              borderColor: 'var(--yellow)',
+              borderWidth: 1
             }
           }
         }
       });
-
+      // comentarios
       const commentsList = document.getElementById('commentsList');
       commentsList.innerHTML = '';
-      encuestas.filter(e => e.sugerencias).forEach(e => {
+      encuestas.filter(e=>e.sugerencias).forEach(e=>{
         const div = document.createElement('div');
         div.className = 'comment';
         div.textContent = e.sugerencias;

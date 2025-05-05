@@ -14,6 +14,12 @@
       --gray: #111;
     }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       background: var(--black);
       color: var(--white);
@@ -210,47 +216,21 @@
       font-size: 1.5rem;
     }
 
-    /* === NUEVO: sección de Reportes estilada para móvil === */
-    #reportes h2 {
-      color: var(--yellow);
-      margin-bottom: 1rem;
-    }
-    #reportControls {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      font-size: 0.9rem;
-    }
-    #reportControls select, #reportControls button {
-      padding: 0.6rem 1rem;
-      border-radius: 8px;
-      border: none;
-      font-size: 1rem;
-    }
+    /* ——— aquí añadir la parte gráfica ——— */
     #chartContainer {
       margin: 1.5rem auto;
-      background: #fff;
+      background: var(--black);
       padding: 1rem;
       border-radius: 12px;
       max-width: 100%;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      position: relative;
     }
-    #commentsSection {
-      margin-top: 1.5rem;
-      max-width: 100%;
-      text-align: left;
-    }
-    #commentsSection h3 {
-      color: var(--yellow);
-      margin-bottom: .5rem;
-    }
-    #commentsList .comment {
-      background: #222;
-      padding: .75rem;
+    #reportChart {
+      background-color: var(--black);
       border-radius: 8px;
-      margin-bottom: .5rem;
-      color: #eee;
+      width: 100% !important;
+      height: 300px !important;
     }
   </style>
 </head>
@@ -273,7 +253,7 @@
       <div class="btn-group">
         <button onclick="mostrar('añadir')"><span class="icon">➕</span> Añadir producto</button>
         <button onclick="mostrar('eliminar')"><span class="icon">🗑️</span> Eliminar producto</button>
-        <button onclick="mostrar('reportes')"><span class="icon">📊</span> Reportes</button>
+        <button onclick="mostrar('reportes')"><span class="icon">📊</span> Reportes encuesta</button>
       </div>
 
       <p id="statusGlobal" class="status"></p>
@@ -293,26 +273,21 @@
         <div id="listaEliminar"></div>
       </div>
 
-      <!-- NUEVO: sección de Reportes -->
+      <!-- ——— nueva sección de reportes ——— -->
       <div id="reportes" class="section">
-        <h2>Reportes de Encuesta</h2>
-        <div id="reportControls">
-          <label>
-            Ver gráfico:
-            <select id="reportMode">
-              <option value="seccion">Por sección</option>
-              <option value="pregunta">Por pregunta</option>
-            </select>
-          </label>
-          <button id="btnLoadReport">Cargar gráfico</button>
-        </div>
+        <h1>Reportes de Encuesta</h1>
+        <select id="reportType" style="margin-bottom:1rem; padding:0.75rem; border-radius:8px; border:2px solid var(--yellow); background:#222; color:#fff;">
+          <option value="seccion">Por sección</option>
+          <option value="pregunta">Por pregunta</option>
+        </select>
+        <button id="loadChartBtn">CARGAR GRÁFICO</button>
+
         <div id="chartContainer">
           <canvas id="reportChart"></canvas>
         </div>
-        <div id="commentsSection">
-          <h3>Sugerencias recibidas</h3>
-          <div id="commentsList"></div>
-        </div>
+
+        <h2 style="color:var(--yellow); text-align:left; margin-top:2rem;">Sugerencias recibidas</h2>
+        <div id="sugerenciasList" style="background:#222; padding:1rem; border-radius:8px; max-height:200px; overflow-y:auto; text-align:left;"></div>
       </div>
 
       <button onclick="salirAdmin()" class="salir-btn"><span class="icon">🚪</span> Salir del modo admin</button>
@@ -321,16 +296,18 @@
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+
     const supabase = createClient(
       'https://ljlaudvreolkdppgfqul.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
     );
 
+    let reportChart = null;
     const statusGlobal = document.getElementById("statusGlobal");
 
-    // Autenticación
     document.getElementById('btnAcceder').addEventListener('click', () => {
       const clave = document.getElementById("clave").value;
       if (clave === "240624") {
@@ -342,101 +319,123 @@
       }
     });
 
-    // Navegación de secciones
     function mostrar(id) {
       document.querySelectorAll(".section").forEach(div => div.classList.remove("active"));
       document.getElementById(id).classList.add("active");
       statusGlobal.textContent = "";
     }
     window.mostrar = mostrar;
-    window.salirAdmin = () => location.href = "index.html";
 
-    // CRUD productos
-    document.getElementById("formNuevo").addEventListener("submit", async e => {
+    window.salirAdmin = () => {
+      window.location.href = "index.html";
+    }
+
+    document.getElementById("formNuevo").addEventListener("submit", async (e) => {
       e.preventDefault();
       const nombre = document.getElementById("nombre").value;
       const descripcion = document.getElementById("descripcion").value;
       const precio = parseFloat(document.getElementById("precio").value);
       const archivo = document.getElementById("imagen").files[0];
+
+      // Subida imagen
       const nombreArchivo = `${Date.now()}-${archivo.name}`;
       const { error: errorUpload } = await supabase.storage.from('productos').upload(nombreArchivo, archivo);
-      if (errorUpload) return document.getElementById("status").textContent = "❌ Error al subir imagen";
+      if (errorUpload) {
+        document.getElementById("status").textContent = "❌ Error al subir imagen";
+        return;
+      }
       const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
       const imagen_url = data.publicUrl;
-      const { error: errorInsert } = await supabase.from("productos")
-        .insert([{ nombre, descripcion, precio, imagen_url }]);
-      if (errorInsert) return document.getElementById("status").textContent = "❌ Error al guardar producto";
+
+      // Inserción producto
+      const { error: errorInsert } = await supabase.from("productos").insert([{ nombre, descripcion, precio, imagen_url }]);
+      if (errorInsert) {
+        document.getElementById("status").textContent = "❌ Error al guardar producto";
+        return;
+      }
+
       document.getElementById("status").textContent = "✅ Producto guardado";
-      e.target.reset(); cargarProductos();
+      e.target.reset();
+      cargarProductos();
     });
 
     async function cargarProductos() {
       const { data: productos } = await supabase.from("productos").select("*").order("created_at", { ascending: false });
       const listaEliminar = document.getElementById("listaEliminar");
       listaEliminar.innerHTML = "";
+
       productos.forEach(p => {
         const del = document.createElement("div");
         del.className = "producto-item";
         del.textContent = p.nombre;
         del.onclick = async () => {
-          if (!confirm(`¿Eliminar "${p.nombre}"?`)) return;
-          await supabase.from("productos").delete().eq("id", p.id);
-          statusGlobal.textContent = "✅ Producto eliminado";
-          cargarProductos();
+          if (confirm(`¿Eliminar "${p.nombre}"?`)) {
+            await supabase.from("productos").delete().eq("id", p.id);
+            statusGlobal.textContent = "✅ Producto eliminado";
+            cargarProductos();
+          }
         };
         listaEliminar.appendChild(del);
       });
     }
 
-    // === Reportes ===
-    let reportChart;
-    document.getElementById('btnLoadReport').onclick = async () => {
-      const mode = document.getElementById('reportMode').value;
-      const { data: encuestas } = await supabase.from('encuesta').select('*');
-      if (!encuestas) return;
-      let labels, values;
-      if (mode === 'seccion') {
-        const secs = ['sabor','local','atencion'];
-        labels = ['Sabor','Local','Atención'];
-        values = secs.map(sec => {
-          let sum=0,count=0;
-          encuestas.forEach(e => {
-            for(let i=1;i<=5;i++){
-              sum += e[`${sec}_${i}`];
-              count++;
-            }
-          });
-          return parseFloat((sum/count).toFixed(2));
+    // ——— Lógica de Reportes de Encuesta ———
+    document.getElementById('loadChartBtn').addEventListener('click', async () => {
+      // 1) Traer todas las respuestas
+      const { data: respuestas } = await supabase
+        .from('encuestas')
+        .select('*');
+      if (!respuestas) return;
+
+      // 2) Preparar datos
+      const tipo = document.getElementById('reportType').value;
+      let labels = [], values = [];
+
+      if (tipo === 'seccion') {
+        // Promedio de cada sección (sabor, local, atencion)
+        const secciones = ['sabor','local','atencion'];
+        secciones.forEach(sec => {
+          const campos = respuestas.map(r => 
+            [1,2,3,4,5].map(i => r[`${sec}${i}`])
+          ).flat();
+          const sum = campos.reduce((a,b) => a+(b||0), 0);
+          const avg = +(sum / (campos.length)).toFixed(2);
+          labels.push(sec.charAt(0).toUpperCase()+sec.slice(1));
+          values.push(avg);
         });
       } else {
-        labels=[]; values=[];
-        ['sabor','local','atencion'].forEach(sec => {
-          for(let i=1;i<=5;i++){
+        // Promedio por cada una de las 15 preguntas
+        for (let sec of ['sabor','local','atencion']) {
+          for (let i=1; i<=5; i++) {
+            const arr = respuestas.map(r => r[`${sec}${i}`]||0);
+            const avg = +(arr.reduce((a,b)=>a+b,0) / arr.length).toFixed(2);
             labels.push(`${sec} ${i}`);
-            let sum=0; encuestas.forEach(e=>sum+=e[`${sec}_${i}`]);
-            values.push(parseFloat((sum/encuestas.length).toFixed(2)));
+            values.push(avg);
           }
-        });
+        }
       }
+
+      // 3) Mostrar sugerencias
+      const sugerencias = respuestas.map(r => r.sugerencia).filter(t=>t);
+      document.getElementById('sugerenciasList').innerHTML = sugerencias.length
+        ? sugerencias.map(s=>`<p style="margin-bottom:.5rem;">➤ ${s}</p>`).join('')
+        : '<p>(Sin sugerencias aún)</p>';
+
+      // 4) Dibujar gráfico
       const ctx = document.getElementById('reportChart').getContext('2d');
       if (reportChart) reportChart.destroy();
-      // Create vertical gradient
-      const grad = ctx.createLinearGradient(0,0,0,300);
-      grad.addColorStop(0, 'rgba(255, 200, 0, 0.8)');
-      grad.addColorStop(1, 'rgba(255, 179, 8, 0.3)');
       reportChart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels,
-          datasets: [{
+          labels, datasets: [{
             label: 'Promedio',
             data: values,
-            backgroundColor: grad,
+            backgroundColor: '#000',
             borderColor: 'var(--yellow)',
-            borderRadius: 8,
+            borderWidth: 2,
+            borderRadius: 4,
             barPercentage: 0.6,
-            categoryPercentage: 0.7,
-            borderWidth: 1
+            categoryPercentage: 0.7
           }]
         },
         options: {
@@ -445,35 +444,43 @@
           layout: { padding: 16 },
           scales: {
             x: {
-              ticks: { color: '#333', font: { weight:'700' } },
+              ticks: {
+                color: '#fff',
+                autoSkip: false,
+                maxRotation: 40,
+                minRotation: 40
+              },
               grid: { display: false }
             },
             y: {
-              beginAtZero:true, max:5,
-              ticks: { color: '#333' },
-              grid: { color:'rgba(0,0,0,0.1)' }
+              beginAtZero: true,
+              max: 5,
+              ticks: { color: '#fff' },
+              grid: { color: 'rgba(255,179,8,0.2)' }
             }
           },
           plugins: {
-            legend: { display:false },
+            legend: { display: false },
             tooltip: {
-              backgroundColor:'#222',
-              titleColor:'#fff',
-              bodyColor:'#fff'
+              backgroundColor: '#222',
+              titleColor: '#fff',
+              bodyColor: '#fff'
+            },
+            beforeDraw: {
+              id: 'bg',
+              beforeDraw(chart) {
+                const {ctx, width, height} = chart;
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-over';
+                ctx.fillStyle = '#000';
+                ctx.fillRect(0,0,width,height);
+                ctx.restore();
+              }
             }
           }
         }
       });
-      // Mostrar sugerencias
-      const commentsList = document.getElementById('commentsList');
-      commentsList.innerHTML = '';
-      encuestas.filter(e=>e.sugerencias).forEach(e=>{
-        const div = document.createElement('div');
-        div.className = 'comment';
-        div.textContent = e.sugerencias;
-        commentsList.appendChild(div);
-      });
-    };
+    });
   </script>
 </body>
 </html>

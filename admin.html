@@ -6,6 +6,7 @@
   <title>Admin | Tango's</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
+    /* === tu CSS existente sin tocar === */
     :root {
       --black: #000;
       --white: #fff;
@@ -13,128 +14,228 @@
       --dark-yellow: #e09900;
       --gray: #111;
     }
-    * { margin:0; padding:0; box-sizing:border-box }
     body {
-      background: linear-gradient(45deg,#000,#222);
+      background: var(--black);
       color: var(--white);
-      font-family:'Inter',sans-serif;
-      text-align:center;
-      min-height:100vh;
+      font-family: 'Inter', sans-serif;
+      padding: 0;
+      margin: 0;
+      text-align: center;
+      min-height: 100vh;
+      background-image: linear-gradient(45deg, #000000, #222222);
     }
     .container {
-      max-width:600px;
-      margin:0 auto;
-      padding:2rem 1rem;
+      max-width: 100%;
+      padding: 2rem;
+      margin: 0 auto;
+    }
+    .logo-container {
+      margin-bottom: 2rem;
+      position: relative;
     }
     .logo {
-      width:120px;
-      margin:0 auto 1.5rem;
-      display:block;
-      filter:drop-shadow(0 0 10px rgba(255,179,8,0.5));
-      animation:pulse 2s infinite;
+      width: 120px;
+      margin: 0 auto;
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(255, 179, 8, 0.5));
+      animation: pulse 2s infinite;
     }
     @keyframes pulse {
-      0%,100%{transform:scale(1)}
-      50%{transform:scale(1.05)}
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
     h1 {
+      font-size: 2rem;
+      font-weight: 900;
       color: var(--yellow);
-      font-size:2rem;
-      font-weight:900;
-      margin-bottom:2rem;
-      text-transform:uppercase;
-      letter-spacing:2px;
-      text-shadow:0 0 8px rgba(255,179,8,0.7);
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px rgba(255, 179, 8, 0.7);
     }
-    input,textarea,button,select {
-      width:90%; max-width:350px;
-      padding:1rem; margin:0.75rem auto;
-      font-size:1rem; border:none; border-radius:8px;
-      transition:all .3s ease;
+    input, textarea, button {
+      width: 90%;
+      max-width: 350px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 12px;
+      transition: all 0.3s ease;
     }
-    input,textarea,select {
-      background:#222; color:#fff; border:2px solid var(--yellow);
+    input, textarea {
+      background: #222;
+      color: var(--white);
+      border: 2px solid var(--yellow);
     }
-    input:focus,textarea:focus,select:focus {
-      outline:none; box-shadow:0 0 12px rgba(255,179,8,0.5);
-      transform:translateY(-2px);
+    input:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 15px rgba(255, 179, 8, 0.5);
+      transform: translateY(-2px);
     }
     button {
       background: var(--yellow);
       color: var(--black);
-      font-weight:900;
-      cursor:pointer;
-      text-transform:uppercase;
-      box-shadow:0 4px 12px rgba(0,0,0,0.3);
-      position:relative; overflow:hidden;
+      font-weight: 900;
+      cursor: pointer;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
     }
     button:hover {
       background: var(--dark-yellow);
-      transform:translateY(-3px);
-      box-shadow:0 6px 18px rgba(0,0,0,0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(0, 0, 0, 0.4);
+    }
+    button:active {
+      transform: translateY(0);
     }
     button::after {
-      content:'';
-      position:absolute; top:0; left:-100%;
-      width:100%; height:100%;
-      background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);
-      transition:0.5s;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
     }
-    button:hover::after { left:100%; }
+    button:hover::after {
+      left: 100%;
+    }
     .btn-group {
-      display:flex; flex-direction:column; gap:1rem; margin:2rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin: 3rem 0;
     }
-    .btn-group button { height:50px; }
+    .btn-group button {
+      max-width: 300px;
+      margin: 0 auto;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .section {
-      display:none;
-      background: rgba(17,17,17,0.8);
-      padding:1.5rem 1rem;
-      margin-top:1.5rem;
-      border-radius:12px;
-      border:2px solid var(--yellow);
-      backdrop-filter:blur(8px);
+      display: none;
+      background: rgba(17, 17, 17, 0.8);
+      padding: 2rem 1rem;
+      margin-top: 2rem;
+      border-radius: 16px;
+      border: 2px solid var(--yellow);
+      box-shadow: 0 0 20px rgba(255, 179, 8, 0.3);
+      backdrop-filter: blur(10px);
     }
-    .section.active { display:block; animation:fadeIn .4s ease-out; }
+    .section.active {
+      display: block;
+      animation: fadeIn 0.5s;
+    }
     @keyframes fadeIn {
-      from{opacity:0;transform:translateY(10px)}
-      to{opacity:1;transform:translateY(0)}
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .producto-item {
-      background:#222;
-      margin:0.5rem auto;
-      padding:0.75rem;
-      border-radius:8px;
-      max-width:90%;
-      cursor:pointer;
-      text-align:left;
-      border-left:4px solid var(--yellow);
-      transition:all .3s;
+      background: #222;
+      margin: 0.8rem auto;
+      padding: 1rem;
+      border-radius: 12px;
+      max-width: 90%;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-left: 4px solid var(--yellow);
     }
     .producto-item:hover {
-      background:#333; transform:translateX(4px);
+      background: #333;
+      transform: translateX(5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
     .status {
-      font-weight:600;color:var(--yellow);
-      margin-top:0.5rem;
+      font-weight: bold;
+      color: var(--yellow);
+      margin-top: 1rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      background: rgba(255, 179, 8, 0.1);
+    }
+    #auth {
+      max-width: 400px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background: rgba(17, 17, 17, 0.8);
+      border-radius: 16px;
+      border: 2px solid var(--yellow);
+      box-shadow: 0 0 30px rgba(255, 179, 8, 0.3);
     }
     .salir-btn {
-      background:#333;color:#fff;border:2px solid var(--yellow);
-      margin-top:2rem;
+      background: #333;
+      color: var(--white);
+      border: 2px solid var(--yellow);
+      margin-top: 3rem;
     }
-    .salir-btn:hover { background:#444; }
-    /* REPORTES */
-    .controls { margin:1rem auto; max-width:400px; }
-    .controls select, .controls button { margin:0.5rem 0; }
-    #chart { max-width:100%; margin:1rem auto; }
-    .sugerencias { text-align:left; max-height:150px; overflow:auto; background:#222;
-      padding:0.75rem; border-radius:8px; border:1px solid var(--yellow);
-      margin-top:1rem; }
+    .salir-btn:hover {
+      background: #444;
+    }
+    .icon {
+      margin-right: 10px;
+      font-size: 1.5rem;
+    }
+
+    /* === NUEVO: sección de Reportes === */
+    #reportes {
+      margin-top: 2rem;
+    }
+    #reportControls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    #reportControls select, #reportControls button {
+      width: auto;
+      margin: .5rem;
+    }
+    #chartContainer {
+      margin-top:1.5rem;
+      background:#fff;
+      padding:1rem;
+      border-radius:8px;
+      max-width:600px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    #chartContainer canvas {
+      width:100%!important;
+      height:300px!important;
+    }
+    #commentsSection {
+      margin-top:1.5rem;
+      max-width:600px;
+      margin-left:auto;
+      margin-right:auto;
+      text-align:left;
+    }
+    #commentsSection h3 {
+      color: var(--yellow);
+      margin-bottom:.5rem;
+    }
+    #commentsSection .comment {
+      background:#222;
+      padding:.75rem;
+      border-radius:6px;
+      margin-bottom:.5rem;
+    }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <img src="assets/images/logo3.png" alt="Logo" class="logo">
+    <div class="logo-container">
+      <img src="assets/images/logo3.png" alt="Logo Tango's" class="logo" />
+    </div>
 
     <div id="auth">
       <h1>Administrador</h1>
@@ -145,14 +246,15 @@
 
     <div id="panel" style="display:none;">
       <h1>Gestión de productos</h1>
-      <div class="btn-group">
-        <button onclick="mostrar('añadir')">➕ Añadir producto</button>
-        <button onclick="mostrar('eliminar')">🗑️ Eliminar producto</button>
-        <button onclick="mostrar('reportes')">📊 Ver reportes</button>
-      </div>
-      <p id="statusGlobal2" class="status"></p>
 
-      <!-- AÑADIR -->
+      <div class="btn-group">
+        <button onclick="mostrar('añadir')"><span class="icon">➕</span> Añadir producto</button>
+        <button onclick="mostrar('eliminar')"><span class="icon">🗑️</span> Eliminar producto</button>
+        <button onclick="mostrar('reportes')"><span class="icon">📊</span> Reportes</button>
+      </div>
+
+      <p id="statusGlobal" class="status"></p>
+
       <div id="añadir" class="section">
         <form id="formNuevo">
           <input type="text" id="nombre" placeholder="Nombre" required />
@@ -160,46 +262,37 @@
           <input type="number" id="precio" placeholder="Precio" required />
           <input type="file" id="imagen" accept="image/*" required />
           <button type="submit">Guardar producto</button>
-          <p id="statusAdd" class="status"></p>
+          <p id="status" class="status"></p>
         </form>
       </div>
 
-      <!-- ELIMINAR -->
       <div id="eliminar" class="section">
         <div id="listaEliminar"></div>
       </div>
 
-      <!-- REPORTES -->
+      <!-- NUEVO: sección de Reportes -->
       <div id="reportes" class="section">
-        <h2 style="color:var(--yellow)">Reportes de Encuesta</h2>
-        <div class="controls">
-          <label style="display:block;text-align:left;font-weight:600;">Ver gráfica:</label>
-          <select id="tipoReporte">
-            <option value="seccion">Por Sección (Promedios)</option>
-            <option value="pregunta">Por Pregunta (Distribución)</option>
-          </select>
-          <div id="preguntaSelector" style="display:none;">
-            <select id="seccionSel">
-              <option value="sabor">Sección: Sabor</option>
-              <option value="local">Sección: Local</option>
-              <option value="atencion">Sección: Atención</option>
+        <h2>Reportes de Encuesta</h2>
+        <div id="reportControls">
+          <label>
+            Ver gráfico:
+            <select id="reportMode">
+              <option value="seccion">Por sección</option>
+              <option value="pregunta">Por pregunta</option>
             </select>
-            <select id="numPregunta">
-              <option value="1">Pregunta 1</option>
-              <option value="2">Pregunta 2</option>
-              <option value="3">Pregunta 3</option>
-              <option value="4">Pregunta 4</option>
-              <option value="5">Pregunta 5</option>
-            </select>
-          </div>
-          <button id="btnGenerar">Generar Gráfica</button>
+          </label>
+          <button id="btnLoadReport">Cargar gráfico</button>
         </div>
-        <canvas id="chart" width="400" height="240"></canvas>
-        <h3 style="color:var(--yellow); text-align:left; margin-top:1.5rem;">Sugerencias / Comentarios:</h3>
-        <div id="sugerencias" class="sugerencias"></div>
+        <div id="chartContainer">
+          <canvas id="reportChart"></canvas>
+        </div>
+        <div id="commentsSection">
+          <h3>Sugerencias recibidas</h3>
+          <div id="commentsList"></div>
+        </div>
       </div>
 
-      <button onclick="window.location.href='index.html'" class="salir-btn">🚪 Salir del modo admin</button>
+      <button onclick="salirAdmin()" class="salir-btn"><span class="icon">🚪</span> Salir del modo admin</button>
     </div>
   </div>
 
@@ -209,137 +302,137 @@
     import { createClient } from 'https://esm.sh/@supabase/supabase-js'
     const supabase = createClient(
       'https://ljlaudvreolkdppgfqul.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpZV…' // tu llave aquí
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
     );
 
     const statusGlobal = document.getElementById("statusGlobal");
-    document.getElementById('btnAcceder').onclick = () => {
-      if (document.getElementById("clave").value === "240624") {
+
+    // Autenticación
+    document.getElementById('btnAcceder').addEventListener('click', () => {
+      const clave = document.getElementById("clave").value;
+      if (clave === "240624") {
         document.getElementById("auth").style.display = "none";
         document.getElementById("panel").style.display = "block";
         cargarProductos();
-        cargarSugerencias();
       } else {
-        statusGlobal.textContent = "❌ Contraseña incorrecta";
+        document.getElementById("statusGlobal").textContent = "❌ Contraseña incorrecta";
       }
-    };
+    });
 
-    // Muestra sección
-    window.mostrar = id => {
-      document.querySelectorAll(".section").forEach(s=>s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      document.getElementById("statusGlobal2").textContent = "";
-      if (id==='reportes') prepararReportes();
-    };
+    // Navegación de secciones
+    function mostrar(id) {
+      document.querySelectorAll(".section").forEach(div => div.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      statusGlobal.textContent = "";
+    }
+    window.mostrar = mostrar;
+    window.salirAdmin = () => location.href = "index.html";
 
-    // Agregar
-    document.getElementById("formNuevo").onsubmit = async e => {
+    // CRUD productos (sin cambios)
+    document.getElementById("formNuevo").addEventListener("submit", async e => {
       e.preventDefault();
-      const n = document.getElementById("nombre").value;
-      const d = document.getElementById("descripcion").value;
-      const p = parseFloat(document.getElementById("precio").value);
-      const f = document.getElementById("imagen").files[0];
-      const nombreArchivo = `${Date.now()}-${f.name}`;
-      const { error:errU } = await supabase.storage.from('productos').upload(nombreArchivo,f);
-      if (errU) return document.getElementById("statusAdd").textContent = "❌ Error subir imagen";
+      const nombre = document.getElementById("nombre").value;
+      const descripcion = document.getElementById("descripcion").value;
+      const precio = parseFloat(document.getElementById("precio").value);
+      const archivo = document.getElementById("imagen").files[0];
+      const nombreArchivo = `${Date.now()}-${archivo.name}`;
+      const { error: errorUpload } = await supabase.storage.from('productos').upload(nombreArchivo, archivo);
+      if (errorUpload) return document.getElementById("status").textContent = "❌ Error al subir imagen";
       const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
-      const { error:errI } = await supabase.from("productos").insert([{ nombre:n,descripcion:d,precio:p,imagen_url:data.publicUrl }]);
-      document.getElementById("statusAdd").textContent = errI ? "❌ Error al guardar" : "✅ Guardado";
+      const imagen_url = data.publicUrl;
+      const { error: errorInsert } = await supabase.from("productos")
+        .insert([{ nombre, descripcion, precio, imagen_url }]);
+      if (errorInsert) return document.getElementById("status").textContent = "❌ Error al guardar producto";
+      document.getElementById("status").textContent = "✅ Producto guardado";
       e.target.reset(); cargarProductos();
-    };
+    });
 
-    // Eliminar
-    async function cargarProductos(){
-      const { data:prods } = await supabase.from("productos").select('*').order('created_at',{ascending:false});
-      const cont = document.getElementById("listaEliminar");
-      cont.innerHTML = '';
-      prods.forEach(p=>{
-        const div = document.createElement('div');
-        div.className='producto-item';
-        div.textContent=p.nombre;
-        div.onclick=async()=>{
-          if (confirm(`Eliminar "${p.nombre}"?`)){
-            await supabase.from("productos").delete().eq('id',p.id);
-            cargarProductos();
-          }
+    async function cargarProductos() {
+      const { data: productos } = await supabase.from("productos").select("*").order("created_at", { ascending: false });
+      const listaEliminar = document.getElementById("listaEliminar");
+      listaEliminar.innerHTML = "";
+      productos.forEach(p => {
+        const del = document.createElement("div");
+        del.className = "producto-item";
+        del.textContent = p.nombre;
+        del.onclick = async () => {
+          if (!confirm(`¿Eliminar "${p.nombre}"?`)) return;
+          await supabase.from("productos").delete().eq("id", p.id);
+          statusGlobal.textContent = "✅ Producto eliminado";
+          cargarProductos();
         };
-        cont.append(div);
+        listaEliminar.appendChild(del);
       });
     }
 
-    // REPORTES:
-    let chart;
-    function prepararReportes(){
-      // reset
-      document.getElementById('preguntaSelector').style.display='none';
-      document.getElementById('tipoReporte').value='seccion';
-      if (chart) chart.destroy();
-    }
-
-    document.getElementById('tipoReporte').onchange = e => {
-      document.getElementById('preguntaSelector').style.display =
-        e.target.value==='pregunta' ? 'block' : 'none';
-    };
-
-    document.getElementById('btnGenerar').onclick = async ()=>{
-      const tipo = document.getElementById('tipoReporte').value;
-      const enc = await supabase.from('encuesta').select('*');
-      if (enc.error) return;
-      const rows = enc.data;
-
-      if (chart) chart.destroy();
-      const ctx = document.getElementById('chart').getContext('2d');
-
-      if (tipo==='seccion'){
-        // Promedio por sección
+    // === Reportes ===
+    let reportChart;
+    document.getElementById('btnLoadReport').onclick = async () => {
+      const mode = document.getElementById('reportMode').value;
+      // Carga todos los registros
+      const { data: encuestas } = await supabase.from('encuesta').select('*');
+      if (!encuestas) return;
+      // Data para gráfico
+      let labels, values;
+      if (mode === 'seccion') {
+        // promedio por sección
         const secs = ['sabor','local','atencion'];
-        const proms = secs.map(sec=>{
-          let sum=0,c=0;
-          rows.forEach(r=>{
+        labels = ['Sabor','Local','Atención'];
+        values = secs.map(sec => {
+          let sum=0,count=0;
+          encuestas.forEach(e => {
             for(let i=1;i<=5;i++){
-              sum += r[`${sec}_${i}`];
-              c++;
+              sum += e[`${sec}_${i}`];
+              count++;
             }
           });
-          return (sum/c).toFixed(2);
+          return parseFloat((sum/count).toFixed(2));
         });
-        chart = new Chart(ctx,{type:'bar',
-          data:{labels:['Sabor','Local','Atención'],datasets:[{
-            label:'Promedio',data:proms,backgroundColor:'rgba(255,179,8,0.7)'
-          }]},
-          options:{scales:{y:{beginAtZero:true,max:5}}}
-        });
-
       } else {
-        // Distribución por pregunta
-        const sec = document.getElementById('seccionSel').value;
-        const num = document.getElementById('numPregunta').value;
-        const key = `${sec}_${num}`;
-        const counts = [0,0,0,0,0];
-        rows.forEach(r=>{ 
-          const v = r[key];
-          if (v>=1&&v<=5) counts[v-1]++; 
-        });
-        chart = new Chart(ctx,{type:'bar',
-          data:{labels:['1','2','3','4','5'],datasets:[{
-            label:`Distribución ${sec} P${num}`,data:counts,backgroundColor:'rgba(255,179,8,0.7)'
-          }]},
-          options:{scales:{y:{beginAtZero:true}}}
+        // promedio por cada pregunta (3x5=15)
+        labels = [];
+        values = [];
+        ['sabor','local','atencion'].forEach(sec => {
+          for(let i=1;i<=5;i++){
+            labels.push(`${sec} ${i}`);
+            let sum=0;
+            encuestas.forEach(e => sum += e[`${sec}_${i}`]);
+            values.push(parseFloat((sum/encuestas.length).toFixed(2)));
+          }
         });
       }
-    };
-
-    // Cargar sugerencias
-    async function cargarSugerencias(){
-      const { data } = await supabase.from('encuesta').select('sugerencias');
-      const cont = document.getElementById('sugerencias');
-      cont.innerHTML = '';
-      data.filter(r=>r.sugerencias).forEach(r=>{
-        const p = document.createElement('p');
-        p.textContent = '• ' + r.sugerencias;
-        cont.append(p);
+      // Renderiza Chart.js
+      const ctx = document.getElementById('reportChart').getContext('2d');
+      if (reportChart) reportChart.destroy();
+      reportChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Promedio',
+            data: values,
+            backgroundColor: 'rgba(255, 179, 8, 0.7)',
+            borderColor: 'var(--yellow)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: { beginAtZero:true, max:5 }
+          }
+        }
       });
-    }
+      // Muestra sugerencias
+      const commentsList = document.getElementById('commentsList');
+      commentsList.innerHTML = '';
+      encuestas.filter(e=>e.sugerencias).forEach(e=>{
+        const div = document.createElement('div');
+        div.className = 'comment';
+        div.textContent = e.sugerencias;
+        commentsList.appendChild(div);
+      });
+    };
   </script>
 </body>
 </html>
+

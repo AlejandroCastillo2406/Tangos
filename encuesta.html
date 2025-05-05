@@ -16,25 +16,43 @@
     * { margin:0; padding:0; box-sizing:border-box }
     body {
       font-family:'Inter',sans-serif;
-      background: var(--black);
+      background: linear-gradient(135deg, #1a1a1a, #222, #000);
       color: var(--white);
       display:flex; flex-direction:column;
       min-height:100vh;
     }
     header {
-      background: var(--black);
-      border-bottom:3px solid var(--yellow);
-      padding:1rem; text-align:center;
+      background: transparent;
+      padding:1rem;
+      text-align:center;
     }
     header h1 {
-      color: var(--yellow); font-weight:900; font-size:1.8rem;
+      color: var(--yellow);
+      font-size:2rem;
+      font-weight:900;
+      text-shadow:0 0 8px rgba(255,179,8,0.7);
     }
     main {
-      flex:1; padding:1rem;
-      max-width:480px; margin:0 auto;
+      flex:1;
+      width:100%;
+      max-width:480px;
+      margin:0 auto;
+      padding:1rem;
     }
+    .legend {
+      background: rgba(255, 179, 8, 0.1);
+      border: 1px solid var(--yellow);
+      border-radius:8px;
+      padding:.75rem;
+      margin-bottom:1rem;
+      font-size:.9rem;
+      text-align:center;
+      color:#ddd;
+    }
+    .legend span { font-weight:600; color:var(--yellow); }
     .step {
-      display:none; animation:fadeIn .4s ease-out;
+      display:none;
+      animation:fadeIn .4s ease-out;
     }
     .step.active { display:block }
     @keyframes fadeIn {
@@ -64,12 +82,14 @@
       border:2px solid var(--yellow);
       border-radius:50%;
       display:flex; align-items:center; justify-content:center;
-      cursor:pointer; color:var(--white);
-      transition:background .2s,color .2s;
+      cursor:pointer;
+      transition:background .2s,color .2s,transform .2s;
     }
+    .rating label:hover { transform:scale(1.1) }
     .rating input:checked + label {
       background: var(--yellow);
       color: var(--black);
+      box-shadow:0 0 8px rgba(255,179,8,0.5);
     }
     textarea {
       width:100%;
@@ -84,6 +104,7 @@
     }
     .buttons {
       display:flex; gap:1rem;
+      margin-top:1rem;
     }
     .buttons button {
       flex:1;
@@ -94,7 +115,8 @@
       font-weight:600;
       cursor:pointer;
       border-radius:8px;
-      transition:transform .2s;
+      text-transform:uppercase;
+      transition:transform .2s,background .2s;
     }
     .buttons button:disabled {
       background:#444;
@@ -107,9 +129,10 @@
       margin-top:1rem;
       text-align:center;
       font-weight:600;
+      color: var(--yellow);
     }
     footer {
-      background: var(--gray);
+      background: transparent;
       text-align:center;
       padding:1rem;
       font-size:.8rem;
@@ -124,10 +147,18 @@
 </header>
 
 <main>
+  <!-- Leyenda de la escala -->
+  <div class="legend">
+    <span>1</span> = Muy deficiente &nbsp;|&nbsp;
+    <span>2</span> = Regular &nbsp;|&nbsp;
+    <span>3</span> = Bueno &nbsp;|&nbsp;
+    <span>4</span> = Muy bueno &nbsp;|&nbsp;
+    <span>5</span> = Excelente
+  </div>
+
   <!-- Paso 1: Sabor -->
   <div class="step active" data-step="1">
     <h2>Sección 1: Sabor</h2>
-    <!-- Cinco preguntas -->
     <script>
       const preguntasSabor = [
         '¿Qué tan intenso te pareció el sabor?',
@@ -202,29 +233,27 @@
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
   );
 
-  // Genera dinámicamente las preguntas
+  // Construye preguntas
   function construirSeccion(contenedorId, preguntas, clave) {
     const cont = document.getElementById(contenedorId);
     preguntas.forEach((texto, i) => {
       const idx = i+1;
-      const divQ = document.createElement('div');
-      divQ.className = 'question';
-      divQ.textContent = `${idx}. ${texto}`;
-      cont.appendChild(divQ);
-
-      const rating = document.createElement('div');
-      rating.className = 'rating';
-      rating.dataset.key = `${clave}_${idx}`;
+      const q = document.createElement('div');
+      q.className = 'question';
+      q.textContent = `${idx}. ${texto}`;
+      cont.appendChild(q);
+      const r = document.createElement('div');
+      r.className = 'rating';
       for (let v=1;v<=5;v++){
         const inp = document.createElement('input');
         inp.type='radio'; inp.id=`${clave}_${idx}_${v}`;
         inp.name=`${clave}${idx}`; inp.value=v;
         const lbl = document.createElement('label');
-        lbl.setAttribute('for', inp.id);
+        lbl.htmlFor = inp.id;
         lbl.textContent = v;
-        rating.appendChild(inp); rating.appendChild(lbl);
+        r.append(inp,lbl);
       }
-      cont.appendChild(rating);
+      cont.appendChild(r);
     });
   }
   construirSeccion('contenedor-sabor', preguntasSabor, 'sabor');
@@ -235,14 +264,12 @@
   let current = 0;
   const answers = {};
 
-  // Genera/stores device_id
+  // Genera ID único por dispositivo
   const deviceKey = 'encuestaDevice';
-  let deviceId = localStorage.getItem(deviceKey);
-  if (!deviceId) {
-    deviceId = crypto.randomUUID();
-    localStorage.setItem(deviceKey, deviceId);
-  }
-  // Prevenir doble envío
+  let deviceId = localStorage.getItem(deviceKey) || crypto.randomUUID();
+  localStorage.setItem(deviceKey, deviceId);
+
+  // Verifica si ya respondió
   (async()=>{
     const { data } = await supabase
       .from('encuesta')
@@ -251,8 +278,9 @@
     if (data.length){
       document.body.innerHTML = `
         <header><h1>Encuesta Tango's</h1></header>
-        <main><p class="message">Ya respondieron desde este dispositivo. ¡Gracias!</p></main>
-        <footer>&copy;2025 Tango's</footer>`;
+        <main class="message" style="text-align:center;padding:2rem;color:#ccc;">
+          Ya respondiste la encuesta desde este dispositivo.<br>¡Mil gracias!
+        </main>`;
     }
   })();
 
@@ -261,8 +289,7 @@
     current=i;
     steps[current].classList.add('active');
   }
-
-  // Wire Next/Prev
+  // next/prev
   document.getElementById('next1').onclick = ()=> show(1);
   document.getElementById('prev2').onclick = ()=> show(0);
   document.getElementById('next2').onclick = ()=> show(2);
@@ -270,19 +297,18 @@
   document.getElementById('next3').onclick = ()=> show(3);
   document.getElementById('prev4').onclick = ()=> show(2);
 
-  // Habilitar “Siguiente” sólo si cada .rating tiene un checked
+  // habilita botones “Siguiente”
   steps.slice(0,3).forEach((step, idx)=>{
-    const btnId = ['next1','next2','next3'][idx];
     step.querySelectorAll('.rating input').forEach(radio=>{
       radio.addEventListener('change', ()=>{
-        const allAnswered = Array.from(step.querySelectorAll('.rating'))
-          .every(container => container.querySelector('input:checked'));
-        document.getElementById(btnId).disabled = !allAnswered;
+        const ok = Array.from(step.querySelectorAll('.rating'))
+          .every(c=>c.querySelector('input:checked'));
+        document.getElementById(['next1','next2','next3'][idx]).disabled = !ok;
       });
     });
   });
 
-  // Envío final
+  // envío final
   document.getElementById('submit').onclick = async ()=>{
     answers.device_id = deviceId;
     ['sabor','local','atencion'].forEach(sec=>{
@@ -293,17 +319,15 @@
     });
     answers.sugerencias = document.getElementById('sugerencias').value || null;
 
-    const { error } = await supabase
-      .from('encuesta')
-      .insert([answers]);
-
+    const { error } = await supabase.from('encuesta').insert([answers]);
     const msg = document.getElementById('message');
     if (error) {
-      msg.textContent = '❌ Error: ' + error.message;
+      msg.textContent = '❌ Error al enviar, intenta de nuevo.';
     } else {
-      msg.textContent = '✅ Encuesta enviada. ¡Gracias!';
-      document.getElementById('submit').disabled = true;
+      msg.textContent = '✅ Datos enviados. Redirigiendo...';
+      setTimeout(()=> location.href='index.html', 2000);
     }
+    document.getElementById('submit').disabled = true;
   };
 </script>
 

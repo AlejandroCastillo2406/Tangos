@@ -417,7 +417,6 @@
       const { data, error } = await supabase.from("encuesta").select("*");
       if (error || !data.length) return alert("No hay datos de encuesta");
 
-      // columnas de encuesta: sabor1..5, local1..5, atencion1..5, sugerencia
       const preguntasSabor   = ["sabor1","sabor2","sabor3","sabor4","sabor5"];
       const preguntasLocal   = ["local1","local2","local3","local4","local5"];
       const preguntasAtencion= ["atencion1","atencion2","atencion3","atencion4","atencion5"];
@@ -444,7 +443,7 @@
         });
       }
 
-      // suggestions
+      // sugerencias
       const sugerencias = data.map(r=>r.sugerencia).filter(t=>t);
       const ul = document.getElementById("listaSugerencias");
       ul.innerHTML = "";
@@ -453,7 +452,6 @@
         ul.appendChild(li);
       });
 
-      // pintar gráfico
       const ctx = document.getElementById("reportChart").getContext("2d");
       if (reportChart) reportChart.destroy();
       reportChart = new Chart(ctx, {
@@ -498,3 +496,4 @@
   </script>
 </body>
 </html>
+

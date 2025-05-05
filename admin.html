@@ -15,198 +15,248 @@
       --dark-yellow: #e09900;
       --gray: #111;
     }
-    * { margin:0; padding:0; box-sizing: border-box; }
+
     body {
-      background: linear-gradient(45deg,#000,#222);
+      background: var(--black);
       color: var(--white);
-      font-family: 'Inter',sans-serif;
+      font-family: 'Inter', sans-serif;
+      padding: 0;
+      margin: 0;
       text-align: center;
       min-height: 100vh;
+      background-image: linear-gradient(45deg, #000000, #222222);
     }
+
     .container {
       max-width: 100%;
       padding: 2rem;
+      margin: 0 auto;
     }
+
+    .logo-container {
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
     .logo {
       width: 120px;
-      margin: 0 auto 2rem;
-      display:block;
-      filter: drop-shadow(0 0 10px rgba(255,179,8,0.5));
+      margin: 0 auto;
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(255, 179, 8, 0.5));
       animation: pulse 2s infinite;
     }
+
     @keyframes pulse {
-      0%,100%{transform:scale(1)}
-      50%{transform:scale(1.05)}
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
+
     h1 {
-      font-size:2rem;
-      font-weight:900;
-      color:var(--yellow);
-      margin-bottom:2rem;
-      text-transform:uppercase;
-      letter-spacing:2px;
-      text-shadow:0 0 15px rgba(255,179,8,0.7);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--yellow);
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px rgba(255, 179, 8, 0.7);
     }
-    input, textarea, button, select {
-      width:90%;
-      max-width:350px;
-      padding:1rem;
-      margin-bottom:1.5rem;
-      font-size:1rem;
-      border:none;
-      border-radius:12px;
-      transition: all .3s ease;
+
+    input, textarea, button {
+      width: 90%;
+      max-width: 350px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 12px;
+      transition: all 0.3s ease;
     }
-    input, textarea, select {
-      background:#222;
-      color:var(--white);
-      border:2px solid var(--yellow);
+
+    input, textarea {
+      background: #222;
+      color: var(--white);
+      border: 2px solid var(--yellow);
     }
-    input:focus, textarea:focus, select:focus {
-      outline:none;
-      box-shadow:0 0 15px rgba(255,179,8,0.5);
+
+    input:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 15px rgba(255, 179, 8, 0.5);
       transform: translateY(-2px);
     }
+
     button {
       background: var(--yellow);
       color: var(--black);
-      font-weight:900;
-      cursor:pointer;
-      text-transform:uppercase;
-      letter-spacing:1px;
-      box-shadow:0 5px 15px rgba(0,0,0,0.3);
+      font-weight: 900;
+      cursor: pointer;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
       position: relative;
-      overflow:hidden;
+      overflow: hidden;
     }
+
     button:hover {
       background: var(--dark-yellow);
       transform: translateY(-3px);
-      box-shadow:0 7px 20px rgba(0,0,0,0.4);
+      box-shadow: 0 7px 20px rgba(0, 0, 0, 0.4);
     }
-    button:active{ transform: translateY(0); }
+
+    button:active {
+      transform: translateY(0);
+    }
+
     button::after {
-      content:'';
-      position:absolute;
-      top:0; left:-100%;
-      width:100%; height:100%;
-      background: linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);
-      transition: .5s;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
     }
-    button:hover::after { left:100%; }
+
+    button:hover::after {
+      left: 100%;
+    }
+
     .btn-group {
-      display:flex;
-      flex-direction:column;
-      gap:1.5rem;
-      margin:3rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin: 3rem 0;
     }
+
     .btn-group button {
-      max-width:300px;
-      margin:0 auto;
-      height:60px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      max-width: 300px;
+      margin: 0 auto;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
     .section {
-      display:none;
-      background: rgba(17,17,17,0.8);
-      padding:2rem 1rem;
-      margin-top:2rem;
-      border-radius:16px;
-      border:2px solid var(--yellow);
-      box-shadow:0 0 20px rgba(255,179,8,0.3);
+      display: none;
+      background: rgba(17, 17, 17, 0.8);
+      padding: 2rem 1rem;
+      margin-top: 2rem;
+      border-radius: 16px;
+      border: 2px solid var(--yellow);
+      box-shadow: 0 0 20px rgba(255, 179, 8, 0.3);
       backdrop-filter: blur(10px);
     }
-    .section.active {
-      display:block;
-      animation: fadeIn .5s;
-    }
-    @keyframes fadeIn {
-      from {opacity:0; transform:translateY(20px);}
-      to {opacity:1; transform:translateY(0);}
-    }
-    .producto-item {
-      background:#222;
-      margin:.8rem auto;
-      padding:1rem;
-      border-radius:12px;
-      max-width:90%;
-      cursor:pointer;
-      transition:all .3s;
-      border-left:4px solid var(--yellow);
-    }
-    .producto-item:hover {
-      background:#333;
-      transform:translateX(5px);
-      box-shadow:0 5px 15px rgba(0,0,0,0.2);
-    }
-    .status {
-      font-weight:bold;
-      color: var(--yellow);
-      margin-top:1rem;
-      padding:.5rem;
-      border-radius:8px;
-      background: rgba(255,179,8,0.1);
-    }
-    #auth {
-      max-width:400px;
-      margin:4rem auto;
-      padding:2rem;
-      background: rgba(17,17,17,0.8);
-      border-radius:16px;
-      border:2px solid var(--yellow);
-      box-shadow:0 0 30px rgba(255,179,8,0.3);
-    }
-    .salir-btn {
-      background:#333;
-      color:var(--white);
-      border:2px solid var(--yellow);
-      margin-top:3rem;
-    }
-    .salir-btn:hover { background:#444; }
 
-    /* reportes */
+    .section.active {
+      display: block;
+      animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .producto-item {
+      background: #222;
+      margin: 0.8rem auto;
+      padding: 1rem;
+      border-radius: 12px;
+      max-width: 90%;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-left: 4px solid var(--yellow);
+    }
+
+    .producto-item:hover {
+      background: #333;
+      transform: translateX(5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .status {
+      font-weight: bold;
+      color: var(--yellow);
+      margin-top: 1rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      background: rgba(255, 179, 8, 0.1);
+    }
+
+    #auth {
+      max-width: 400px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background: rgba(17, 17, 17, 0.8);
+      border-radius: 16px;
+      border: 2px solid var(--yellow);
+      box-shadow: 0 0 30px rgba(255, 179, 8, 0.3);
+    }
+
+    .salir-btn {
+      background: #333;
+      color: var(--white);
+      border: 2px solid var(--yellow);
+      margin-top: 3rem;
+    }
+
+    .salir-btn:hover {
+      background: #444;
+    }
+
+    .icon {
+      margin-right: 10px;
+      font-size: 1.5rem;
+    }
+
+    /* === NUEVO: sección de Reportes === */
     #chartContainer {
       position: relative;
-      width:100%;
-      height:320px;
-      margin:1.5rem 0;
-      padding:0 1rem;
+      width: 100%;
+      height: 320px;
+      margin: 1.5rem 0;
+      padding: 0 1rem;
     }
+
     .comment {
-      background:#222;
-      color:#fff;
-      padding:.8rem;
-      margin:.5rem auto;
-      max-width:90%;
-      border-left:4px solid var(--yellow);
-      border-radius:8px;
-      text-align:left;
+      background: #222;
+      color: #fff;
+      padding: 0.8rem;
+      margin: 0.5rem auto;
+      max-width: 90%;
+      border-left: 4px solid var(--yellow);
+      border-radius: 8px;
+      text-align: left;
     }
-    .icon { margin-right:10px; font-size:1.5rem; }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="assets/images/logo3.png" alt="Logo Tango's" class="logo" />
+    <div class="logo-container">
+      <img src="assets/images/logo3.png" alt="Logo Tango's" class="logo" />
+    </div>
 
     <div id="auth">
       <h1>Administrador</h1>
       <input type="password" id="clave" placeholder="Contraseña de acceso" autocomplete="off" inputmode="numeric" />
       <button id="btnAcceder">Entrar</button>
-      <p id="statusAuth" class="status"></p>
+      <p id="statusGlobal" class="status"></p>
     </div>
 
     <div id="panel" style="display:none;">
       <h1>Gestión de productos</h1>
+
       <div class="btn-group">
         <button onclick="mostrar('añadir')"><span class="icon">➕</span> Añadir producto</button>
         <button onclick="mostrar('eliminar')"><span class="icon">🗑️</span> Eliminar producto</button>
         <button onclick="mostrar('reportes')"><span class="icon">📊</span> Reportes encuesta</button>
       </div>
+
       <p id="statusGlobal" class="status"></p>
 
-      <!-- Añadir -->
       <div id="añadir" class="section">
         <form id="formNuevo">
           <input type="text" id="nombre" placeholder="Nombre" required />
@@ -218,12 +268,10 @@
         </form>
       </div>
 
-      <!-- Eliminar -->
       <div id="eliminar" class="section">
         <div id="listaEliminar"></div>
       </div>
 
-      <!-- Reportes -->
       <div id="reportes" class="section">
         <label for="reportMode" style="color:var(--yellow);font-weight:700;">Ver gráfico por:</label><br/>
         <select id="reportMode" style="margin-bottom:1rem;">
@@ -242,65 +290,71 @@
 
   <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+
     const supabase = createClient(
       'https://ljlaudvreolkdppgfqul.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9zcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZENwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
     );
 
-    const statusAuth = document.getElementById('statusAuth');
-    document.getElementById('btnAcceder').onclick = () => {
-      const clave = document.getElementById('clave').value;
-      if (clave === '240624') {
-        document.getElementById('auth').style.display='none';
-        document.getElementById('panel').style.display='block';
+    const statusAuth = document.getElementById("statusGlobal");
+    document.getElementById('btnAcceder').addEventListener('click', () => {
+      const clave = document.getElementById("clave").value;
+      if (clave === "240624") {
+        document.getElementById("auth").style.display = "none";
+        document.getElementById("panel").style.display = "block";
         cargarProductos();
       } else {
-        statusAuth.textContent = '❌ Contraseña incorrecta';
+        statusAuth.textContent = "❌ Contraseña incorrecta";
       }
-    };
+    });
 
-    window.mostrar = id => {
-      document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      document.getElementById('statusGlobal').textContent='';
-    };
+    function mostrar(id) {
+      document.querySelectorAll(".section").forEach(div => div.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      statusAuth.textContent = "";
+    }
 
-    // Añadir producto
-    document.getElementById('formNuevo').addEventListener('submit', async e=>{
+    // CRUD productos
+    document.getElementById("formNuevo").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const st = document.getElementById('statusNuevo');
-      const nombre = document.getElementById('nombre').value;
-      const descripcion = document.getElementById('descripcion').value;
-      const precio = parseFloat(document.getElementById('precio').value);
-      const file = document.getElementById('imagen').files[0];
-      const fname = `${Date.now()}-${file.name}`;
-      let { error: up } = await supabase.storage.from('productos').upload(fname,file);
-      if (up){ st.textContent='❌ Error al subir imagen'; return; }
-      let { data } = supabase.storage.from('productos').getPublicUrl(fname);
-      let { error: ins } = await supabase.from('productos').insert([{nombre,descripcion,precio,imagen_url:data.publicUrl}]);
-      if (ins){ st.textContent='❌ Error al guardar'; return; }
-      st.textContent='✅ Producto guardado';
+      const st = document.getElementById("statusNuevo");
+      const nombre = document.getElementById("nombre").value;
+      const descripcion = document.getElementById("descripcion").value;
+      const precio = parseFloat(document.getElementById("precio").value);
+      const archivo = document.getElementById("imagen").files[0];
+      const nombreArchivo = `${Date.now()}-${archivo.name}`;
+      const { error: errorUpload } = await supabase.storage.from('productos').upload(nombreArchivo, archivo);
+      if (errorUpload) {
+        st.textContent = "❌ Error al subir imagen";
+        return;
+      }
+      const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
+      const imagen_url = data.publicUrl;
+      const { error: errorInsert } = await supabase.from("productos").insert([{ nombre, descripcion, precio, imagen_url }]);
+      if (errorInsert) {
+        st.textContent = "❌ Error al guardar producto";
+        return;
+      }
+      st.textContent = "✅ Producto guardado";
       e.target.reset();
       cargarProductos();
     });
 
-    // Cargar y eliminar
-    async function cargarProductos(){
-      let { data: productos } = await supabase.from('productos').select('*').order('created_at',{ascending:false});
-      const el = document.getElementById('listaEliminar');
-      el.innerHTML='';
-      productos.forEach(p=>{
-        const d = document.createElement('div');
-        d.className='producto-item';
-        d.textContent=p.nombre;
-        d.onclick=async()=>{
-          if(confirm(`¿Eliminar "${p.nombre}"?`)){
-            await supabase.from('productos').delete().eq('id',p.id);
-            document.getElementById('statusGlobal').textContent='✅ Eliminado';
-            cargarProductos();
-          }
+    async function cargarProductos() {
+      const { data: productos } = await supabase.from("productos").select("*").order("created_at", { ascending: false });
+      const listaEliminar = document.getElementById("listaEliminar");
+      listaEliminar.innerHTML = "";
+      productos.forEach(p => {
+        const del = document.createElement("div");
+        del.className = "producto-item";
+        del.textContent = p.nombre;
+        del.onclick = async () => {
+          if (!confirm(`¿Eliminar "${p.nombre}"?`)) return;
+          await supabase.from("productos").delete().eq("id", p.id);
+          statusAuth.textContent = "✅ Producto eliminado";
+          cargarProductos();
         };
-        el.appendChild(d);
+        listaEliminar.appendChild(del);
       });
     }
 
@@ -308,74 +362,95 @@
     let reportChart;
     document.getElementById('btnLoadReport').onclick = async () => {
       const mode = document.getElementById('reportMode').value;
-      let { data: encuestas } = await supabase.from('encuesta').select('*');
+      const { data: encuestas } = await supabase.from('encuesta').select('*');
       if (!encuestas) return;
-      let labels=[], values=[];
-      if(mode==='seccion'){
-        const secs=['sabor','local','atencion'];
-        labels=['Sabor','Local','Atención'];
-        values = secs.map(sec=>{
-          let sum=0,c=0;
-          encuestas.forEach(e=>{
-            for(let i=1;i<=5;i++){ sum+=e[`${sec}_${i}`]; c++; }
+      let labels = [], values = [];
+
+      if (mode === 'seccion') {
+        const secs = ['sabor','local','atencion'];
+        labels = ['Sabor','Local','Atención'];
+        values = secs.map(sec => {
+          let sum = 0, cnt = 0;
+          encuestas.forEach(e => {
+            for (let i = 1; i <= 5; i++) {
+              sum += e[`${sec}_${i}`];
+              cnt++;
+            }
           });
-          return +(sum/c).toFixed(2);
+          return +(sum / cnt).toFixed(2);
         });
       } else {
-        ['sabor','local','atencion'].forEach(sec=>{
-          for(let i=1;i<=5;i++){
+        ['sabor','local','atencion'].forEach(sec => {
+          for (let i = 1; i <= 5; i++) {
             labels.push(`${sec} ${i}`);
-            let sum=0;
-            encuestas.forEach(e=> sum+=e[`${sec}_${i}`]);
-            values.push(+(sum/encuestas.length).toFixed(2));
+            let sum = 0;
+            encuestas.forEach(e => sum += e[`${sec}_${i}`]);
+            values.push(+(sum / encuestas.length).toFixed(2));
           }
         });
       }
+
       const ctx = document.getElementById('reportChart').getContext('2d');
-      if(reportChart) reportChart.destroy();
-      reportChart = new Chart(ctx,{
-        type:'bar',
-        data:{ labels, datasets:[{
-          label:'Promedio',
-          data:values,
-          backgroundColor: ctx => {
-            const g = ctx.createLinearGradient(0,0,0,ctx.canvas.height);
-            g.addColorStop(0,'rgba(255,179,8,0.8)');
-            g.addColorStop(1,'rgba(255,179,8,0.4)');
-            return g;
+      if (reportChart) reportChart.destroy();
+
+      reportChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Promedio',
+            data: values,
+            backgroundColor: context => {
+              const grad = context.chart.ctx.createLinearGradient(0, 0, 0, context.chart.height);
+              grad.addColorStop(0, 'rgba(255, 179, 8, 0.8)');
+              grad.addColorStop(1, 'rgba(255, 179, 8, 0.4)');
+              return grad;
+            },
+            borderColor: '#FFB308',
+            borderWidth: 2,
+            borderRadius: 8,
+            borderSkipped: false,
+            maxBarThickness: 60
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: {
+            padding: { top: 16, bottom: 16, left: 8, right: 8 }
           },
-          borderColor:'#FFB308',
-          borderWidth:2,
-          borderRadius:8,
-          borderSkipped:false,
-          maxBarThickness:60
-        }]},
-        options:{
-          responsive:true, maintainAspectRatio:false,
-          layout:{ padding:{top:16,bottom:16,left:8,right:8} },
-          scales:{
-            x:{ ticks:{color:'#FFB308',font:{weight:'600'}}, grid:{display:false} },
-            y:{ beginAtZero:true, max:5, ticks:{color:'#FFB308',stepSize:1,font:{weight:'600'}},
-                grid:{color:'rgba(255,179,8,0.2)',borderDash:[4,4]} }
+          scales: {
+            x: {
+              ticks: { color: '#FFB308', font: { weight: '600' } },
+              grid: { display: false }
+            },
+            y: {
+              beginAtZero: true,
+              max: 5,
+              ticks: { color: '#FFB308', stepSize: 1, font: { weight: '600' } },
+              grid: { color: 'rgba(255,179,8,0.2)', borderDash: [4, 4] }
+            }
           },
-          plugins:{
-            legend:{display:false},
-            tooltip:{
-              backgroundColor:'rgba(0,0,0,0.8)',
-              titleColor:'#FFB308', bodyColor:'#fff',
-              titleFont:{weight:'700'}, padding:12
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(0,0,0,0.8)',
+              titleColor: '#FFB308',
+              bodyColor: '#fff',
+              titleFont: { weight: '700' },
+              padding: 12
             }
           }
         }
       });
-      // Sugerencias
-      const cl = document.getElementById('commentsList');
-      cl.innerHTML='';
-      encuestas.filter(e=>e.sugerencias).forEach(e=>{
-        const cm = document.createElement('div');
-        cm.className='comment';
-        cm.textContent=e.sugerencias;
-        cl.appendChild(cm);
+
+      const commentsList = document.getElementById('commentsList');
+      commentsList.innerHTML = '';
+      encuestas.filter(e => e.sugerencias).forEach(e => {
+        const div = document.createElement('div');
+        div.className = 'comment';
+        div.textContent = e.sugerencias;
+        commentsList.appendChild(div);
       });
     };
   </script>

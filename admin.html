@@ -210,6 +210,7 @@
       font-size: 1rem;
       transition: background 0.3s;
     }
+
     .salir-btn:hover {
       background: #444;
     }
@@ -222,12 +223,14 @@
       align-items: center;
       margin-bottom: 2rem;
     }
+
     #reportes select {
       appearance: none;
       background: #222;
       color: #fff;
       border: 2px solid var(--yellow);
     }
+
     #reportes #chartContainer {
       width: 100%;
       height: 300px;
@@ -235,26 +238,31 @@
       position: relative;
       margin-bottom: 1.5rem;
     }
+
     #reportes canvas {
       background-color: transparent !important;
     }
+
     #reportes .sugerencias {
       text-align: left;
       max-width: 90%;
       margin: 0 auto;
     }
+
     #reportes .sugerencias h3 {
       color: var(--yellow);
       margin-bottom: 0.5rem;
       text-transform: uppercase;
       font-size: 1.1rem;
     }
+
     #reportes .sugerencias ul {
       list-style: none;
       max-height: 150px;
       overflow-y: auto;
       padding-right: 1rem;
     }
+
     #reportes .sugerencias li {
       background: #222;
       margin-bottom: 0.5rem;
@@ -294,6 +302,14 @@
           <input type="text" id="nombre" placeholder="Nombre" required />
           <textarea id="descripcion" placeholder="Descripción" required></textarea>
           <input type="number" id="precio" placeholder="Precio" required />
+          <!-- Nuevo campo de categoría -->
+          <select id="categoria" required>
+            <option value="" disabled selected>Selecciona categoría</option>
+            <option value="bebidas">Bebidas</option>
+            <option value="snacks">Snacks</option>
+            <option value="elotes">Elotes</option>
+            <option value="delicias">Delicias</option>
+          </select>
           <input type="file" id="imagen" accept="image/*" required />
           <button type="submit">Guardar producto</button>
           <p id="status" class="status"></p>
@@ -337,7 +353,7 @@
 
     const supabase = createClient(
       'https://ljlaudvreolkdppgfqul.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9...'
     );
 
     const statusGlobal = document.getElementById("statusGlobal");
@@ -371,18 +387,30 @@
       const nombre = document.getElementById("nombre").value;
       const descripcion = document.getElementById("descripcion").value;
       const precio = parseFloat(document.getElementById("precio").value);
+      const categoria = document.getElementById("categoria").value;
       const archivo = document.getElementById("imagen").files[0];
+
+      if (!categoria) {
+        document.getElementById("status").textContent = "❌ Selecciona una categoría";
+        return;
+      }
 
       const nombreArchivo = `${Date.now()}-${archivo.name}`;
       const { error: uploadErr } = await supabase.storage.from('productos').upload(nombreArchivo, archivo);
-      if (uploadErr) return document.getElementById("status").textContent = "❌ Error al subir imagen";
+      if (uploadErr) {
+        document.getElementById("status").textContent = "❌ Error al subir imagen";
+        return;
+      }
 
       const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
       const imagen_url = data.publicUrl;
 
       const { error: insertErr } = await supabase.from("productos")
-        .insert([{ nombre, descripcion, precio, imagen_url }]);
-      if (insertErr) return document.getElementById("status").textContent = "❌ Error al guardar producto";
+        .insert([{ nombre, descripcion, precio, imagen_url, categoria }]);
+      if (insertErr) {
+        document.getElementById("status").textContent = "❌ Error al guardar producto";
+        return;
+      }
 
       document.getElementById("status").textContent = "✅ Producto guardado";
       e.target.reset();
@@ -425,82 +453,59 @@
 
       if (tipo === "porPregunta") {
         const todas = [...preguntasSabor, ...preguntasLocal, ...preguntasAtencion];
-        labels = todas.map(q => q.replace(/([a-z])([0-9])/i,"$1 $2"));
+        labels = todas.map(q => q.replace(/_/g, " ").replace(/([a-z]) ([0-9])/i, "$1 $2"));
         values = todas.map(col => {
-          const sum = data.reduce((acc, r) => acc + (r[col]||0), 0);
+          const sum = data.reduce((acc, r) => acc + (Number(r[col]) || 0), 0);
           return +(sum / data.length).toFixed(2);
         });
       } else {
         const secciones = [
-          { name:"Sabor",   cols: preguntasSabor },
-          { name:"Local",   cols: preguntasLocal },
-          { name:"Atención",cols: preguntasAtencion }
+          { name:"Local",    cols: preguntasLocal },
+          { name:"Sabor",    cols: preguntasSabor },
+          { name:"Atención", cols: preguntasAtencion }
         ];
-        labels = secciones.map(s=>s.name);
+        labels = secciones.map(s => s.name);
         values = secciones.map(s => {
-          const sum = data.reduce((acc,r)=>
-            acc + s.cols.reduce((a,c)=> a + (r[c]||0), 0)
-          , 0);
+          const sum = data.reduce((acc, r) =>
+            acc + s.cols.reduce((a, c) => a + (Number(r[c]) || 0), 0), 0
+          );
           return +(sum / (s.cols.length * data.length)).toFixed(2);
         });
       }
 
-      // sugerencias
-      const sugerencias = data.map(r=>r.sugerencias).filter(t=>t);
       const ul = document.getElementById("listaSugerencias");
       ul.innerHTML = "";
-      sugerencias.forEach(s => {
+      data.map(r => r.sugerencias).filter(t => t && t.trim()).forEach(texto => {
         const li = document.createElement("li");
-        li.textContent = s;
+        li.textContent = texto;
         ul.appendChild(li);
       });
 
-      // pintar gráfico
       const ctx = document.getElementById("reportChart").getContext("2d");
       if (reportChart) reportChart.destroy();
       reportChart = new Chart(ctx, {
         type: 'bar',
         data: {
           labels,
-          datasets: [{
-            data: values,
-            backgroundColor: '#FFB308',  // Dorado sólido
-            borderColor: '#FFB308',      
-            borderWidth: 1,
-            barPercentage: 0.6,
-            categoryPercentage: 0.7
-          }]
+          datasets: [{ data: values, backgroundColor: '#FFB308', borderColor: '#FFB308', borderWidth:1, barPercentage:.6, categoryPercentage:.7 }]
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          layout: { padding: 16 },
-          scales: {
-            x: {
-              ticks: { color: '#fff', autoSkip: false, maxRotation: 40, minRotation: 40 },
-              grid: { display: false }
-            },
-            y: {
-              beginAtZero: true, max: 5,
-              ticks: { color: '#fff', stepSize: 1 },
-              grid: { color: 'rgba(255,179,8,0.2)' }
-            }
+          responsive:true, maintainAspectRatio:false,
+          layout:{ padding:16 },
+          scales:{
+            x:{ ticks:{ color:'#fff', autoSkip:false, maxRotation:40, minRotation:40 }, grid:{ display:false }},
+            y:{ beginAtZero:true, max:5, ticks:{ color:'#fff', stepSize:1 }, grid:{ color:'rgba(255,179,8,0.2)' }}
           },
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              backgroundColor: '#222',
-              titleColor: '#fff',
-              bodyColor: '#fff'
-            }
+          plugins:{
+            legend:{ display:false },
+            tooltip:{ backgroundColor:'#222', titleColor:'#fff', bodyColor:'#fff' }
           }
         }
       });
     }
-      document.addEventListener("contextmenu", function(event) {
-    event.preventDefault();  // Prevenir el menú contextual (clic derecho)
-  });
 
+    // Bloquear clic derecho
+    document.addEventListener("contextmenu", e => e.preventDefault());
   </script>
 </body>
 </html>

@@ -13,35 +13,46 @@
       --dark-yellow: #e09900;
       --gray: #111;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       background: var(--black);
       color: var(--white);
       font-family: 'Inter', sans-serif;
-      margin: 0; padding: 0;
       text-align: center;
       min-height: 100vh;
-      background-image: linear-gradient(45deg, #000, #222);
+      background-image: linear-gradient(45deg, #000000, #222222);
     }
+
     .container {
-      width: 100%;
-      padding: 2rem;
-      margin: auto;
+      max-width: 100%;
+      padding: 2rem 1rem;
+      margin: 0 auto;
     }
+
     .logo-container {
       margin-bottom: 2rem;
     }
+
     .logo {
       width: 120px;
       display: block;
       margin: 0 auto;
-      filter: drop-shadow(0 0 10px rgba(255,179,8,0.5));
+      filter: drop-shadow(0 0 10px rgba(255, 179, 8, 0.5));
       animation: pulse 2s infinite;
+      cursor: pointer;
     }
+
     @keyframes pulse {
       0%,100% { transform: scale(1); }
       50% { transform: scale(1.05); }
     }
+
     h1 {
       font-size: 2rem;
       font-weight: 900;
@@ -49,8 +60,9 @@
       margin-bottom: 2rem;
       text-transform: uppercase;
       letter-spacing: 2px;
-      text-shadow: 0 0 15px rgba(255,179,8,0.7);
+      text-shadow: 0 0 15px rgba(255, 179, 8, 0.7);
     }
+
     input, textarea, button, select {
       width: 90%;
       max-width: 350px;
@@ -61,47 +73,61 @@
       border-radius: 12px;
       transition: all 0.3s ease;
     }
+
     input, textarea, select {
       background: #222;
       color: var(--white);
       border: 2px solid var(--yellow);
     }
+
     input:focus, textarea:focus, select:focus {
       outline: none;
-      box-shadow: 0 0 15px rgba(255,179,8,0.5);
+      box-shadow: 0 0 15px rgba(255, 179, 8, 0.5);
       transform: translateY(-2px);
     }
+
     button {
       background: var(--yellow);
       color: var(--black);
       font-weight: 900;
-      cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 1px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.3);
       position: relative;
       overflow: hidden;
+      cursor: pointer;
     }
+
     button:hover {
       background: var(--dark-yellow);
       transform: translateY(-3px);
       box-shadow: 0 7px 20px rgba(0,0,0,0.4);
     }
-    button:active { transform: translateY(0); }
+
+    button:active {
+      transform: translateY(0);
+    }
+
     button::after {
       content: '';
-      position: absolute; top: 0; left: -100%;
+      position: absolute;
+      top: 0; left: -100%;
       width: 100%; height: 100%;
-      background: linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
       transition: 0.5s;
     }
-    button:hover::after { left: 100%; }
+
+    button:hover::after {
+      left: 100%;
+    }
+
     .btn-group {
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
       margin: 3rem 0;
     }
+
     .btn-group button {
       max-width: 300px;
       margin: 0 auto;
@@ -110,6 +136,12 @@
       align-items: center;
       justify-content: center;
     }
+
+    .icon {
+      margin-right: 10px;
+      font-size: 1.5rem;
+    }
+
     .section {
       display: none;
       background: rgba(17,17,17,0.8);
@@ -120,14 +152,17 @@
       box-shadow: 0 0 20px rgba(255,179,8,0.3);
       backdrop-filter: blur(10px);
     }
+
     .section.active {
       display: block;
-      animation: fadeIn 0.5s;
+      animation: fadeIn 0.5s ease;
     }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
+      to { opacity: 1; transform: translateY(0); }
     }
+
     .producto-item {
       background: #222;
       margin: 0.8rem auto;
@@ -137,12 +172,15 @@
       cursor: pointer;
       transition: all 0.3s;
       border-left: 4px solid var(--yellow);
+      text-align: left;
     }
+
     .producto-item:hover {
       background: #333;
       transform: translateX(5px);
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
+
     .status {
       font-weight: bold;
       color: var(--yellow);
@@ -151,6 +189,7 @@
       border-radius: 8px;
       background: rgba(255,179,8,0.1);
     }
+
     #auth {
       max-width: 400px;
       margin: 4rem auto;
@@ -160,44 +199,77 @@
       border: 2px solid var(--yellow);
       box-shadow: 0 0 30px rgba(255,179,8,0.3);
     }
+
     .salir-btn {
       background: #333;
       color: var(--white);
       border: 2px solid var(--yellow);
       margin-top: 3rem;
-      width: 90%;
-      max-width: 350px;
-    }
-    .salir-btn:hover { background: #444; }
-    .icon { margin-right: 10px; font-size: 1.5rem; }
-
-    /* ————————————————————————————— */
-    /* ——— estilos gráfico de encuesta ——— */
-    #chartContainer {
-      margin: 1.5rem auto;
-      background: var(--black);
-      padding: 1rem;
+      padding: 1rem 2rem;
       border-radius: 12px;
-      max-width: 100%;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      position: relative;
-      height: 320px;
+      font-size: 1rem;
+      transition: background 0.3s;
     }
-    #reportChart {
-      background-color: var(--black) !important;
-      border-radius: 8px;
-      width: 100% !important;
-      height: 100% !important;
+    .salir-btn:hover {
+      background: #444;
+    }
+
+    /* === Reportes de encuesta === */
+    #reportes .report-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    #reportes select {
+      appearance: none;
+      background: #222;
+      color: #fff;
+      border: 2px solid var(--yellow);
+    }
+    #reportes #chartContainer {
+      width: 100%;
+      height: 300px;
+      background: transparent;
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    #reportes canvas {
+      background-color: transparent !important;
+    }
+    #reportes .sugerencias {
+      text-align: left;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+    #reportes .sugerencias h3 {
+      color: var(--yellow);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      font-size: 1.1rem;
+    }
+    #reportes .sugerencias ul {
+      list-style: none;
+      max-height: 150px;
+      overflow-y: auto;
+      padding-right: 1rem;
+    }
+    #reportes .sugerencias li {
+      background: #222;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 6px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-
     <div class="logo-container">
-      <img src="assets/images/logo3.png" alt="Logo Tango's" class="logo" />
+      <img src="assets/images/logo3.png" alt="Logo Tango's" class="logo" onclick="window.location.href='index.html'" />
     </div>
 
+    <!-- 🔐 Autenticación -->
     <div id="auth">
       <h1>Administrador</h1>
       <input type="password" id="clave" placeholder="Contraseña de acceso" autocomplete="off" inputmode="numeric" />
@@ -205,17 +277,18 @@
       <p id="statusGlobal" class="status"></p>
     </div>
 
+    <!-- Panel -->
     <div id="panel" style="display:none;">
       <h1>Gestión de productos</h1>
-
       <div class="btn-group">
         <button onclick="mostrar('añadir')"><span class="icon">➕</span> Añadir producto</button>
         <button onclick="mostrar('eliminar')"><span class="icon">🗑️</span> Eliminar producto</button>
-        <button onclick="mostrar('reportes')"><span class="icon">📊</span> Reportes encuesta</button>
+        <button onclick="mostrar('reportes')"><span class="icon">📊</span> Reportes de encuesta</button>
       </div>
 
-      <p id="statusGlobal" class="status"></p>
+      <p id="statusGlobal2" class="status"></p>
 
+      <!-- Añadir producto -->
       <div id="añadir" class="section">
         <form id="formNuevo">
           <input type="text" id="nombre" placeholder="Nombre" required />
@@ -227,33 +300,38 @@
         </form>
       </div>
 
+      <!-- Eliminar producto -->
       <div id="eliminar" class="section">
         <div id="listaEliminar"></div>
       </div>
 
-      <!-- sección de reportes añadida -->
+      <!-- Reportes de encuesta -->
       <div id="reportes" class="section">
-        <h1>Reportes de Encuesta</h1>
-        <select id="reportType">
-          <option value="seccion">Por sección</option>
-          <option value="pregunta">Por pregunta</option>
-        </select>
-        <button id="loadChartBtn">CARGAR GRÁFICO</button>
+        <h2>Reportes de Encuesta</h2>
+        <div class="report-controls">
+          <label for="tipoGrafico" style="color:#fff;">Ver gráfico:</label>
+          <select id="tipoGrafico">
+            <option value="porPregunta">Por pregunta</option>
+            <option value="porSeccion">Por sección</option>
+          </select>
+          <button id="btnCargarGrafico">Cargar gráfico</button>
+        </div>
         <div id="chartContainer">
           <canvas id="reportChart"></canvas>
         </div>
-        <h2 style="color:var(--yellow); text-align:left; margin-top:1.5rem;">Sugerencias recibidas</h2>
-        <div id="sugerenciasList" style="background:#222; padding:1rem; border-radius:8px; max-height:180px; overflow-y:auto; text-align:left;"></div>
+        <div class="sugerencias">
+          <h3>Sugerencias recibidas</h3>
+          <ul id="listaSugerencias"></ul>
+        </div>
       </div>
 
+      <!-- Salir -->
       <button onclick="salirAdmin()" class="salir-btn"><span class="icon">🚪</span> Salir del modo admin</button>
     </div>
-
   </div>
 
-  <!-- Chart.js -->
+  <!-- Supabase + Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
@@ -262,8 +340,8 @@
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
     );
 
-    let reportChart = null;
     const statusGlobal = document.getElementById("statusGlobal");
+    const statusGlobal2 = document.getElementById("statusGlobal2");
 
     document.getElementById('btnAcceder').addEventListener('click', () => {
       const clave = document.getElementById("clave").value;
@@ -279,10 +357,7 @@
     function mostrar(id) {
       document.querySelectorAll(".section").forEach(div => div.classList.remove("active"));
       document.getElementById(id).classList.add("active");
-      statusGlobal.textContent = "";
-      if (id === 'reportes') {
-        cargarReporte();
-      }
+      statusGlobal2.textContent = "";
     }
     window.mostrar = mostrar;
 
@@ -290,23 +365,28 @@
       window.location.href = "index.html";
     }
 
-    // productos...
-    document.getElementById("formNuevo").addEventListener("submit", async (e) => {
+    /* — Productos — */
+    document.getElementById("formNuevo").addEventListener("submit", async e => {
       e.preventDefault();
-      // ...igual que antes
       const nombre = document.getElementById("nombre").value;
       const descripcion = document.getElementById("descripcion").value;
       const precio = parseFloat(document.getElementById("precio").value);
       const archivo = document.getElementById("imagen").files[0];
-      const fileName = `${Date.now()}-${archivo.name}`;
-      const { error: errUp } = await supabase.storage.from('productos').upload(fileName, archivo);
-      if (errUp) { document.getElementById("status").textContent = "❌ Error al subir imagen"; return; }
-      const { data } = supabase.storage.from('productos').getPublicUrl(fileName);
+
+      const nombreArchivo = `${Date.now()}-${archivo.name}`;
+      const { error: uploadErr } = await supabase.storage.from('productos').upload(nombreArchivo, archivo);
+      if (uploadErr) return document.getElementById("status").textContent = "❌ Error al subir imagen";
+
+      const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
       const imagen_url = data.publicUrl;
-      const { error: errIns } = await supabase.from("productos").insert([{ nombre, descripcion, precio, imagen_url }]);
-      if (errIns) { document.getElementById("status").textContent = "❌ Error al guardar producto"; return; }
+
+      const { error: insertErr } = await supabase.from("productos")
+        .insert([{ nombre, descripcion, precio, imagen_url }]);
+      if (insertErr) return document.getElementById("status").textContent = "❌ Error al guardar producto";
+
       document.getElementById("status").textContent = "✅ Producto guardado";
-      e.target.reset(); cargarProductos();
+      e.target.reset();
+      cargarProductos();
     });
 
     async function cargarProductos() {
@@ -320,7 +400,7 @@
         del.onclick = async () => {
           if (confirm(`¿Eliminar "${p.nombre}"?`)) {
             await supabase.from("productos").delete().eq("id", p.id);
-            statusGlobal.textContent = "✅ Producto eliminado";
+            statusGlobal2.textContent = "✅ Producto eliminado";
             cargarProductos();
           }
         };
@@ -328,52 +408,62 @@
       });
     }
 
-    // ——— reporte encuesta ———
-    document.getElementById('loadChartBtn').addEventListener('click', cargarReporte);
+    /* — Encuesta y reportes — */
+    let reportChart = null;
+    document.getElementById("btnCargarGrafico").addEventListener("click", cargarGrafico);
 
-    async function cargarReporte() {
-      // 1) leo respuestas
-      const { data: respuestas } = await supabase.from('encuestas').select('*');
-      if (!respuestas) return;
+    async function cargarGrafico() {
+      const tipo = document.getElementById("tipoGrafico").value;
+      const { data, error } = await supabase.from("encuesta").select("*");
+      if (error || !data.length) return alert("No hay datos de encuesta");
 
-      // 2) preparo avg
-      const tipo = document.getElementById('reportType').value;
-      const labels = [], values = [];
-      if (tipo === 'seccion') {
-        ['sabor','local','atencion'].forEach(sec => {
-          const arr = respuestas.map(r => [1,2,3,4,5].map(i=>r[`${sec}${i}`]||0)).flat();
-          const avg = +(arr.reduce((a,b)=>a+b,0)/arr.length||0).toFixed(2);
-          labels.push(sec.charAt(0).toUpperCase()+sec.slice(1));
-          values.push(avg);
+      // columnas de encuesta: sabor1..5, local1..5, atencion1..5, sugerencia
+      const preguntasSabor   = ["sabor1","sabor2","sabor3","sabor4","sabor5"];
+      const preguntasLocal   = ["local1","local2","local3","local4","local5"];
+      const preguntasAtencion= ["atencion1","atencion2","atencion3","atencion4","atencion5"];
+
+      let labels=[], values=[];
+
+      if (tipo === "porPregunta") {
+        const todas = [...preguntasSabor, ...preguntasLocal, ...preguntasAtencion];
+        labels = todas.map(q => q.replace(/([a-z])([0-9])/i,"$1 $2"));
+        values = todas.map(col => {
+          const sum = data.reduce((acc,r)=> acc + (r[col]||0),0);
+          return +(sum / data.length).toFixed(2);
         });
       } else {
-        ['sabor','local','atencion'].forEach(sec => {
-          for(let i=1;i<=5;i++){
-            const arr = respuestas.map(r=>r[`${sec}${i}`]||0);
-            const avg = +(arr.reduce((a,b)=>a+b,0)/arr.length||0).toFixed(2);
-            labels.push(`${sec} ${i}`);
-            values.push(avg);
-          }
+        const secciones = [
+          { name:"Sabor",   cols: preguntasSabor },
+          { name:"Local",   cols: preguntasLocal },
+          { name:"Atención",cols: preguntasAtencion }
+        ];
+        labels = secciones.map(s=>s.name);
+        values = secciones.map(s => {
+          const sum = data.reduce((acc,r)=> acc + s.cols.reduce((a,c)=>a + (r[c]||0),0),0);
+          return +(sum / (s.cols.length * data.length)).toFixed(2);
         });
       }
 
-      // 3) sugerencias
-      const suger = respuestas.map(r=>r.sugerencia).filter(t=>t);
-      document.getElementById('sugerenciasList').innerHTML = suger.length
-        ? suger.map(s=>`<p>➤ ${s}</p>`).join('')
-        : '<p>(Sin sugerencias aún)</p>';
+      // suggestions
+      const sugerencias = data.map(r=>r.sugerencia).filter(t=>t);
+      const ul = document.getElementById("listaSugerencias");
+      ul.innerHTML = "";
+      sugerencias.forEach(s => {
+        const li = document.createElement("li"); li.textContent = s;
+        ul.appendChild(li);
+      });
 
-      // 4) dibujo gráfico
-      const ctx = document.getElementById('reportChart').getContext('2d');
+      // pintar gráfico
+      const ctx = document.getElementById("reportChart").getContext("2d");
       if (reportChart) reportChart.destroy();
       reportChart = new Chart(ctx, {
         type: 'bar',
         data: {
           labels, datasets: [{
             data: values,
-            backgroundColor: '#000',
-            borderColor: 'var(--yellow)',
-            borderWidth: 2,
+            borderColor: '#FFB308',
+            backgroundColor: 'transparent',
+            borderWidth: 3,
             borderRadius: 4,
             barPercentage: 0.6,
             categoryPercentage: 0.7
@@ -390,7 +480,7 @@
             },
             y: {
               beginAtZero: true, max: 5,
-              ticks: { color: '#fff' },
+              ticks: { color: '#fff', stepSize: 1 },
               grid: { color: 'rgba(255,179,8,0.2)' }
             }
           },

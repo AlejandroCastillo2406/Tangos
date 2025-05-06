@@ -328,6 +328,34 @@
       fill: var(--black); /* Dorado */
       vertical-align: middle; /* Asegura que el SVG esté centrado */
     }
+      /* -- filtro subcategorías -- */
+  .filtro-container {
+    width: 90%;
+    max-width: 400px;
+    margin: 1.5rem auto;
+    display: flex;
+    justify-content: center;
+  }
+  #filtroSubcategoria {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border-radius: 30px;
+    border: 2px solid var(--yellow);
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path fill='%23000' d='M0 0l6 8 6-8z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: border-color 0.3s;
+  }
+  #filtroSubcategoria:focus {
+    outline: none;
+    border-color: var(--dark-yellow);
+  }
+
 
   </style>
 </head>

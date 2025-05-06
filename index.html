@@ -429,11 +429,11 @@
   const contenedor = document.getElementById("productos-container");
 
   async function cargarMenu(categoria) {
-    contenedor.innerHTML = <p class="loader">Cargando ${categoria}...</p>;
+    contenedor.innerHTML = `<p class="loader">Cargando ${categoria}...</p>`;
     const { data, error } = await supabase.from("productos").select("*").eq("categoria", categoria);
 
     if (error || !data.length) {
-      contenedor.innerHTML = <p class="loader">No hay productos en esta categoría.</p>;
+      contenedor.innerHTML = `<p class="loader">No hay productos en esta categoría.</p>`;
       return;
     }
 
@@ -441,7 +441,7 @@
     data.forEach(p => {
       const card = document.createElement("div");
       card.classList.add("producto-card");
-      card.innerHTML = 
+      card.innerHTML = `
         <img src="${p.imagen_url}" alt="${p.nombre}" />
         <div class="producto-content">
           <h3>${p.nombre}</h3>
@@ -449,7 +449,7 @@
           <span class="precio">$${p.precio}</span>
           <a href="https://wa.me/527828295134?text=Hola quiero pedir: ${encodeURIComponent(p.nombre)}" class="btn-ws" target="_blank">Pedir</a>
         </div>
-      ;
+      `;
       contenedor.appendChild(card);
       requestAnimationFrame(() => card.classList.add("visible"));
     });
@@ -463,7 +463,7 @@
 
   function seleccionarCategoria(categoria) {
     document.querySelectorAll(".categoria-box").forEach(c => c.classList.remove("active"));
-    const btn = document.querySelector([data-cat="${categoria}"]);
+    const btn = document.querySelector(`[data-cat="${categoria}"]`);
     if (btn) btn.classList.add("active");
     cargarMenu(categoria);
   }

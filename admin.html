@@ -294,8 +294,9 @@
           <input type="text" id="nombre" placeholder="Nombre" required />
           <textarea id="descripcion" placeholder="Descripción" required></textarea>
           <input type="number" id="precio" placeholder="Precio" required />
+          <input type="file" id="imagen" accept="image/*" required />
 
-          <!-- ↓ CAMPO CATEGORÍA AÑADIDO ↓ -->
+          <!-- ** SELECCIÓN DE CATEGORÍA AÑADIDA ** -->
           <select id="categoria" required>
             <option value="" disabled selected>Selecciona categoría</option>
             <option value="bebidas">🥤 Bebidas</option>
@@ -303,9 +304,8 @@
             <option value="elotes">🌽 Elotes</option>
             <option value="delicias">🍓 Delicias</option>
           </select>
-          <!-- ↑ FIN DEL CAMPO CATEGORÍA ↑ -->
+          <!-- ** FIN CATEGORÍA ** -->
 
-          <input type="file" id="imagen" accept="image/*" required />
           <button type="submit">Guardar producto</button>
           <p id="status" class="status"></p>
         </form>
@@ -375,7 +375,7 @@
     window.mostrar = mostrar;
     window.salirAdmin = () => window.location.href = "index.html";
 
-    /* — Añadir producto (AHORA CON CATEGORÍA) — */
+    /* — Productos — */
     document.getElementById("formNuevo").addEventListener("submit", async e => {
       e.preventDefault();
       const nombre      = document.getElementById("nombre").value;
@@ -384,7 +384,7 @@
       const categoria   = document.getElementById("categoria").value;
       const archivo     = document.getElementById("imagen").files[0];
 
-      // Primero subimos la imagen al bucket "productos"
+      // Subida de imagen
       const nombreArchivo = `${Date.now()}-${archivo.name}`;
       const { error: uploadErr } = await supabase
         .storage
@@ -394,11 +394,11 @@
         return document.getElementById("status").textContent = "❌ Error al subir imagen";
       }
 
-      // Obtenemos la URL pública
+      // URL pública
       const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
       const imagen_url = data.publicUrl;
 
-      // Insertamos en la tabla "productos" incluyendo categoría
+      // Insert con categoría
       const { error: insertErr } = await supabase
         .from("productos")
         .insert([{ nombre, descripcion, precio, imagen_url, categoria }]);
@@ -411,7 +411,7 @@
       cargarProductos();
     });
 
-    /* — Eliminar producto — */
+    // Cargar lista de eliminar
     async function cargarProductos() {
       const { data: productos } = await supabase
         .from("productos")
@@ -424,7 +424,7 @@
       productos.forEach(p => {
         const del = document.createElement("div");
         del.className = "producto-item";
-        del.textContent = `${p.nombre} (${p.categoria})`;
+        del.textContent = p.nombre;
         del.onclick = async () => {
           if (confirm(`¿Eliminar "${p.nombre}"?`)) {
             await supabase.from("productos").delete().eq("id", p.id);
@@ -436,7 +436,7 @@
       });
     }
 
-    /* — Reportes de encuesta (sin tocar) — */
+    /* — Encuesta y reportes — */
     let reportChart = null;
     document.getElementById("btnCargarGrafico").addEventListener("click", cargarGrafico);
 
@@ -448,6 +448,7 @@
       const preguntasLocal    = ["local_1","local_2","local_3","local_4","local_5"];
       const preguntasSabor    = ["sabor_1","sabor_2","sabor_3","sabor_4","sabor_5"];
       const preguntasAtencion = ["atencion_1","atencion_2","atencion_3","atencion_4","atencion_5"];
+
       let labels = [], values = [];
 
       if (tipo === "porPregunta") {

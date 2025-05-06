@@ -329,29 +329,6 @@
       vertical-align: middle; /* Asegura que el SVG esté centrado */
     }
 
-    .subcat-filter {
-  background: #222;
-  padding: 1rem;
-  margin: 1rem 1.5rem;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.subcat-filter .subcat-label {
-  color: var(--yellow);
-  font-weight: 700;
-}
-.subcat-filter .subcat-select {
-  flex: 1;
-  padding: 0.75rem;
-  border: 2px solid var(--yellow);
-  border-radius: 8px;
-  background: #111;
-  color: #fff;
-  appearance: none;
-}
-
   </style>
 </head>
 <body>
@@ -396,14 +373,6 @@
       </div>
     </div>
   </div>
-
-  <div id="subcat-filter" class="subcat-filter" style="display:none;">
-    <label for="subcat-select" class="subcat-label">Filtrar por:</label>
-    <select id="subcat-select" class="subcat-select">
-      <option value="">Todas</option>
-    </select>
-  </div>
-
 
   <!-- Menú -->
   <div class="menu-container">
@@ -454,61 +423,17 @@
 
   const supabase = createClient(
     'https://ljlaudvreolkdppgfqul.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9l...' // tu clave
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
   );
 
   const contenedor = document.getElementById("productos-container");
-  const statusGlobal = document.getElementById("statusGlobal");
-  const statusGlobal2 = document.getElementById("statusGlobal2");
-  const subcatFilter = document.getElementById('subcat-filter');
-  const subcatSelect = document.getElementById('subcat-select');
 
-  // 1) Definimos las subcategorías por categoría:
-  const subcats = {
-    bebidas:   ['smoothies', 'frapes', 'cafes', 'malteadas'],
-    snacks:    [],
-    elotes:    ['elote', 'esquite'],
-    delicias:  ['waffles', 'chicharrones', 'fresas con crema']
-  };
-
-  // 2) Mostrar/ocultar y llenar el <select> de subcategorías
-  function actualizarSubcats(cat) {
-    const list = subcats[cat] || [];
-    if (!list.length) {
-      subcatFilter.style.display = 'none';
-      return;
-    }
-    subcatFilter.style.display = 'flex';
-    subcatSelect.innerHTML =
-      '<option value="">Todas</option>' +
-      list.map(s =>
-        `<option value="${s}">${s.charAt(0).toUpperCase() + s.slice(1)}</option>`
-      ).join('');
-  }
-
-  // 3) Al cambiar subcategoría, recarga el menú
-  subcatSelect.addEventListener('change', () => {
-    const cat = document.querySelector('.categoria-box.active').dataset.cat;
-    const sub = subcatSelect.value || null;
-    cargarMenu(cat, sub);
-  });
-
-  // 4) Función para cargar el menú (ahora acepta subcategoria)
-  async function cargarMenu(categoria, subcategoria = null) {
+  async function cargarMenu(categoria) {
     contenedor.innerHTML = `<p class="loader">Cargando ${categoria}...</p>`;
+    const { data, error } = await supabase.from("productos").select("*").eq("categoria", categoria);
 
-    let q = supabase
-      .from("productos")
-      .select("*")
-      .eq("categoria", categoria);
-
-    if (subcategoria) {
-      q = q.eq("subcategoria", subcategoria);
-    }
-
-    const { data, error } = await q;
     if (error || !data.length) {
-      contenedor.innerHTML = `<p class="loader">No hay productos en esta selección.</p>`;
+      contenedor.innerHTML = `<p class="loader">No hay productos en esta categoría.</p>`;
       return;
     }
 
@@ -530,39 +455,41 @@
     });
   }
 
-  // 5) Ajustar selección de categoría para que actualice subcats y cargue menú
-  function seleccionarCategoria(categoria) {
-    document.querySelectorAll(".categoria-box")
-      .forEach(c => c.classList.toggle('active', c.dataset.cat === categoria));
-
-    actualizarSubcats(categoria);
-    cargarMenu(categoria, null);
-  }
-  window.seleccionarCategoria = seleccionarCategoria;
-
-  document.querySelectorAll(".categoria-box").forEach(btn => {
-    btn.addEventListener("click", () => {
-      seleccionarCategoria(btn.dataset.cat);
-    });
-  });
-
-  // Cuando se llama desde el botón "Explora el menú"
   window.mostrarMenu = () => {
     document.getElementById("portada").style.display = "none";
     document.getElementById("menu").style.display = "block";
     seleccionarCategoria("bebidas");
   };
 
-  // Resto: IntersectionObserver, deshabilitar clic derecho...
+  function seleccionarCategoria(categoria) {
+    document.querySelectorAll(".categoria-box").forEach(c => c.classList.remove("active"));
+    const btn = document.querySelector(`[data-cat="${categoria}"]`);
+    if (btn) btn.classList.add("active");
+    cargarMenu(categoria);
+  }
+
+  document.querySelectorAll(".categoria-box").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const categoria = btn.getAttribute("data-cat");
+      seleccionarCategoria(categoria);
+    });
+  });
+
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
     });
   }, { threshold: 0.5 });
-  document.querySelectorAll('.animado').forEach(el => observer.observe(el));
-  document.addEventListener("contextmenu", e => e.preventDefault());
-</script>
 
+  document.querySelectorAll('.animado').forEach(el => observer.observe(el));
+  
+  // Deshabilitar clic derecho en toda la página
+  document.addEventListener("contextmenu", function(event) {
+    event.preventDefault();  // Prevenir el menú contextual (clic derecho)
+  });
+</script>
 
 </body>
 </html>

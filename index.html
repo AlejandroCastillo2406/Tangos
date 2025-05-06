@@ -355,38 +355,38 @@
     outline: none;
     border-color: var(--dark-yellow);
   }
-    /* Fondo traslúcido */
+/* Fondo traslúcido negro */
 .modal {
-  display: none; /* oculto por defecto */
+  display: none;
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.9); /* más opaco */
   z-index: 1000;
   justify-content: center;
   align-items: center;
 }
 
-/* Caja del contenido */
+/* Caja del contenido con contorno amarillo y fondo negro */
 .modal-content {
-  background: var(--white);
-  color: var(--black);
+  background: var(--black);
+  color: var(--yellow);
   padding: 2rem;
   border-radius: 12px;
   max-width: 90%;
   width: 320px;
   text-align: center;
   position: relative;
+  border: 3px solid var(--yellow); /* contorno amarillo */
 }
 
-/* Botón de cerrar */
+/* Botón de cerrar en amarillo */
 .close-btn {
   position: absolute;
   top: 8px; right: 12px;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #333;
+  color: var(--yellow);
 }
-
 
   </style>
 </head>

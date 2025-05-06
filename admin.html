@@ -373,7 +373,7 @@
       const precio = parseFloat(document.getElementById("precio").value);
       const archivo = document.getElementById("imagen").files[0];
 
-      const nombreArchivo = ${Date.now()}-${archivo.name};
+      const nombreArchivo = `${Date.now()}-${archivo.name}`;
       const { error: uploadErr } = await supabase.storage.from('productos').upload(nombreArchivo, archivo);
       if (uploadErr) return document.getElementById("status").textContent = "❌ Error al subir imagen";
 
@@ -398,7 +398,7 @@
         del.className = "producto-item";
         del.textContent = p.nombre;
         del.onclick = async () => {
-          if (confirm(¿Eliminar "${p.nombre}"?)) {
+          if (confirm(`¿Eliminar "${p.nombre}"?`)) {
             await supabase.from("productos").delete().eq("id", p.id);
             statusGlobal2.textContent = "✅ Producto eliminado";
             cargarProductos();

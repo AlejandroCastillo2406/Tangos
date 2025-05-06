@@ -423,72 +423,47 @@
 
   const supabase = createClient(
     'https://ljlaudvreolkdppgfqul.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9kcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
+    'TU_ANON_KEY_AQUÍ'
   );
 
-  // 1) Map de subcategorías por categoría
-  const subcats = {
-    bebidas:    ['smoothies','frapes','cafes','malteadas'],
-    snacks:     [],                  // sin subcats
-    elotes:     ['elote','esquite'],
-    delicias:   ['waffles','chicharrones','fresas con crema']
-  };
+  const contenedor = document.getElementById("productos-container");
 
-  // 2) Insertar dinámicamente el filtro antes del contenedor de productos
-  const menuContainer   = document.querySelector('.menu-container');
-  const productosGrid   = document.getElementById('productos-container');
-  const filtroDiv       = document.createElement('div');
-  filtroDiv.id          = 'subcat-filter';
-  filtroDiv.style.cssText = `
-    display:flex; align-items:center; justify-content:center;
-    gap:.5rem; margin-bottom:1rem;
-  `;
-  filtroDiv.innerHTML = `
-    <label for="subcat-select" style="color:#000;font-weight:700;">Mostrar:</label>
-    <select id="subcat-select"
-            style="padding:.5rem;border:2px solid var(--yellow);
-                   border-radius:8px;background:#fff;color:#000;">
-      <option value="">Todas</option>
-    </select>
-  `;
-  menuContainer.insertBefore(filtroDiv, productosGrid);
+  // Creamos dinámicamente el filtro de subcategorías
+  const filtroSubcat = document.createElement("select");
+  filtroSubcat.id = "filtroSubcategoria";
+  filtroSubcat.style.width = "90%";
+  filtroSubcat.style.maxWidth = "350px";
+  filtroSubcat.style.margin = "1rem auto";
+  filtroSubcat.style.padding = "1rem";
+  filtroSubcat.style.borderRadius = "12px";
+  filtroSubcat.style.background = "#222";
+  filtroSubcat.style.color = "#fff";
+  filtroSubcat.style.border = "2px solid var(--yellow)";
+  filtroSubcat.innerHTML = `<option value="">Todas las subcategorías</option>`;
+  // Lo insertamos justo antes del contenedor de productos
+  contenedor.parentNode.insertBefore(filtroSubcat, contenedor);
 
-  const subcatFilter = document.getElementById('subcat-filter');
-  const subcatSelect = document.getElementById('subcat-select');
-
-  // 3) Actualizar options de subcategorías al cambiar categoría
-  function actualizarSubcats(cat) {
-    const lista = subcats[cat] || [];
-    if (!lista.length) {
-      subcatFilter.style.display = 'none';
-      return;
-    }
-    subcatFilter.style.display = 'flex';
-    subcatSelect.innerHTML =
-      `<option value="">Todas</option>` +
-      lista.map(s => `<option value="${s}">${s[0].toUpperCase()+s.slice(1)}</option>`).join('');
-  }
-
-  // 4) Escuchar cambio de filtro para recargar
-  subcatSelect.addEventListener('change', () => {
-    const cat = document.querySelector('.categoria-box.active').dataset.cat;
-    const sub = subcatSelect.value || null;
+  // Cuando cambie la subcategoría, recargamos
+  filtroSubcat.addEventListener("change", () => {
+    const sub = filtroSubcat.value;
+    // la categoría actual la tomamos del botón activo
+    const cat = document.querySelector(".categoria-box.active")?.dataset.cat;
     cargarMenu(cat, sub);
   });
 
-  // 5) cargarMenu ahora acepta categoría + subcategoría
-  async function cargarMenu(categoria, subcategoria = null) {
-    productosGrid.innerHTML = `<p class="loader">Cargando ${categoria}...</p>`;
-    let q = supabase.from("productos")
-                   .select("*")
-                   .eq("categoria", categoria);
-    if (subcategoria) q = q.eq("subcategoria", subcategoria);
-    const { data, error } = await q;
+  async function cargarMenu(categoria, subcategoria = "") {
+    contenedor.innerHTML = `<p class="loader">Cargando ${categoria} ${subcategoria ? "- " + subcategoria : ""}...</p>`;
+
+    let query = supabase.from("productos").select("*").eq("categoria", categoria);
+    if (subcategoria) query = query.eq("subcategoria", subcategoria);
+
+    const { data, error } = await query;
     if (error || !data.length) {
-      productosGrid.innerHTML = `<p class="loader">No hay productos.</p>`;
+      contenedor.innerHTML = `<p class="loader">No hay productos en esta selección.</p>`;
       return;
     }
-    productosGrid.innerHTML = "";
+
+    contenedor.innerHTML = "";
     data.forEach(p => {
       const card = document.createElement("div");
       card.classList.add("producto-card");
@@ -498,26 +473,44 @@
           <h3>${p.nombre}</h3>
           <p>${p.descripcion}</p>
           <span class="precio">$${p.precio}</span>
-          <a href="https://wa.me/527828295134?text=Hola quiero pedir: ${encodeURIComponent(p.nombre)}"
-             class="btn-ws" target="_blank">Pedir</a>
+          <a href="https://wa.me/527828295134?text=Hola quiero pedir: ${encodeURIComponent(p.nombre)}" class="btn-ws" target="_blank">Pedir</a>
         </div>
       `;
-      productosGrid.appendChild(card);
+      contenedor.appendChild(card);
       requestAnimationFrame(() => card.classList.add("visible"));
     });
   }
 
-  // 6) seleccionarCategoria actualiza subcats antes de recargar
+  // Después de mostrar el menú, cargamos categoría + subcats
   window.mostrarMenu = () => {
     document.getElementById("portada").style.display = "none";
-    document.getElementById("menu").style.display   = "block";
+    document.getElementById("menu").style.display = "block";
     seleccionarCategoria("bebidas");
   };
+
+  async function cargarSubcategorias(categoria) {
+    // Traemos los distintos valores de subcategoria para esa categoría
+    const { data, error } = await supabase
+      .from("productos")
+      .select("subcategoria", { distinct: true })
+      .eq("categoria", categoria);
+
+    if (error) return;
+    // Limpiamos y rellenamos el filtro
+    filtroSubcat.innerHTML = `<option value="">Todas las subcategorías</option>`;
+    data.forEach(r => {
+      if (r.subcategoria) {
+        filtroSubcat.innerHTML += `<option value="${r.subcategoria}">${r.subcategoria}</option>`;
+      }
+    });
+  }
+
   function seleccionarCategoria(categoria) {
     document.querySelectorAll(".categoria-box").forEach(c => c.classList.remove("active"));
-    document.querySelector(`[data-cat="${categoria}"]`).classList.add("active");
-    actualizarSubcats(categoria);
-    cargarMenu(categoria, null);
+    const btn = document.querySelector(`[data-cat="${categoria}"]`);
+    if (btn) btn.classList.add("active");
+    // Cargamos subcategorías y luego el menú sin filtro de subcat
+    cargarSubcategorias(categoria).then(() => cargarMenu(categoria));
   }
 
   document.querySelectorAll(".categoria-box").forEach(btn => {
@@ -526,13 +519,16 @@
     });
   });
 
-  // resto (observer, contextmenu) sin cambios…
+  // Animaciones y contexto derecho deshabilitado (lo tuyo)
   const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
   }, { threshold: 0.5 });
   document.querySelectorAll('.animado').forEach(el => observer.observe(el));
   document.addEventListener("contextmenu", e => e.preventDefault());
 </script>
+
 
 
 </body>

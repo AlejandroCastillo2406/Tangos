@@ -295,6 +295,15 @@
           <textarea id="descripcion" placeholder="Descripción" required></textarea>
           <input type="number" id="precio" placeholder="Precio" required />
           <input type="file" id="imagen" accept="image/*" required />
+          <!-- Campo de categoría añadido -->
+          <select id="categoria" required>
+            <option value="" disabled selected>Selecciona categoría</option>
+            <option value="bebidas">🥤 Bebidas</option>
+            <option value="snacks">🍟 Snacks</option>
+            <option value="elotes">🌽 Elotes</option>
+            <option value="delicias">🍓 Delicias</option>
+        </select>
+        <!-- fin categoría -->
           <button type="submit">Guardar producto</button>
           <p id="status" class="status"></p>
         </form>
@@ -371,6 +380,7 @@
       const nombre = document.getElementById("nombre").value;
       const descripcion = document.getElementById("descripcion").value;
       const precio = parseFloat(document.getElementById("precio").value);
+      const categoria   = document.getElementById("categoria").value;
       const archivo = document.getElementById("imagen").files[0];
 
       const nombreArchivo = `${Date.now()}-${archivo.name}`;
@@ -381,7 +391,7 @@
       const imagen_url = data.publicUrl;
 
       const { error: insertErr } = await supabase.from("productos")
-        .insert([{ nombre, descripcion, precio, imagen_url }]);
+        .insert([{ nombre, descripcion, precio, imagen_url,categoria }]);
       if (insertErr) return document.getElementById("status").textContent = "❌ Error al guardar producto";
 
       document.getElementById("status").textContent = "✅ Producto guardado";

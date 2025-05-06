@@ -295,17 +295,6 @@
           <textarea id="descripcion" placeholder="Descripción" required></textarea>
           <input type="number" id="precio" placeholder="Precio" required />
           <input type="file" id="imagen" accept="image/*" required />
-
-          <!-- ** SELECCIÓN DE CATEGORÍA AÑADIDA ** -->
-          <select id="categoria" required>
-            <option value="" disabled selected>Selecciona categoría</option>
-            <option value="bebidas">🥤 Bebidas</option>
-            <option value="snacks">🍟 Snacks</option>
-            <option value="elotes">🌽 Elotes</option>
-            <option value="delicias">🍓 Delicias</option>
-          </select>
-          <!-- ** FIN CATEGORÍA ** -->
-
           <button type="submit">Guardar producto</button>
           <p id="status" class="status"></p>
         </form>
@@ -348,13 +337,12 @@
 
     const supabase = createClient(
       'https://ljlaudvreolkdppgfqul.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sZWNvbnNlZnVuZCJ9'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
     );
 
     const statusGlobal = document.getElementById("statusGlobal");
     const statusGlobal2 = document.getElementById("statusGlobal2");
 
-    // Autenticación
     document.getElementById('btnAcceder').addEventListener('click', () => {
       const clave = document.getElementById("clave").value;
       if (clave === "240624") {
@@ -366,67 +354,51 @@
       }
     });
 
-    // Mostrar secciones
     function mostrar(id) {
       document.querySelectorAll(".section").forEach(div => div.classList.remove("active"));
       document.getElementById(id).classList.add("active");
       statusGlobal2.textContent = "";
     }
     window.mostrar = mostrar;
-    window.salirAdmin = () => window.location.href = "index.html";
+
+    window.salirAdmin = () => {
+      window.location.href = "index.html";
+    }
 
     /* — Productos — */
     document.getElementById("formNuevo").addEventListener("submit", async e => {
       e.preventDefault();
-      const nombre      = document.getElementById("nombre").value;
+      const nombre = document.getElementById("nombre").value;
       const descripcion = document.getElementById("descripcion").value;
-      const precio      = parseFloat(document.getElementById("precio").value);
-      const categoria   = document.getElementById("categoria").value;
-      const archivo     = document.getElementById("imagen").files[0];
+      const precio = parseFloat(document.getElementById("precio").value);
+      const archivo = document.getElementById("imagen").files[0];
 
-      // Subida de imagen
-      const nombreArchivo = `${Date.now()}-${archivo.name}`;
-      const { error: uploadErr } = await supabase
-        .storage
-        .from('productos')
-        .upload(nombreArchivo, archivo);
-      if (uploadErr) {
-        return document.getElementById("status").textContent = "❌ Error al subir imagen";
-      }
+      const nombreArchivo = ${Date.now()}-${archivo.name};
+      const { error: uploadErr } = await supabase.storage.from('productos').upload(nombreArchivo, archivo);
+      if (uploadErr) return document.getElementById("status").textContent = "❌ Error al subir imagen";
 
-      // URL pública
       const { data } = supabase.storage.from('productos').getPublicUrl(nombreArchivo);
       const imagen_url = data.publicUrl;
 
-      // Insert con categoría
-      const { error: insertErr } = await supabase
-        .from("productos")
-        .insert([{ nombre, descripcion, precio, imagen_url, categoria }]);
-      if (insertErr) {
-        return document.getElementById("status").textContent = "❌ Error al guardar producto";
-      }
+      const { error: insertErr } = await supabase.from("productos")
+        .insert([{ nombre, descripcion, precio, imagen_url }]);
+      if (insertErr) return document.getElementById("status").textContent = "❌ Error al guardar producto";
 
       document.getElementById("status").textContent = "✅ Producto guardado";
       e.target.reset();
       cargarProductos();
     });
 
-    // Cargar lista de eliminar
     async function cargarProductos() {
-      const { data: productos } = await supabase
-        .from("productos")
-        .select("*")
-        .order("created_at", { ascending: false });
-
+      const { data: productos } = await supabase.from("productos").select("*").order("created_at", { ascending: false });
       const listaEliminar = document.getElementById("listaEliminar");
       listaEliminar.innerHTML = "";
-
       productos.forEach(p => {
         const del = document.createElement("div");
         del.className = "producto-item";
         del.textContent = p.nombre;
         del.onclick = async () => {
-          if (confirm(`¿Eliminar "${p.nombre}"?`)) {
+          if (confirm(¿Eliminar "${p.nombre}"?)) {
             await supabase.from("productos").delete().eq("id", p.id);
             statusGlobal2.textContent = "✅ Producto eliminado";
             cargarProductos();
@@ -453,7 +425,7 @@
 
       if (tipo === "porPregunta") {
         const todas = [...preguntasSabor, ...preguntasLocal, ...preguntasAtencion];
-        labels = todas.map(q => q.replace(/([a-z])_([0-9])/i,"$1 $2"));
+        labels = todas.map(q => q.replace(/([a-z])([0-9])/i,"$1 $2"));
         values = todas.map(col => {
           const sum = data.reduce((acc, r) => acc + (r[col]||0), 0);
           return +(sum / data.length).toFixed(2);
@@ -492,8 +464,8 @@
           labels,
           datasets: [{
             data: values,
-            backgroundColor: '#FFB308',
-            borderColor: '#FFB308',
+            backgroundColor: '#FFB308',  // Dorado sólido
+            borderColor: '#FFB308',      
             borderWidth: 1,
             barPercentage: 0.6,
             categoryPercentage: 0.7
@@ -525,9 +497,10 @@
         }
       });
     }
+      document.addEventListener("contextmenu", function(event) {
+    event.preventDefault();  // Prevenir el menú contextual (clic derecho)
+  });
 
-    // Bloquear clic derecho
-    document.addEventListener("contextmenu", e => e.preventDefault());
   </script>
 </body>
 </html>

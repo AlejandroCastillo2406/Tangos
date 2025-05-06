@@ -12,283 +12,121 @@
       --yellow: #FFB308;
       --gray: #111111;
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom, var(--black), #1a1a1a);
-      color: var(--white);
-      overflow-x: hidden;
+      font-family:'Inter',sans-serif;
+      background:linear-gradient(to bottom,var(--black),#1a1a1a);
+      color:var(--white); overflow-x:hidden;
     }
-
     header {
-      background: var(--black);
-      border-bottom: 3px solid var(--yellow);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      background:var(--black);
+      border-bottom:3px solid var(--yellow);
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1rem; position:sticky; top:0; z-index:10;
     }
-
-    .logo-jump {
-      height: 48px;
-      animation: bounce 1.6s infinite ease-in-out;
-      cursor: pointer;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
-    nav a {
-      color: var(--yellow);
-      font-weight: 700;
-      text-decoration: none;
-      font-size: 1rem;
-    }
-
+    .logo-jump { height:48px; animation:bounce 1.6s infinite ease-in-out; cursor:pointer; }
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    nav a { color:var(--yellow); font-weight:700; text-decoration:none; font-size:1rem; }
     .portada {
-      text-align: center;
-      padding: 4rem 1.5rem 2rem;
-      background: radial-gradient(circle at top center, #2c2c2c, #000);
-      box-shadow: inset 0 -30px 80px rgba(0,0,0,0.7);
-      position: relative;
+      text-align:center; padding:4rem 1.5rem 2rem;
+      background:radial-gradient(circle at top center,#2c2c2c,#000);
+      box-shadow:inset 0 -30px 80px rgba(0,0,0,0.7);
+      position:relative;
     }
-
-    .portada::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(ellipse at center, rgba(255,255,255,0.04), transparent 70%);
-      z-index: 0;
-    }
-
     .logo-principal {
-      position: relative;
-      z-index: 1;
-      width: 240px;
-      max-width: 90%;
-      margin-bottom: 1rem;
-      filter: drop-shadow(0 0 15px rgba(255, 179, 8, 0.25));
-      animation: fadeInScale 1s ease-out;
+      width:240px; max-width:90%; margin-bottom:1rem;
+      filter:drop-shadow(0 0 15px rgba(255,179,8,0.25));
+      animation:fadeInScale 1s ease-out; position:relative; z-index:1;
     }
-
-    @keyframes fadeInScale {
-      0% { opacity: 0; transform: scale(0.85); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-
-    .portada p {
-      color: #ccc;
-      font-size: 1.05rem;
-      max-width: 320px;
-      margin: 0 auto 1.5rem;
-      position: relative;
-      z-index: 1;
-    }
-
+    @keyframes fadeInScale{0%{opacity:0;transform:scale(0.85)}100%{opacity:1;transform:scale(1)}}
+    .portada p { color:#ccc; font-size:1.05rem; max-width:320px; margin:0 auto 1.5rem; position:relative; z-index:1; }
     .btn-hero {
-      background: var(--yellow);
-      color: var(--black);
-      font-weight: 900;
-      font-size: 1rem;
-      padding: 1rem 2rem;
-      border-radius: 50px;
-      cursor: pointer;
-      border: none;
-      z-index: 1;
-      position: relative;
-      box-shadow: 0 0 12px rgba(255, 179, 8, 0.5);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background:var(--yellow); color:var(--black); font-weight:900;
+      padding:1rem 2rem; border-radius:50px; border:none; cursor:pointer;
+      box-shadow:0 0 12px rgba(255,179,8,0.5); transition:transform .2s, box-shadow .2s; z-index:1;
     }
-
-    .btn-hero:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 18px rgba(255, 179, 8, 0.75);
-    }
-
+    .btn-hero:hover { transform:scale(1.05); box-shadow:0 0 18px rgba(255,179,8,0.75); }
     .ubicanos-link {
-      display: block;
-      font-size: 1.4rem;
-      font-weight: 900;
-      margin: 2rem 0 1rem;
-      color: var(--yellow);
-      text-decoration: none;
-      z-index: 1;
-      position: relative;
+      display:block; color:var(--yellow); font-size:1.4rem; font-weight:900;
+      margin:2rem 0 1rem; text-decoration:none; position:relative; z-index:1;
     }
-
     #map {
-      width: 100%;
-      height: 300px;
-      border-radius: 20px;
-      margin-bottom: 2rem;
-      box-sizing: border-box;
-      border: 6px dashed var(--yellow);
-      background-color: var(--white);
-      outline-offset: -5px;
+      width:100%; height:300px; border-radius:20px; margin-bottom:2rem;
+      border:6px dashed var(--yellow); background:#fff; outline-offset:-5px;
     }
 
-    .menu-section {
-      display: none;
+    /* separar contenedores */
+    .categoria-container, .menu-container {
+      width:100vw; box-sizing:border-box; padding:2rem 0;
     }
-
-    /* CONTENEDORES SEPARADOS */
     .categoria-container {
-      background: radial-gradient(circle at top center, #2c2c2c, #000);
-      padding: 2rem 0;
-      width: 100vw;
-      box-sizing: border-box;
+      background:radial-gradient(circle at top center,#2c2c2c,#000);
     }
-
-    .menu-container {
-      background: var(--white);
-      padding: 2rem 0;
-      width: 100vw;
-      box-sizing: border-box;
-      margin-top: -40px;
-    }
+    .menu-container { background:#fff; color:#000; margin-top:-40px; }
 
     .seccion-titulo {
-      font-size: 2rem;
-      font-weight: 900;
-      text-align: center;
-      margin: 2rem 0 1rem;
-      color: var(--yellow);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      position: relative;
+      font-size:2rem; font-weight:900; text-align:center;
+      color:var(--yellow); text-transform:uppercase; letter-spacing:1.5px;
+      margin:2rem 0 1rem; position:relative;
     }
-
     .seccion-titulo::after {
-      content: "";
-      display: block;
-      width: 60px;
-      height: 4px;
-      background: var(--black);
-      margin: 0.5rem auto 0;
-      border-radius: 2px;
+      content:""; display:block; width:60px; height:4px;
+      background:var(--black); margin:.5rem auto 0; border-radius:2px;
     }
 
-    /* SCROLL CATEGORÍAS Y SUBCATEGORÍAS */
     .categoria-scroll {
-      display: flex;
-      overflow-x: auto;
-      padding: 1rem 1.5rem;
-      gap: 1rem;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scroll-padding-left: 1.5rem;
+      display:flex; overflow-x:auto; gap:1rem;
+      padding:1rem 1.5rem; scroll-snap-type:x mandatory;
     }
-
     .categoria-box {
-      flex: 0 0 auto;
-      width: 130px;
-      scroll-snap-align: start;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.25);
-      cursor: pointer;
-      text-align: center;
-      transition: transform 0.3s ease;
+      flex:0 0 auto; width:130px; scroll-snap-align:start;
+      background:#fff; border-radius:16px; text-align:center;
+      box-shadow:0 5px 20px rgba(255,215,0,0.25);
+      cursor:pointer; transition:transform .3s;
+    }
+    .categoria-box img { width:100%; height:100px; object-fit:cover; border-top-left-radius:16px;border-top-right-radius:16px; }
+    .categoria-box span { padding:.7rem; display:block; font-weight:900; color:#000; }
+    .categoria-box.active { border:3px solid var(--yellow); transform:scale(1.05); }
+
+    /* SELECT de subcategorías */
+    #subcats { display:none; background:#fff; padding:0 1.5rem; margin-top:-1rem; }
+    #subcats select {
+      width:100%; max-width:350px; padding:1rem; margin:1rem auto 0;
+      font-size:1rem; border:2px solid var(--yellow); border-radius:12px;
+      background:#222; color:#fff; appearance:none;
     }
 
-    .categoria-box img {
-      width: 100%;
-      height: 100px;
-      object-fit: cover;
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
-    }
-
-    .categoria-box span {
-      display: block;
-      padding: 0.7rem;
-      font-weight: 900;
-      font-size: 1rem;
-      color: #000;
-    }
-
-    .categoria-box.active {
-      border: 3px solid var(--yellow);
-      transform: scale(1.05);
-    }
-
-    /* Nueva fila de subcategorías */
-    #subcats {
-      display: none;
-      background: var(--white);
-    }
-    #subcats .categoria-scroll {
-      padding: 0.5rem 1.5rem;
-      background: #f5f5f5;
-    }
-
-    /* Productos */
     .productos-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      padding: 1rem;
-      background: var(--white);
+      display:grid; grid-template-columns:1fr; gap:1.5rem;
+      padding:1rem 1.5rem; background:#fff;
     }
-
     .producto-card {
-      background: #fff;
-      border: 3px solid var(--yellow);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.5s ease;
+      background:#fff; border:3px solid var(--yellow);
+      border-radius:12px; overflow:hidden; box-shadow:0 0 15px rgba(0,0,0,0.1);
+      opacity:0; transform:translateY(30px); transition:all .5s;
     }
-    .producto-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .producto-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    .producto-content {
-      padding: 1rem;
-      color: #000;
-    }
-    .producto-content h3 {
-      font-size: 1.1rem;
-      font-weight: 900;
-    }
-    .precio {
-      font-weight: bold;
-      margin: .5rem 0;
-    }
+    .producto-card.visible { opacity:1; transform:translateY(0); }
+    .producto-card img { width:100%; height:200px; object-fit:cover; }
+    .producto-content { padding:1rem; color:#000; }
+    .producto-content h3 { font-size:1.1rem; font-weight:900; }
+    .precio { font-weight:bold; margin:.5rem 0; }
     .btn-ws {
-      background: var(--yellow);
-      color: #000;
-      padding: .5rem 1rem;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 700;
+      display:inline-block; background:var(--yellow); color:#000;
+      padding:.5rem 1rem; border-radius:30px; text-decoration:none; font-weight:700;
     }
 
     footer {
-      background: var(--gray);
-      color: #aaa;
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
+      background:var(--gray); color:#aaa; text-align:center; padding:2rem 1rem; font-size:.9rem;
     }
+    footer hr { border:0; border-top:3px solid var(--yellow); width:100vw; margin-bottom:1rem; }
+    .social-icons { display:flex; justify-content:center; gap:1rem; margin-top:1rem;}
+    .social-icons a {
+      width:40px; height:40px; display:inline-block;
+      background:var(--yellow); border-radius:50%; text-align:center; line-height:40px;
+      transition:transform .3s;
+    }
+    .social-icons a:hover { transform:scale(1.1); }
+    .social-icons svg { width:24px; height:24px; fill:var(--black); vertical-align:middle; }
   </style>
 </head>
 <body>
@@ -319,9 +157,12 @@
     </div>
   </div>
 
-  <!-- Subcategorías -->
+  <!-- Select de Subcategorías -->
   <div id="subcats">
-    <div class="categoria-scroll" id="subcategoria-scroll"></div>
+    <label for="selectSub" style="color:#000; font-weight:700; display:block; text-align:center; margin-top:1rem;">Mostrar:</label>
+    <select id="selectSub">
+      <option value="">Todas</option>
+    </select>
   </div>
 
   <!-- Menú -->
@@ -332,8 +173,19 @@
 </section>
 
 <footer>
-  <hr style="border:0;border-top:3px solid var(--yellow);margin:1rem 0">
+  <hr>
   <p>&copy; 2025 Tango's | Hecho con ❤️‍🔥</p>
+  <div class="social-icons">
+    <a href="https://www.facebook.com/tangossmoothies" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.49 2 2 6.49 2 12c0 5.51 4.49 10 10 10 5.51 0 10-4.49 10-10 0-5.51-4.49-10-10-10zm0 2c2.75 0 5 2.25 5 5 0 3.01-2.49 5.47-5.5 5.47V12h1.6l.4-2h-2v-1.5c0-.55.45-1 1-1h1v-2h-1c-1.65 0-3 1.35-3 3V10H8v2h2v5h2v-5h2V8z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/tangos_smoothies/" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.5-.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+    </a>
+    <a href="https://wa.me/527828295134" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M12.01 2C6.5 2 2.02 6.48 2.02 12c0 1.76.46 3.46 1.34 4.95L2 22l5.44-1.37A9.92 9.92 0 0 0 12.01 22c5.52 0 10-4.48 10-10S17.53 2 12.01 2zm0 2a8 8 0 0 1 7.97 7.5 8 8 0 0 1-1.22 4.03L18 18l-2.47-.65a8 8 0 0 1-3.52.65 8 8 0 1 1 0-16zm-1.5 3h3v1h-3V7zm0 2h3v2h-3v-2zm0 3h3v2h-3v-2z"/></svg>
+    </a>
+  </div>
 </footer>
 
 <script>
@@ -342,7 +194,7 @@
     const map = new google.maps.Map(document.getElementById("map"), {
       zoom: 18, center: tangos
     });
-    new google.maps.Marker({ position: tangos, map, title: "Tango’s" });
+    new google.maps.Marker({ position:tangos, map, title:"Tango’s" });
   }
 </script>
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUv0bmRnGTLwNA8dgDY80Ol9J7_ZRUSWg&callback=initMap"></script>
@@ -351,7 +203,7 @@
   import { createClient } from 'https://esm.sh/@supabase/supabase-js'
   const supabase = createClient(
     'https://ljlaudvreolkdppgfqul.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
+    'eyJhbGc...'
   );
 
   const opts = {
@@ -361,42 +213,38 @@
     delicias:   ['waffles','chicharrones','fresas con crema']
   };
 
-  const catEls   = document.querySelectorAll('.categoria-box[data-cat]');
-  const subcatsEl= document.getElementById('subcategoria-scroll');
-  const subWrap  = document.getElementById('subcats');
-  const cont     = document.getElementById('productos-container');
+  const cats = document.querySelectorAll('.categoria-box');
+  const subWrap = document.getElementById('subcats');
+  const selectSub = document.getElementById('selectSub');
+  const grid = document.getElementById('productos-container');
 
   function seleccionarCategoria(cat) {
-    // destacar
-    catEls.forEach(e=>e.classList.toggle('active', e.dataset.cat===cat));
-    // subcategorías
-    const lista = opts[cat]||[];
-    if (lista.length) {
-      subcatsEl.innerHTML = lista.map(s=>`
-        <div class="categoria-box" data-sub="${s}">
-          <span>${s[0].toUpperCase()+s.slice(1)}</span>
-        </div>
-      `).join('');
-      subWrap.style.display = 'block';
-      document.querySelectorAll('#subcategoria-scroll .categoria-box')
-        .forEach(el=>el.addEventListener('click', ()=> cargarMenu(cat,el.dataset.sub)));
-    } else {
-      subWrap.style.display = 'none';
-    }
-    cargarMenu(cat);
+    // resaltar
+    cats.forEach(c=>c.classList.toggle('active',c.dataset.cat===cat));
+    // cargar subcats en select
+    const arr = opts[cat]||[];
+    selectSub.innerHTML = `<option value="">Todas</option>` +
+      arr.map(s=>`<option value="${s}">${s[0].toUpperCase()+s.slice(1)}</option>`).join('');
+    subWrap.style.display = arr.length?'block':'none';
+    cargarMenu(cat,null);
   }
 
-  async function cargarMenu(categoria, subcategoria=null) {
-    cont.innerHTML = `<p class="loader">Cargando ${subcategoria||categoria}...</p>`;
-    let q = supabase.from('productos').select('*').eq('categoria',categoria);
-    if (subcategoria) q = q.eq('subcategoria',subcategoria);
+  selectSub.addEventListener('change',()=>{
+    const cat = [...cats].find(c=>c.classList.contains('active')).dataset.cat;
+    cargarMenu(cat, selectSub.value||null);
+  });
+
+  async function cargarMenu(cat, sub) {
+    grid.innerHTML = `<p>Cargando ${sub||cat}…</p>`;
+    let q = supabase.from('productos').select('*').eq('categoria',cat);
+    if(sub) q = q.eq('subcategoria',sub);
     const { data, error } = await q;
-    if (error||!data.length) return cont.innerHTML = `<p class="loader">No hay productos.</p>`;
-    cont.innerHTML = '';
+    if(error||!data.length) return grid.innerHTML=`<p>No hay productos.</p>`;
+    grid.innerHTML = '';
     data.forEach(p=>{
-      const card = document.createElement('div');
-      card.className='producto-card';
-      card.innerHTML=`
+      const d=document.createElement('div');
+      d.className='producto-card';
+      d.innerHTML=`
         <img src="${p.imagen_url}" alt="${p.nombre}"/>
         <div class="producto-content">
           <h3>${p.nombre}</h3>
@@ -404,22 +252,24 @@
           <span class="precio">$${p.precio}</span>
           <a href="https://wa.me/527828295134?text=${encodeURIComponent(p.nombre)}" class="btn-ws">Pedir</a>
         </div>`;
-      cont.appendChild(card);
-      requestAnimationFrame(()=>card.classList.add('visible'));
+      grid.appendChild(d);
+      requestAnimationFrame(()=>d.classList.add('visible'));
     });
   }
 
-  catEls.forEach(el=>el.addEventListener('click', ()=> seleccionarCategoria(el.dataset.cat)));
-  window.mostrarMenu = ()=>{ document.getElementById('portada').style.display='none'; document.getElementById('menu').style.display='block'; seleccionarCategoria('bebidas'); };
+  cats.forEach(c=>c.addEventListener('click',()=>seleccionarCategoria(c.dataset.cat)));
+  window.mostrarMenu = ()=>{
+    document.getElementById('portada').style.display='none';
+    document.getElementById('menu').style.display='block';
+    seleccionarCategoria('bebidas');
+  };
 
   // animar títulos
-  new IntersectionObserver(e=>{
-    e.forEach(o=> o.isIntersecting && o.target.classList.add('visible'));
+  new IntersectionObserver(entries=>{
+    entries.forEach(e=>e.isIntersecting&&e.target.classList.add('visible'));
   },{threshold:0.5}).observe(document.querySelector('.seccion-titulo'));
 
-  // desactivar clic derecho
-  document.addEventListener('contextmenu', e=>e.preventDefault());
+  document.addEventListener('contextmenu',e=>e.preventDefault());
 </script>
-
 </body>
 </html>

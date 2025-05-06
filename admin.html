@@ -295,6 +295,7 @@
           <textarea id="descripcion" placeholder="Descripción" required></textarea>
           <input type="number" id="precio" placeholder="Precio" required />
           <input type="file" id="imagen" accept="image/*" required />
+          
           <!-- Campo de categoría añadido -->
           <select id="categoria" required>
             <option value="" disabled selected>Selecciona categoría</option>
@@ -303,6 +304,12 @@
             <option value="elotes">🌽 Elotes</option>
             <option value="delicias">🍓 Delicias</option>
         </select>
+
+          <!-- SUBCATEGORÍA (dinámico) -->
+          <select id="subcategoria" required style="display:none;">
+            <option value="" disabled selected>Selecciona subcategoría</option>
+          </select>
+          
         <!-- fin categoría -->
           <button type="submit">Guardar producto</button>
           <p id="status" class="status"></p>
@@ -349,6 +356,30 @@
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
     );
 
+       // Mapas de subcategorías
+    const opts = {
+      bebidas:    ['smoothies','frapes','cafes','malteadas'],
+      snacks:     [], 
+      elotes:     ['elote','esquite'],
+      delicias:   ['waffles','chicharrones','fresas con crema']
+    };
+
+    const catEl = document.getElementById('categoria');
+    const subEl = document.getElementById('subcategoria');
+
+    // Al cambiar categoría, relleno subcategorías
+    catEl.addEventListener('change', () => {
+      const lista = opts[catEl.value] || [];
+      if (!lista.length) {
+        subEl.style.display = 'none';
+        subEl.innerHTML = '';
+        return;
+      }
+      subEl.innerHTML = `<option value="" disabled selected>Selecciona subcategoría</option>` +
+        lista.map(s => `<option value="${s}">${s[0].toUpperCase() + s.slice(1)}</option>`).join('');
+      subEl.style.display = 'block';
+    });
+    
     const statusGlobal = document.getElementById("statusGlobal");
     const statusGlobal2 = document.getElementById("statusGlobal2");
 
@@ -380,7 +411,8 @@
       const nombre = document.getElementById("nombre").value;
       const descripcion = document.getElementById("descripcion").value;
       const precio = parseFloat(document.getElementById("precio").value);
-      const categoria   = document.getElementById("categoria").value;
+      const categoria    = catEl.value;
+      const subcategoria = subEl.value;
       const archivo = document.getElementById("imagen").files[0];
 
       const nombreArchivo = `${Date.now()}-${archivo.name}`;
@@ -391,7 +423,7 @@
       const imagen_url = data.publicUrl;
 
       const { error: insertErr } = await supabase.from("productos")
-        .insert([{ nombre, descripcion, precio, imagen_url,categoria }]);
+        .insert([{ nombre, descripcion, precio, imagen_url,categoria,subcategoria }]);
       if (insertErr) return document.getElementById("status").textContent = "❌ Error al guardar producto";
 
       document.getElementById("status").textContent = "✅ Producto guardado";

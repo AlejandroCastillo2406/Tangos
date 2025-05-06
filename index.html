@@ -12,128 +12,334 @@
       --yellow: #FFB308;
       --gray: #111111;
     }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family:'Inter',sans-serif;
-      background:linear-gradient(to bottom,var(--black),#1a1a1a);
-      color:var(--white); overflow-x:hidden;
-    }
-    header {
-      background:var(--black);
-      border-bottom:3px solid var(--yellow);
-      display:flex; justify-content:space-between; align-items:center;
-      padding:1rem; position:sticky; top:0; z-index:10;
-    }
-    .logo-jump { height:48px; animation:bounce 1.6s infinite ease-in-out; cursor:pointer; }
-    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-    nav a { color:var(--yellow); font-weight:700; text-decoration:none; font-size:1rem; }
-    .portada {
-      text-align:center; padding:4rem 1.5rem 2rem;
-      background:radial-gradient(circle at top center,#2c2c2c,#000);
-      box-shadow:inset 0 -30px 80px rgba(0,0,0,0.7);
-      position:relative;
-    }
-    .logo-principal {
-      width:240px; max-width:90%; margin-bottom:1rem;
-      filter:drop-shadow(0 0 15px rgba(255,179,8,0.25));
-      animation:fadeInScale 1s ease-out; position:relative; z-index:1;
-    }
-    @keyframes fadeInScale{0%{opacity:0;transform:scale(0.85)}100%{opacity:1;transform:scale(1)}}
-    .portada p { color:#ccc; font-size:1.05rem; max-width:320px; margin:0 auto 1.5rem; position:relative; z-index:1; }
-    .btn-hero {
-      background:var(--yellow); color:var(--black); font-weight:900;
-      padding:1rem 2rem; border-radius:50px; border:none; cursor:pointer;
-      box-shadow:0 0 12px rgba(255,179,8,0.5); transition:transform .2s, box-shadow .2s; z-index:1;
-    }
-    .btn-hero:hover { transform:scale(1.05); box-shadow:0 0 18px rgba(255,179,8,0.75); }
-    .ubicanos-link {
-      display:block; color:var(--yellow); font-size:1.4rem; font-weight:900;
-      margin:2rem 0 1rem; text-decoration:none; position:relative; z-index:1;
-    }
-    #map {
-      width:100%; height:300px; border-radius:20px; margin-bottom:2rem;
-      border:6px dashed var(--yellow); background:#fff; outline-offset:-5px;
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    /* separar contenedores */
-    .categoria-container, .menu-container {
-      width:100vw; box-sizing:border-box; padding:2rem 0;
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, var(--black), #1a1a1a);
+      color: var(--white);
+      overflow-x: hidden;
     }
-    .categoria-container {
-      background:radial-gradient(circle at top center,#2c2c2c,#000);
+
+    header {
+      background: var(--black);
+      border-bottom: 3px solid var(--yellow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-    .menu-container { background:#fff; color:#000; margin-top:-40px; }
+
+    .logo-jump {
+      height: 48px;
+      animation: bounce 1.6s infinite ease-in-out;
+      cursor: pointer;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    nav a {
+      color: var(--yellow);
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .portada {
+      text-align: center;
+      padding: 4rem 1.5rem 2rem;
+      background: radial-gradient(circle at top center, #2c2c2c, #000);
+      box-shadow: inset 0 -30px 80px rgba(0,0,0,0.7);
+      position: relative;
+    }
+
+    .portada::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.04), transparent 70%);
+      z-index: 0;
+    }
+
+    .logo-principal {
+      position: relative;
+      z-index: 1;
+      width: 240px;
+      max-width: 90%;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 15px rgba(255, 179, 8, 0.25));
+      animation: fadeInScale 1s ease-out;
+    }
+
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.85); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .portada p {
+      color: #ccc;
+      font-size: 1.05rem;
+      max-width: 320px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-hero {
+      background: var(--yellow);
+      color: var(--black);
+      font-weight: 900;
+      font-size: 1rem;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      border: none;
+      z-index: 1;
+      position: relative;
+      box-shadow: 0 0 12px rgba(255, 179, 8, 0.5);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-hero:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 18px rgba(255, 179, 8, 0.75);
+    }
+
+    .ubicanos-link {
+      display: block;
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin: 2rem 0 1rem;
+      color: var(--yellow);
+      text-decoration: none;
+      z-index: 1;
+      position: relative;
+    }
+
+    #map {
+      width: 100%;
+      height: 300px;
+      border-radius: 20px;
+      margin-bottom: 2rem;
+      box-sizing: border-box;
+      border: 6px dashed var(--yellow);
+      background-color: var(--white);
+      outline-offset: -5px;
+    }
+
+    .menu-section {
+    display: none;
+    padding: 2rem 0; /* Remove horizontal padding */
+    color: var(--black);
+    margin-top: -50px;
+    width: 100vw; /* Full viewport width */
+    margin-left: 0; /* Remove negative margin */
+}
+
+.categoria-container {
+   background: radial-gradient(circle at top center, #2c2c2c, #000);
+    padding: 2rem;
+    margin: 0; /* Remove all margins */
+    width: 100vw; /* Full viewport width */
+    box-sizing: border-box;
+}
+
+.menu-container {
+    background: var(--white);
+    padding: 2rem;
+    color: var(--black);
+    margin: 0; /* Remove all margins */
+    width: 100vw; /* Full viewport width */
+    box-sizing: border-box;
+    margin-top: -40px;
+      margin-bottom: -32px;
+}
 
     .seccion-titulo {
-      font-size:2rem; font-weight:900; text-align:center;
-      color:var(--yellow); text-transform:uppercase; letter-spacing:1.5px;
-      margin:2rem 0 1rem; position:relative;
+      margin-top:-20px;
+      font-size: 2rem;
+      font-weight: 900;
+      text-align: center;
+      margin: 2rem 0 1rem;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      position: relative;
     }
+
     .seccion-titulo::after {
-      content:""; display:block; width:60px; height:4px;
-      background:var(--black); margin:.5rem auto 0; border-radius:2px;
+      content: "";
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--black);
+      margin: 0.5rem auto 0;
+      border-radius: 2px;
     }
 
     .categoria-scroll {
-      display:flex; overflow-x:auto; gap:1rem;
-      padding:1rem 1.5rem; scroll-snap-type:x mandatory;
+      display: flex;
+      overflow-x: auto;
+      padding: 1rem 1.5rem;
+      gap: 1rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-padding-left: 1.5rem;
     }
-    .categoria-box {
-      flex:0 0 auto; width:130px; scroll-snap-align:start;
-      background:#fff; border-radius:16px; text-align:center;
-      box-shadow:0 5px 20px rgba(255,215,0,0.25);
-      cursor:pointer; transition:transform .3s;
-    }
-    .categoria-box img { width:100%; height:100px; object-fit:cover; border-top-left-radius:16px;border-top-right-radius:16px; }
-    .categoria-box span { padding:.7rem; display:block; font-weight:900; color:#000; }
-    .categoria-box.active { border:3px solid var(--yellow); transform:scale(1.05); }
 
-    /* SELECT de subcategorías */
-    #subcats { display:none; background:#fff; padding:0 1.5rem; margin-top:-1rem; }
-    #subcats select {
-      width:100%; max-width:350px; padding:1rem; margin:1rem auto 0;
-      font-size:1rem; border:2px solid var(--yellow); border-radius:12px;
-      background:#222; color:#fff; appearance:none;
+    .categoria-box {
+      flex: 0 0 auto;
+      width: 130px;
+      scroll-snap-align: start;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.25);
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.3s ease;
+      margin-bottom:20px;
+      margin-top:-5px;
+    }
+
+    .categoria-box img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+
+    .categoria-box span {
+      display: block;
+      padding: 0.7rem;
+      font-weight: 900;
+      font-size: 1rem;
+      color: #000;
+    }
+
+    .categoria-box.active {
+      border: 3px solid var(--yellow);
+      transform: scale(1.05);
     }
 
     .productos-grid {
-      display:grid; grid-template-columns:1fr; gap:1.5rem;
-      padding:1rem 1.5rem; background:#fff;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      background: var(--white); /* Fondo blanco para los productos */
     }
+
     .producto-card {
-      background:#fff; border:3px solid var(--yellow);
-      border-radius:12px; overflow:hidden; box-shadow:0 0 15px rgba(0,0,0,0.1);
-      opacity:0; transform:translateY(30px); transition:all .5s;
+      background: #fff; /* Fondo blanco */
+      border: 3px solid var(--yellow); /* Borde amarillo */
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.5s ease;
     }
-    .producto-card.visible { opacity:1; transform:translateY(0); }
-    .producto-card img { width:100%; height:200px; object-fit:cover; }
-    .producto-content { padding:1rem; color:#000; }
-    .producto-content h3 { font-size:1.1rem; font-weight:900; }
-    .precio { font-weight:bold; margin:.5rem 0; }
+
+    .producto-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .producto-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .producto-content {
+      padding: 1rem;
+    }
+
+    .producto-content h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      margin-bottom: 0.3rem;
+    }
+
+    .producto-content p {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .precio {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
     .btn-ws {
-      display:inline-block; background:var(--yellow); color:#000;
-      padding:.5rem 1rem; border-radius:30px; text-decoration:none; font-weight:700;
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--yellow);
+      color: #000;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 700;
     }
 
     footer {
-      background:var(--gray); color:#aaa; text-align:center; padding:2rem 1rem; font-size:.9rem;
+      background: var(--gray);
+      color: #aaa;
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
     }
-    footer hr { border:0; border-top:3px solid var(--yellow); width:100vw; margin-bottom:1rem; }
-    .social-icons { display:flex; justify-content:center; gap:1rem; margin-top:1rem;}
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
     .social-icons a {
-      width:40px; height:40px; display:inline-block;
-      background:var(--yellow); border-radius:50%; text-align:center; line-height:40px;
-      transition:transform .3s;
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background-color: var(--yellow);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 40px;
+      transition: transform 0.3s ease;
     }
-    .social-icons a:hover { transform:scale(1.1); }
-    .social-icons svg { width:24px; height:24px; fill:var(--black); vertical-align:middle; }
+
+    .social-icons a:hover {
+      transform: scale(1.1);
+    }
+
+    .social-icons svg {
+      width: 24px; /* Aumentado el tamaño del icono */
+      height: 24px; /* Aumentado el tamaño del icono */
+      fill: var(--black); /* Dorado */
+      vertical-align: middle; /* Asegura que el SVG esté centrado */
+    }
+
   </style>
 </head>
 <body>
 
 <header>
-  <a href="admin.html"><img src="assets/images/logo1.png" alt="Logo" class="logo-jump" /></a>
-  <nav><a href="encuesta.html">Encuesta</a></nav>
+  <a href="admin.html">
+    <img src="assets/images/logo1.png" alt="Logo" class="logo-jump" />
+  </a>
+  <nav>
+    <a href="encuesta.html">Encuesta</a>
+  </nav>
 </header>
 
 <section class="portada" id="portada">
@@ -145,24 +351,27 @@
 </section>
 
 <section class="menu-section" id="menu">
-
   <!-- Categorías -->
   <div class="categoria-container">
     <h2 class="seccion-titulo animado">Categorías</h2>
     <div class="categoria-scroll" id="categorias">
-      <div class="categoria-box" data-cat="bebidas"><img src="assets/images/bebidas.png"/><span>Bebidas</span></div>
-      <div class="categoria-box" data-cat="snacks"><img src="assets/images/snaks.png"/><span>Snacks</span></div>
-      <div class="categoria-box" data-cat="elotes"><img src="assets/images/elotes.png"/><span>Elotes</span></div>
-      <div class="categoria-box" data-cat="delicias"><img src="assets/images/delicias.png"/><span>Delicias</span></div>
+      <div class="categoria-box" data-cat="bebidas">
+        <img src="assets/images/bebidas.png" alt="Bebidas" />
+        <span>Bebidas</span>
+      </div>
+      <div class="categoria-box" data-cat="snacks">
+        <img src="assets/images/snaks.png" alt="Snacks" />
+        <span>Snacks</span>
+      </div>
+      <div class="categoria-box" data-cat="elotes">
+        <img src="assets/images/elotes.png" alt="Elotes" />
+        <span>Elotes</span>
+      </div>
+      <div class="categoria-box" data-cat="delicias">
+        <img src="assets/images/delicias.png" alt="Delicias" />
+        <span>Delicias</span>
+      </div>
     </div>
-  </div>
-
-  <!-- Select de Subcategorías -->
-  <div id="subcats">
-    <label for="selectSub" style="color:#000; font-weight:700; display:block; text-align:center; margin-top:1rem;">Mostrar:</label>
-    <select id="selectSub">
-      <option value="">Todas</option>
-    </select>
   </div>
 
   <!-- Menú -->
@@ -173,17 +382,26 @@
 </section>
 
 <footer>
-  <hr>
-  <p>&copy; 2025 Tango's | Hecho con ❤️‍🔥</p>
+   <!-- Línea decorativa -->
+  <hr style="border: 0; border-top: 3px solid var(--yellow); width: 100vw; margin: 1.5rem auto;margin-top:-32px;margin-left:-15px;">
+  
+  <p>&copy; 2025 Tango's | Hecho con ❤️‍🔥 </p>
+
   <div class="social-icons">
-    <a href="https://www.facebook.com/tangossmoothies" target="_blank">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.49 2 2 6.49 2 12c0 5.51 4.49 10 10 10 5.51 0 10-4.49 10-10 0-5.51-4.49-10-10-10zm0 2c2.75 0 5 2.25 5 5 0 3.01-2.49 5.47-5.5 5.47V12h1.6l.4-2h-2v-1.5c0-.55.45-1 1-1h1v-2h-1c-1.65 0-3 1.35-3 3V10H8v2h2v5h2v-5h2V8z"/></svg>
+    <a href="https://www.facebook.com/tangossmoothies" target="_blank" style="background: var(--yellow);">
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24" style="fill: var(--black);">
+        <path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.014467 17.065322 19.313017 13.21875 19.898438 L 13.21875 14.384766 L 15.546875 14.384766 L 15.912109 12.019531 L 13.21875 12.019531 L 13.21875 10.726562 C 13.21875 9.7435625 13.538984 8.8710938 14.458984 8.8710938 L 15.935547 8.8710938 L 15.935547 6.8066406 C 15.675547 6.7716406 15.126844 6.6953125 14.089844 6.6953125 C 11.923844 6.6953125 10.654297 7.8393125 10.654297 10.445312 L 10.654297 12.019531 L 8.4277344 12.019531 L 8.4277344 14.384766 L 10.654297 14.384766 L 10.654297 19.878906 C 6.8702905 19.240845 4 15.970237 4 12 C 4 7.5698774 7.5698774 4 12 4 z"></path>
+      </svg>
     </a>
-    <a href="https://www.instagram.com/tangos_smoothies/" target="_blank">
-      <svg viewBox="0 0 24 24"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.5-.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+    <a href="https://www.instagram.com/tangos_smoothies/" target="_blank" style="background: var(--yellow);">
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24" style="fill: var(--black);">
+        <path d="M 8 3 C 5.243 3 3 5.243 3 8 L 3 16 C 3 18.757 5.243 21 8 21 L 16 21 C 18.757 21 21 18.757 21 16 L 21 8 C 21 5.243 18.757 3 16 3 L 8 3 z M 8 5 L 16 5 C 17.654 5 19 6.346 19 8 L 19 16 C 19 17.654 17.654 19 16 19 L 8 19 C 6.346 19 5 17.654 5 16 L 5 8 C 5 6.346 6.346 5 8 5 z M 17 6 A 1 1 0 0 0 16 7 A 1 1 0 0 0 17 8 A 1 1 0 0 0 18 7 A 1 1 0 0 0 17 6 z M 12 7 C 9.243 7 7 9.243 7 12 C 7 14.757 9.243 17 12 17 C 14.757 17 17 14.757 17 12 C 17 9.243 14.757 7 12 7 z M 12 9 C 13.654 9 15 10.346 15 12 C 15 13.654 13.654 15 12 15 C 10.346 15 9 13.654 9 12 C 9 10.346 10.346 9 12 9 z"></path>
+      </svg>
     </a>
-    <a href="https://wa.me/527828295134" target="_blank">
-      <svg viewBox="0 0 24 24"><path d="M12.01 2C6.5 2 2.02 6.48 2.02 12c0 1.76.46 3.46 1.34 4.95L2 22l5.44-1.37A9.92 9.92 0 0 0 12.01 22c5.52 0 10-4.48 10-10S17.53 2 12.01 2zm0 2a8 8 0 0 1 7.97 7.5 8 8 0 0 1-1.22 4.03L18 18l-2.47-.65a8 8 0 0 1-3.52.65 8 8 0 1 1 0-16zm-1.5 3h3v1h-3V7zm0 2h3v2h-3v-2zm0 3h3v2h-3v-2z"/></svg>
+    <a href="https://wa.me/527828295134" target="_blank" style="background: var(--yellow);">
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24" style="fill: var(--black);">
+        <path d="M 12.011719 2 C 6.5057187 2 2.0234844 6.478375 2.0214844 11.984375 C 2.0204844 13.744375 2.4814687 15.462563 3.3554688 16.976562 L 2 22 L 7.2324219 20.763672 C 8.6914219 21.559672 10.333859 21.977516 12.005859 21.978516 L 12.009766 21.978516 C 17.514766 21.978516 21.995047 17.499141 21.998047 11.994141 C 22.000047 9.3251406 20.962172 6.8157344 19.076172 4.9277344 C 17.190172 3.0407344 14.683719 2.001 12.011719 2 z M 12.009766 4 C 14.145766 4.001 16.153109 4.8337969 17.662109 6.3417969 C 19.171109 7.8517969 20.000047 9.8581875 19.998047 11.992188 C 19.996047 16.396187 16.413812 19.978516 12.007812 19.978516 C 10.674812 19.977516 9.3544062 19.642812 8.1914062 19.007812 L 7.5175781 18.640625 L 6.7734375 18.816406 L 4.8046875 19.28125 L 5.2851562 17.496094 L 5.5019531 16.695312 L 5.0878906 15.976562 C 4.3898906 14.768562 4.0204844 13.387375 4.0214844 11.984375 C 4.0234844 7.582375 7.6067656 4 12.009766 4 z M 8.4765625 7.375 C 8.3095625 7.375 8.0395469 7.4375 7.8105469 7.6875 C 7.5815469 7.9365 6.9355469 8.5395781 6.9355469 9.7675781 C 6.9355469 10.995578 7.8300781 12.182609 7.9550781 12.349609 C 8.0790781 12.515609 9.68175 15.115234 12.21875 16.115234 C 14.32675 16.946234 14.754891 16.782234 15.212891 16.740234 C 15.670891 16.699234 16.690438 16.137687 16.898438 15.554688 C 17.106437 14.971687 17.106922 14.470187 17.044922 14.367188 C 16.982922 14.263188 16.816406 14.201172 16.566406 14.076172 C 16.317406 13.951172 15.090328 13.348625 14.861328 13.265625 C 14.632328 13.182625 14.464828 13.140625 14.298828 13.390625 C 14.132828 13.640625 13.655766 14.201187 13.509766 14.367188 C 13.363766 14.534188 13.21875 14.556641 12.96875 14.431641 C 12.71875 14.305641 11.914938 14.041406 10.960938 13.191406 C 10.218937 12.530406 9.7182656 11.714844 9.5722656 11.464844 C 9.4272656 11.215844 9.5585938 11.079078 9.6835938 10.955078 C 9.7955938 10.843078 9.9316406 10.663578 10.056641 10.517578 C 10.180641 10.371578 10.223641 10.267562 10.306641 10.101562 C 10.389641 9.9355625 10.347156 9.7890625 10.285156 9.6640625 C 10.223156 9.5390625 9.737625 8.3065 9.515625 7.8125 C 9.328625 7.3975 9.131125 7.3878594 8.953125 7.3808594 C 8.808125 7.3748594 8.6425625 7.375 8.4765625 7.375 z"></path>
+      </svg>
     </a>
   </div>
 </footer>
@@ -192,84 +410,86 @@
   function initMap() {
     const tangos = { lat: 20.541667, lng: -97.445639 };
     const map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 18, center: tangos
+      zoom: 18,
+      center: tangos
     });
-    new google.maps.Marker({ position:tangos, map, title:"Tango’s" });
+    new google.maps.Marker({ position: tangos, map, title: "Tango’s" });
   }
 </script>
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUv0bmRnGTLwNA8dgDY80Ol9J7_ZRUSWg&callback=initMap"></script>
 
 <script type="module">
   import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+
   const supabase = createClient(
     'https://ljlaudvreolkdppgfqul.supabase.co',
-    'eyJhbGc...'
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxqbGF1ZHZyZW9sa2RwcGdmcXVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMzEzOTYsImV4cCI6MjA2MDYwNzM5Nn0.tv5PybOJ0ZUtA2aw2WzPqQ9M7SZm3uke6Ad-OuxZbzk'
   );
 
-  const opts = {
-    bebidas:    ['smoothies','frapes','cafes','malteadas'],
-    snacks:     [],
-    elotes:     ['elote','esquite'],
-    delicias:   ['waffles','chicharrones','fresas con crema']
-  };
+  const contenedor = document.getElementById("productos-container");
 
-  const cats = document.querySelectorAll('.categoria-box');
-  const subWrap = document.getElementById('subcats');
-  const selectSub = document.getElementById('selectSub');
-  const grid = document.getElementById('productos-container');
+  async function cargarMenu(categoria) {
+    contenedor.innerHTML = <p class="loader">Cargando ${categoria}...</p>;
+    const { data, error } = await supabase.from("productos").select("*").eq("categoria", categoria);
 
-  function seleccionarCategoria(cat) {
-    // resaltar
-    cats.forEach(c=>c.classList.toggle('active',c.dataset.cat===cat));
-    // cargar subcats en select
-    const arr = opts[cat]||[];
-    selectSub.innerHTML = `<option value="">Todas</option>` +
-      arr.map(s=>`<option value="${s}">${s[0].toUpperCase()+s.slice(1)}</option>`).join('');
-    subWrap.style.display = arr.length?'block':'none';
-    cargarMenu(cat,null);
-  }
+    if (error || !data.length) {
+      contenedor.innerHTML = <p class="loader">No hay productos en esta categoría.</p>;
+      return;
+    }
 
-  selectSub.addEventListener('change',()=>{
-    const cat = [...cats].find(c=>c.classList.contains('active')).dataset.cat;
-    cargarMenu(cat, selectSub.value||null);
-  });
-
-  async function cargarMenu(cat, sub) {
-    grid.innerHTML = `<p>Cargando ${sub||cat}…</p>`;
-    let q = supabase.from('productos').select('*').eq('categoria',cat);
-    if(sub) q = q.eq('subcategoria',sub);
-    const { data, error } = await q;
-    if(error||!data.length) return grid.innerHTML=`<p>No hay productos.</p>`;
-    grid.innerHTML = '';
-    data.forEach(p=>{
-      const d=document.createElement('div');
-      d.className='producto-card';
-      d.innerHTML=`
-        <img src="${p.imagen_url}" alt="${p.nombre}"/>
+    contenedor.innerHTML = "";
+    data.forEach(p => {
+      const card = document.createElement("div");
+      card.classList.add("producto-card");
+      card.innerHTML = 
+        <img src="${p.imagen_url}" alt="${p.nombre}" />
         <div class="producto-content">
           <h3>${p.nombre}</h3>
           <p>${p.descripcion}</p>
           <span class="precio">$${p.precio}</span>
-          <a href="https://wa.me/527828295134?text=${encodeURIComponent(p.nombre)}" class="btn-ws">Pedir</a>
-        </div>`;
-      grid.appendChild(d);
-      requestAnimationFrame(()=>d.classList.add('visible'));
+          <a href="https://wa.me/527828295134?text=Hola quiero pedir: ${encodeURIComponent(p.nombre)}" class="btn-ws" target="_blank">Pedir</a>
+        </div>
+      ;
+      contenedor.appendChild(card);
+      requestAnimationFrame(() => card.classList.add("visible"));
     });
   }
 
-  cats.forEach(c=>c.addEventListener('click',()=>seleccionarCategoria(c.dataset.cat)));
-  window.mostrarMenu = ()=>{
-    document.getElementById('portada').style.display='none';
-    document.getElementById('menu').style.display='block';
-    seleccionarCategoria('bebidas');
+  window.mostrarMenu = () => {
+    document.getElementById("portada").style.display = "none";
+    document.getElementById("menu").style.display = "block";
+    seleccionarCategoria("bebidas");
   };
 
-  // animar títulos
-  new IntersectionObserver(entries=>{
-    entries.forEach(e=>e.isIntersecting&&e.target.classList.add('visible'));
-  },{threshold:0.5}).observe(document.querySelector('.seccion-titulo'));
+  function seleccionarCategoria(categoria) {
+    document.querySelectorAll(".categoria-box").forEach(c => c.classList.remove("active"));
+    const btn = document.querySelector([data-cat="${categoria}"]);
+    if (btn) btn.classList.add("active");
+    cargarMenu(categoria);
+  }
 
-  document.addEventListener('contextmenu',e=>e.preventDefault());
+  document.querySelectorAll(".categoria-box").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const categoria = btn.getAttribute("data-cat");
+      seleccionarCategoria(categoria);
+    });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.animado').forEach(el => observer.observe(el));
+  
+  // Deshabilitar clic derecho en toda la página
+  document.addEventListener("contextmenu", function(event) {
+    event.preventDefault();  // Prevenir el menú contextual (clic derecho)
+  });
 </script>
+
 </body>
 </html>

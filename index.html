@@ -329,6 +329,29 @@
       vertical-align: middle; /* Asegura que el SVG esté centrado */
     }
 
+    .subcat-filter {
+  background: #222;
+  padding: 1rem;
+  margin: 1rem 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.subcat-filter .subcat-label {
+  color: var(--yellow);
+  font-weight: 700;
+}
+.subcat-filter .subcat-select {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid var(--yellow);
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  appearance: none;
+}
+
   </style>
 </head>
 <body>
@@ -373,6 +396,14 @@
       </div>
     </div>
   </div>
+
+  <div id="subcat-filter" class="subcat-filter" style="display:none;">
+  <label for="subcat-select" class="subcat-label">Filtrar por:</label>
+  <select id="subcat-select" class="subcat-select">
+    <option value="">Todas</option>
+  </select>
+</div>
+
 
   <!-- Menú -->
   <div class="menu-container">
@@ -427,6 +458,42 @@
   );
 
   const contenedor = document.getElementById("productos-container");
+
+  const opts = {
+  bebidas:    ['smoothies','frapes','cafes','malteadas'],
+  snacks:     [],
+  elotes:     ['elote','esquite'],
+  delicias:   ['waffles','chicharrones','fresas con crema']
+};
+
+const subcatFilter = document.getElementById('subcat-filter');
+const subcatSelect = document.getElementById('subcat-select');
+
+function actualizarSubcats(cat) {
+  const list = opts[cat] || [];
+  if (!list.length) {
+    subcatFilter.style.display = 'none';
+    return;
+  }
+  subcatFilter.style.display = 'flex';
+  subcatSelect.innerHTML = '<option value="">Todas</option>'
+    + list.map(s => `<option value="${s}">${s[0].toUpperCase()+s.slice(1)}</option>`).join('');
+}
+
+// Llama `actualizarSubcats(categoria)` justo después de resaltar la box activa:
+function seleccionarCategoria(categoria) {
+  document.querySelectorAll(".categoria-box").forEach(c=>c.classList.toggle('active', c.dataset.cat===categoria));
+  actualizarSubcats(categoria);
+  cargarMenu(categoria, null);
+}
+
+// Y añade un listener al select para refinar la carga:
+subcatSelect.addEventListener('change', () => {
+  const cat = document.querySelector('.categoria-box.active').dataset.cat;
+  const sub = subcatSelect.value || null;
+  cargarMenu(cat, sub);
+});
+
 
   async function cargarMenu(categoria) {
     contenedor.innerHTML = `<p class="loader">Cargando ${categoria}...</p>`;
